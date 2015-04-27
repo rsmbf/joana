@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: joana.util
+Bundle-SymbolicName: joana.util
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: joana.contrib.lib;bundle-version="1.0.0"
+Export-Package: edu.kit.joana.util,
+ edu.kit.joana.util.graph,
+ edu.kit.joana.util.graph.io.dot,
+ edu.kit.joana.util.io,
+ edu.kit.joana.util.maps
