@@ -1,0 +1,11163 @@
+SDG "JoanaEntryPoint.main(java.lang.String[])" {
+ENTR 1 {
+O entry;
+V "JoanaEntryPoint.main(java.lang.String[])";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-1;
+C "Application";
+CE 2;
+CD 5;
+CD 6;
+CD 9;
+CE 3;
+CE 4;
+PS 3;
+PS 4;
+CE 658;
+PS 658;
+CE 665;
+CE 666;
+CE 667;
+CE 668;
+CE 669;
+CE 670;
+CE 671;
+CF 665;
+CF 2;
+HE 2;
+HE 5;
+HE 6;
+HE 9;
+HE 3;
+HE 4;
+HE 658;
+HE 665;
+HE 666;
+HE 667;
+HE 668;
+HE 669;
+HE 670;
+HE 671;
+}
+EXIT 2 {
+O exit;
+V "JoanaEntryPoint.main(java.lang.String[])";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "<exit>":-2;
+RF 961;
+}
+FRMO 3 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "<exception>":-2;
+PO 94;
+CF 670: "exc";
+PS 666;
+PS 670;
+}
+FRMI 4 {
+O form-in;
+V "param 1";
+T "[Ljava/lang/String";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "<param> 1":-2;
+CF 5;
+}
+NORM 5 {
+O declaration;
+V "v3 = new cin.ufpe.br.Teste3";
+T "Lcin/ufpe/br/Teste3";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":0;
+DD 7;
+CF 7;
+}
+CALL 6 {
+O call;
+V "v3.<init>()";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":4;
+CE 7;
+CE 8;
+PS 7;
+PS 8;
+CL 95: "virtual";
+CE 672;
+CE 673;
+CE 674;
+CE 675;
+CF 951;
+CE 951;
+HE 7;
+HE 8;
+HE 672;
+HE 673;
+HE 674;
+HE 675;
+}
+ACTI 7 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "<param> 0":-2;
+CD 6;
+PI 98;
+CF 672;
+PS 672;
+PS 673;
+PS 674;
+PS 675;
+SU 8;
+}
+ACTO 8 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "<exception>":-2;
+CF 10;
+CE 951;
+HE 951;
+}
+CALL 9 {
+O call;
+V "main(#(null))";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":9;
+CE 10;
+CE 11;
+PS 10;
+PS 11;
+CL 122: "virtual";
+CE 660;
+PS 660;
+CE 676;
+CE 677;
+CE 678;
+CE 679;
+CE 680;
+CE 681;
+CE 682;
+CF 952;
+CE 952;
+HE 10;
+HE 11;
+HE 660;
+HE 676;
+HE 677;
+HE 678;
+HE 679;
+HE 680;
+HE 681;
+HE 682;
+}
+ACTI 10 {
+O act-in;
+V "param 1 [#(null)]";
+T "[Ljava/lang/String";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "<param> 1":-2;
+PI 125;
+CF 660;
+}
+ACTO 11 {
+O act-out;
+V "ret _exception_ exc 70";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "<exception>":-2;
+CF 12;
+CF 55: "exc";
+PS 677;
+PS 681;
+CE 952;
+HE 952;
+}
+NORM 12 {
+O declaration;
+V "v7 = new cin.ufpe.br.Teste4";
+T "Lcin/ufpe/br/Teste4";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":12;
+DD 14;
+DD 20;
+CF 14;
+}
+CALL 13 {
+O call;
+V "v7.<init>(#(0), #(97), #(null))";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":20;
+CE 14;
+CE 15;
+CE 16;
+CE 17;
+CE 18;
+PS 14;
+PS 15;
+PS 16;
+PS 17;
+PS 18;
+CL 223: "virtual";
+CE 661;
+PS 661;
+CE 683;
+CE 684;
+CE 685;
+CE 686;
+CE 687;
+CE 688;
+CE 689;
+CF 953;
+CE 953;
+HE 14;
+HE 15;
+HE 16;
+HE 17;
+HE 18;
+HE 661;
+HE 683;
+HE 684;
+HE 685;
+HE 686;
+HE 687;
+HE 688;
+HE 689;
+}
+ACTI 14 {
+O act-in;
+V "this [v7]";
+T "Lcin/ufpe/br/Teste4";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<param> 0":-2;
+CF 15;
+CD 13;
+PI 226;
+SU 18;
+SU 689;
+}
+ACTI 15 {
+O act-in;
+V "param 1 [#(0)]";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<param> 1":-2;
+CF 16;
+PI 227;
+}
+ACTI 16 {
+O act-in;
+V "param 2 [#(97)]";
+T "C";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<param> 2":-2;
+CF 17;
+PI 228;
+}
+ACTI 17 {
+O act-in;
+V "param 3 [#(null)]";
+T "Lcin/ufpe/br/Teste2";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<param> 3":-2;
+PI 229;
+CF 661;
+}
+ACTO 18 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<exception>":-2;
+CF 20;
+PS 684;
+PS 688;
+CE 953;
+HE 953;
+}
+CALL 19 {
+O call;
+V "v12 = v7.m()";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":23;
+CE 20;
+CE 21;
+CE 22;
+PS 20;
+PS 21;
+PS 22;
+CL 243: "virtual";
+CF 954;
+CE 954;
+HE 20;
+HE 21;
+HE 22;
+}
+ACTI 20 {
+O act-in;
+V "this [v7]";
+T "Lcin/ufpe/br/Teste4";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<param> 0":-2;
+CF 19;
+CD 19;
+PI 246;
+}
+ACTO 21 {
+O act-out;
+V "ret 0";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<exit>":-2;
+CF 22;
+}
+ACTO 22 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<exception>":-2;
+CF 23;
+CE 954;
+HE 954;
+}
+NORM 23 {
+O declaration;
+V "v13 = new cin.ufpe.br.Teste4";
+T "Lcin/ufpe/br/Teste4";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":27;
+DD 25;
+DD 31;
+CF 25;
+}
+CALL 24 {
+O call;
+V "v13.<init>(#(0), #(97), #(null))";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":35;
+CE 25;
+CE 26;
+CE 27;
+CE 28;
+CE 29;
+PS 25;
+PS 26;
+PS 27;
+PS 28;
+PS 29;
+CL 223: "virtual";
+CE 662;
+PS 662;
+CE 690;
+CE 691;
+CE 692;
+CE 693;
+CE 694;
+CE 695;
+CE 696;
+CF 955;
+CE 955;
+HE 25;
+HE 26;
+HE 27;
+HE 28;
+HE 29;
+HE 662;
+HE 690;
+HE 691;
+HE 692;
+HE 693;
+HE 694;
+HE 695;
+HE 696;
+}
+ACTI 25 {
+O act-in;
+V "this [v13]";
+T "Lcin/ufpe/br/Teste4";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<param> 0":-2;
+CF 26;
+CD 24;
+PI 226;
+SU 29;
+SU 696;
+}
+ACTI 26 {
+O act-in;
+V "param 1 [#(0)]";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<param> 1":-2;
+CF 27;
+PI 227;
+}
+ACTI 27 {
+O act-in;
+V "param 2 [#(97)]";
+T "C";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<param> 2":-2;
+CF 28;
+PI 228;
+}
+ACTI 28 {
+O act-in;
+V "param 3 [#(null)]";
+T "Lcin/ufpe/br/Teste2";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<param> 3":-2;
+PI 229;
+CF 662;
+}
+ACTO 29 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<exception>":-2;
+CF 31;
+PS 691;
+PS 695;
+CE 955;
+HE 955;
+}
+CALL 30 {
+O call;
+V "v13.n(#(0))";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":39;
+CE 31;
+CE 32;
+CE 33;
+PS 31;
+PS 32;
+PS 33;
+CL 257: "virtual";
+CE 663;
+PS 663;
+CE 697;
+CE 698;
+CE 699;
+CE 700;
+CE 701;
+CE 702;
+CE 703;
+CF 956;
+CE 956;
+HE 31;
+HE 32;
+HE 33;
+HE 663;
+HE 697;
+HE 698;
+HE 699;
+HE 700;
+HE 701;
+HE 702;
+HE 703;
+}
+ACTI 31 {
+O act-in;
+V "this [v13]";
+T "Lcin/ufpe/br/Teste4";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<param> 0":-2;
+CF 32;
+CD 30;
+PI 260;
+SU 703;
+SU 702;
+}
+ACTI 32 {
+O act-in;
+V "param 1 [#(0)]";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<param> 1":-2;
+PI 261;
+CF 663;
+SU 703;
+SU 702;
+}
+ACTO 33 {
+O act-out;
+V "ret _exception_ exc 70";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<exception>":-2;
+CF 34;
+CF 55: "exc";
+PS 698;
+PS 702;
+CE 956;
+HE 956;
+}
+NORM 34 {
+O declaration;
+V "v16 = new cin.ufpe.br.Teste3";
+T "Lcin/ufpe/br/Teste3";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":42;
+DD 36;
+CF 36;
+}
+CALL 35 {
+O call;
+V "v16.<init>()";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":46;
+CE 36;
+CE 37;
+PS 36;
+PS 37;
+CL 95: "virtual";
+CE 704;
+CE 705;
+CE 706;
+CE 707;
+CF 957;
+CE 957;
+HE 36;
+HE 37;
+HE 704;
+HE 705;
+HE 706;
+HE 707;
+}
+ACTI 36 {
+O act-in;
+V "this [v16]";
+T "Lcin/ufpe/br/Teste3";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "<param> 0":-2;
+CD 35;
+PI 98;
+CF 704;
+PS 704;
+PS 705;
+PS 706;
+PS 707;
+SU 37;
+}
+ACTO 37 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "<exception>":-2;
+CF 38;
+CE 957;
+HE 957;
+}
+NORM 38 {
+O declaration;
+V "v18 = new cin.ufpe.br.Teste2";
+T "Lcin/ufpe/br/Teste2";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":50;
+DD 40;
+DD 43;
+CF 40;
+}
+CALL 39 {
+O call;
+V "v18.<init>()";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":54;
+CE 40;
+CE 41;
+PS 40;
+PS 41;
+CL 285: "virtual";
+CE 708;
+CE 709;
+CF 958;
+CE 958;
+HE 40;
+HE 41;
+HE 708;
+HE 709;
+}
+ACTI 40 {
+O act-in;
+V "this [v18]";
+T "Lcin/ufpe/br/Teste2";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<param> 0":-2;
+CF 39;
+CD 39;
+PI 288;
+PS 708;
+PS 709;
+SU 41;
+}
+ACTO 41 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<exception>":-2;
+CF 43;
+CE 958;
+HE 958;
+}
+CALL 42 {
+O call;
+V "v21 = v18.g(#(0), #(0), #(null), #(null))";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":61;
+CE 43;
+CE 44;
+CE 45;
+CE 46;
+CE 47;
+CE 48;
+CE 49;
+PS 43;
+PS 44;
+PS 45;
+PS 46;
+PS 47;
+PS 48;
+PS 49;
+CL 304: "virtual";
+CF 959;
+CE 959;
+HE 43;
+HE 44;
+HE 45;
+HE 46;
+HE 47;
+HE 48;
+HE 49;
+}
+ACTI 43 {
+O act-in;
+V "this [v18]";
+T "Lcin/ufpe/br/Teste2";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<param> 0":-2;
+CF 44;
+CD 42;
+PI 307;
+}
+ACTI 44 {
+O act-in;
+V "param 1 [#(0)]";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<param> 1":-2;
+CF 45;
+PI 308;
+}
+ACTI 45 {
+O act-in;
+V "param 2 [#(0)]";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<param> 2":-2;
+CF 46;
+PI 309;
+}
+ACTI 46 {
+O act-in;
+V "param 3 [#(null)]";
+T "Ljava/lang/String";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<param> 3":-2;
+CF 47;
+PI 310;
+}
+ACTI 47 {
+O act-in;
+V "param 4 [#(null)]";
+T "[I";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<param> 4":-2;
+CF 42;
+PI 311;
+}
+ACTO 48 {
+O act-out;
+V "ret 0";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<exit>":-2;
+CF 49;
+}
+ACTO 49 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "<exception>":-2;
+CF 50;
+CE 959;
+HE 959;
+}
+NORM 50 {
+O compound;
+V "goto 73";
+T "Ljava/lang/Object";
+P 4;
+S "JoanaEntryPoint.java":15,0-15,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":65;
+CF 54;
+}
+CALL 51 {
+O call;
+V "v22.printStackTrace()";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":70;
+CE 52;
+CE 53;
+PS 52;
+PS 53;
+CL 323: "virtual";
+CE 710;
+CE 711;
+CE 712;
+CE 713;
+CE 714;
+CE 715;
+CE 716;
+CF 960;
+CE 960;
+HE 52;
+HE 53;
+HE 710;
+HE 711;
+HE 712;
+HE 713;
+HE 714;
+HE 715;
+HE 716;
+}
+ACTI 52 {
+O act-in;
+V "this [v22]";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "<param> 0":-2;
+CD 51;
+PI 326;
+CF 710;
+PS 711;
+PS 715;
+SU 53;
+SU 716;
+}
+ACTO 53 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "<exception>":-2;
+CF 3: "exc";
+DD 3;
+CE 960;
+HE 960;
+}
+NORM 54 {
+O compound;
+V "return";
+T "V";
+P 4;
+S "JoanaEntryPoint.java":16,0-16,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":73;
+CF 670;
+}
+EXPR 55 {
+O assign;
+V "v22 = catch <exc>";
+T "Ljava/lang/Exception";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+DD 52;
+CF 52;
+}
+ENTR 78 {
+O entry;
+V "com.ibm.wala.FakeRootClass.fakeRootMethod()";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+C "Primordial";
+CE 79;
+CD 80;
+CD 81;
+CE 80;
+PS 80;
+CE 659;
+PS 659;
+CE 717;
+CE 718;
+CE 719;
+CF 717;
+CF 79;
+HE 79;
+HE 80;
+HE 81;
+HE 659;
+HE 717;
+HE 718;
+HE 719;
+}
+EXIT 79 {
+O exit;
+V "com.ibm.wala.FakeRootClass.fakeRootMethod()";
+T "V";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<exit>":-2;
+}
+FRMO 80 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<exception>":-2;
+CF 718: "exc";
+PS 717;
+PS 719;
+}
+CALL 81 {
+O call;
+V "fakeWorldClinit()";
+T "V";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+U "com.ibm.wala.FakeRootClass.fakeWorldClinit()V";
+CD 83;
+CD 84;
+CD 86;
+CE 82;
+PS 82;
+CE 720;
+CE 721;
+CF 721;
+CE 929;
+HE 83;
+HE 84;
+HE 86;
+HE 82;
+HE 720;
+HE 721;
+HE 929;
+}
+ACTO 82 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<exception>":-2;
+CF 80: "exc";
+DD 80;
+}
+NORM 83 {
+O declaration;
+V "v3 = new java.lang.String[]";
+T "[Ljava/lang/String";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+CF 84;
+DD 86;
+DD 90;
+DD 93;
+}
+NORM 84 {
+O declaration;
+V "v5 = new java.lang.String";
+T "Ljava/lang/String";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+CF 86;
+DD 85;
+}
+EXPR 85 {
+O modify;
+V "v3[#(0)] = v5";
+T "Ljava/lang/String";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+DD 87;
+CE 87;
+CF 87;
+HE 87;
+}
+NORM 86 {
+O compound;
+V "base";
+T "[Ljava/lang/String";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+DD 85;
+CE 88;
+PS 87;
+CF 88;
+CF 90;
+CF 80: "exc";
+CD 80;
+CD 87;
+CD 88;
+CD 89;
+HE 88;
+HE 89;
+}
+NORM 87 {
+O compound;
+V "field [java.lang.String]";
+T "Ljava/lang/String";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+CF 86;
+}
+NORM 88 {
+O compound;
+V "index";
+T "I";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+CE 86;
+CE 85;
+DD 85;
+CF 85;
+HE 85;
+}
+CALL 89 {
+O call;
+V "v3.<init>()";
+T "V";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+U "java.lang.Object.<init>()V";
+CF 91: "exc";
+CF 93;
+CD 92;
+CE 90;
+CE 91;
+PS 90;
+PS 91;
+CE 925;
+CE 930;
+HE 92;
+HE 90;
+HE 91;
+HE 925;
+HE 930;
+}
+ACTI 90 {
+O act-in;
+V "this [v3]";
+T "Ljava/lang/Object";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<param> 0":-2;
+CF 89;
+CD 89;
+DD 930;
+}
+ACTO 91 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<exception>":-2;
+CF 80: "exc";
+DD 80;
+DD 925;
+}
+CALL 92 {
+O call;
+V "main(v3)";
+T "V";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+CE 93;
+CE 94;
+PS 93;
+PS 94;
+CL 1: "virtual";
+CE 664;
+PS 664;
+CE 722;
+CE 723;
+CE 724;
+CE 725;
+CE 726;
+CE 727;
+CE 728;
+CF 961;
+CE 961;
+HE 93;
+HE 94;
+HE 664;
+HE 722;
+HE 723;
+HE 724;
+HE 725;
+HE 726;
+HE 727;
+HE 728;
+}
+ACTI 93 {
+O act-in;
+V "param 1 [v3]";
+T "[Ljava/lang/String";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<param> 1":-2;
+PI 4;
+CF 664;
+}
+ACTO 94 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<exception>":-2;
+CF 80: "exc";
+DD 80;
+CE 961;
+HE 961;
+}
+ENTR 95 {
+O entry;
+V "cin.ufpe.br.Teste3.<init>()";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.<init>()V":-1;
+C "Application";
+CE 96;
+CD 99;
+CE 97;
+CE 98;
+PS 97;
+PS 98;
+CE 729;
+CE 730;
+CE 731;
+CE 732;
+CF 729;
+CF 96;
+HE 96;
+HE 99;
+HE 97;
+HE 98;
+HE 729;
+HE 730;
+HE 731;
+HE 732;
+}
+EXIT 96 {
+O exit;
+V "cin.ufpe.br.Teste3.<init>()";
+T "V";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exit>":-2;
+RF 951;
+RF 957;
+RF 962;
+}
+FRMO 97 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exception>":-2;
+PO 8;
+PO 37;
+PO 129;
+CF 730: "exc";
+}
+FRMI 98 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste3";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<param> 0":-2;
+DD 100;
+DD 103;
+DD 106;
+DD 109;
+DD 112;
+CF 100;
+PS 729;
+PS 730;
+PS 731;
+PS 732;
+}
+CALL 99 {
+O call;
+V "this.<init>()";
+T "V";
+P 6;
+S "cin/ufpe/br/Teste3.java":8,0-8,0;
+B "cin.ufpe.br.Teste3.<init>()V":1;
+U "java.lang.Object.<init>()V";
+CF 101: "exc";
+CD 103;
+CD 106;
+CD 109;
+CD 112;
+CD 114;
+CE 100;
+CE 101;
+CF 103;
+PS 100;
+PS 101;
+CE 926;
+CE 931;
+HE 103;
+HE 106;
+HE 109;
+HE 112;
+HE 114;
+HE 100;
+HE 101;
+HE 926;
+HE 931;
+}
+ACTI 100 {
+O act-in;
+V "this [this]";
+T "Ljava/lang/Object";
+P 6;
+S "cin/ufpe/br/Teste3.java":8,0-8,0;
+B "<param> 0":-2;
+CF 99;
+CD 99;
+DD 931;
+}
+ACTO 101 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 6;
+S "cin/ufpe/br/Teste3.java":8,0-8,0;
+B "<exception>":-2;
+CF 97: "exc";
+DD 97;
+DD 926;
+}
+EXPR 102 {
+O modify;
+V "this.a = #(3)";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":10,0-10,0;
+B "cin.ufpe.br.Teste3.<init>()V":6;
+DD 104;
+CE 104;
+CF 104;
+HE 104;
+}
+NORM 103 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 6;
+S "cin/ufpe/br/Teste3.java":10,0-10,0;
+B "<base>":-6;
+DD 102;
+CE 102;
+PS 104;
+CF 102;
+CF 106;
+HE 102;
+}
+NORM 104 {
+O compound;
+V "field a";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":10,0-10,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 103;
+DH 110;
+DH 732;
+}
+EXPR 105 {
+O modify;
+V "this.b = #(2)";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":12,0-12,0;
+B "cin.ufpe.br.Teste3.<init>()V":11;
+DD 107;
+CE 107;
+CF 107;
+HE 107;
+}
+NORM 106 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 6;
+S "cin/ufpe/br/Teste3.java":12,0-12,0;
+B "<base>":-6;
+DD 105;
+CE 105;
+PS 107;
+CF 105;
+CF 109;
+HE 105;
+}
+NORM 107 {
+O compound;
+V "field b";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":12,0-12,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 106;
+DH 731;
+}
+EXPR 108 {
+O reference;
+V "v6 = this.a";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":14,0-14,0;
+B "cin.ufpe.br.Teste3.<init>()V":16;
+CE 110;
+CF 109;
+DD 111;
+HE 110;
+}
+NORM 109 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 6;
+S "cin/ufpe/br/Teste3.java":14,0-14,0;
+B "<base>":-6;
+DD 108;
+CE 108;
+PS 110;
+CF 110;
+CF 112;
+HE 108;
+}
+NORM 110 {
+O compound;
+V "field a";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":14,0-14,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+DD 108;
+CF 108;
+}
+EXPR 111 {
+O modify;
+V "this.c = v6";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":14,0-14,0;
+B "cin.ufpe.br.Teste3.<init>()V":19;
+DD 113;
+CE 113;
+CF 113;
+HE 113;
+}
+NORM 112 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 6;
+S "cin/ufpe/br/Teste3.java":14,0-14,0;
+B "<base>":-6;
+DD 111;
+CE 111;
+PS 113;
+CF 111;
+CF 114;
+HE 111;
+}
+NORM 113 {
+O compound;
+V "field c";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":14,0-14,0;
+B "Lcin/ufpe/br/Teste3.c":-4;
+CF 112;
+DH 730;
+}
+NORM 114 {
+O compound;
+V "return";
+T "V";
+P 6;
+S "cin/ufpe/br/Teste3.java":15,0-15,0;
+B "cin.ufpe.br.Teste3.<init>()V":22;
+CF 730;
+}
+ENTR 122 {
+O entry;
+V "cin.ufpe.br.Teste3.main(java.lang.String[])";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-1;
+C "Application";
+CE 123;
+CD 126;
+CD 127;
+CD 130;
+CD 134;
+CD 136;
+CD 140;
+CD 142;
+CD 146;
+CD 148;
+CD 152;
+CD 156;
+CD 157;
+CD 161;
+CD 165;
+CD 166;
+CD 168;
+CD 170;
+CD 186;
+CD 187;
+CD 188;
+CD 189;
+CE 124;
+CE 125;
+CE 191;
+PS 124;
+PS 125;
+PS 191;
+CE 733;
+CE 734;
+CE 735;
+CE 736;
+CE 737;
+CE 738;
+CE 739;
+CF 733;
+CF 123;
+HE 123;
+HE 126;
+HE 127;
+HE 130;
+HE 134;
+HE 136;
+HE 140;
+HE 142;
+HE 146;
+HE 148;
+HE 152;
+HE 156;
+HE 157;
+HE 161;
+HE 165;
+HE 166;
+HE 168;
+HE 170;
+HE 124;
+HE 125;
+HE 191;
+HE 733;
+HE 734;
+HE 735;
+HE 736;
+HE 737;
+HE 738;
+HE 739;
+}
+EXIT 123 {
+O exit;
+V "cin.ufpe.br.Teste3.main(java.lang.String[])";
+T "V";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exit>":-2;
+RF 952;
+}
+FRMO 124 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exception>":-2;
+PO 11;
+CF 738: "exc";
+PS 734;
+PS 738;
+}
+FRMI 125 {
+O form-in;
+V "param 1";
+T "[Ljava/lang/String";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<param> 1":-2;
+CF 191;
+}
+NORM 126 {
+O declaration;
+V "v3 = new cin.ufpe.br.Teste3";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":0;
+DD 128;
+DD 131;
+DD 137;
+DD 143;
+DD 149;
+DD 153;
+DD 158;
+DD 162;
+CF 128;
+}
+CALL 127 {
+O call;
+V "v3.<init>()";
+T "V";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":4;
+CE 128;
+CE 129;
+PS 128;
+PS 129;
+CL 95: "virtual";
+CE 740;
+CE 741;
+CE 742;
+CE 743;
+CF 962;
+CE 962;
+HE 128;
+HE 129;
+HE 740;
+HE 741;
+HE 742;
+HE 743;
+}
+ACTI 128 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "<param> 0":-2;
+CD 127;
+PI 98;
+CF 740;
+PS 740;
+PS 741;
+PS 742;
+PS 743;
+SU 129;
+}
+ACTO 129 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "<exception>":-2;
+CF 131;
+CE 962;
+HE 962;
+}
+CALL 130 {
+O call;
+V "v6 = v3.m()";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":49,0-49,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":9;
+CE 131;
+CE 132;
+CE 133;
+PS 131;
+PS 132;
+PS 133;
+CL 327: "virtual";
+CF 963;
+CE 963;
+HE 131;
+HE 132;
+HE 133;
+}
+ACTI 131 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":49,0-49,0;
+B "<param> 0":-2;
+CF 130;
+CD 130;
+PI 330;
+}
+ACTO 132 {
+O act-out;
+V "ret 0";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":49,0-49,0;
+B "<exit>":-2;
+CF 133;
+DD 134;
+}
+ACTO 133 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":49,0-49,0;
+B "<exception>":-2;
+CF 134;
+CE 963;
+HE 963;
+}
+PRED 134 {
+O IF;
+V "if (v6 != #(0)) goto 22";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":49,0-49,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":12;
+CD 135;
+CD 186;
+CF 135;
+CF 186;
+HE 135;
+HE 186;
+}
+NORM 135 {
+O compound;
+V "goto 22";
+T "Ljava/lang/Object";
+P 7;
+S "cin/ufpe/br/Teste3.java":49,0-49,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":16;
+CF 186;
+}
+CALL 136 {
+O call;
+V "v11 = v3.n()";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":50,0-50,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":22;
+CE 137;
+CE 138;
+CE 139;
+PS 137;
+PS 138;
+PS 139;
+CL 333: "virtual";
+CF 964;
+CE 964;
+HE 137;
+HE 138;
+HE 139;
+}
+ACTI 137 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":50,0-50,0;
+B "<param> 0":-2;
+CF 136;
+CD 136;
+PI 336;
+}
+ACTO 138 {
+O act-out;
+V "ret 0";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":50,0-50,0;
+B "<exit>":-2;
+CF 139;
+DD 140;
+}
+ACTO 139 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":50,0-50,0;
+B "<exception>":-2;
+CF 140;
+CE 964;
+HE 964;
+}
+PRED 140 {
+O IF;
+V "if (v11 != #(1)) goto 36";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":50,0-50,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":26;
+CD 141;
+CD 187;
+CF 141;
+CF 187;
+HE 141;
+HE 187;
+}
+NORM 141 {
+O compound;
+V "goto 36";
+T "Ljava/lang/Object";
+P 7;
+S "cin/ufpe/br/Teste3.java":50,0-50,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":30;
+CF 187;
+}
+CALL 142 {
+O call;
+V "v14 = v3.mnplusAB()";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":36;
+CE 143;
+CE 144;
+CE 145;
+PS 143;
+PS 144;
+PS 145;
+CL 339: "virtual";
+CE 744;
+CE 745;
+CF 965;
+CE 965;
+HE 143;
+HE 144;
+HE 145;
+HE 744;
+HE 745;
+}
+ACTI 143 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "<param> 0":-2;
+CD 142;
+PI 342;
+CF 744;
+PS 744;
+PS 745;
+SU 144;
+}
+ACTO 144 {
+O act-out;
+V "ret 0";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "<exit>":-2;
+CF 145;
+DD 146;
+}
+ACTO 145 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "<exception>":-2;
+CF 146;
+CE 965;
+HE 965;
+}
+PRED 146 {
+O IF;
+V "if (v14 != #(6)) goto 52";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":41;
+CD 147;
+CD 188;
+CF 147;
+CF 188;
+HE 147;
+HE 188;
+}
+NORM 147 {
+O compound;
+V "goto 52";
+T "Ljava/lang/Object";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":45;
+CF 188;
+}
+CALL 148 {
+O call;
+V "v18 = v3.n()";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":52;
+CE 149;
+CE 150;
+CE 151;
+PS 149;
+PS 150;
+PS 151;
+CL 333: "virtual";
+CF 966;
+CE 966;
+HE 149;
+HE 150;
+HE 151;
+}
+ACTI 149 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<param> 0":-2;
+CF 148;
+CD 148;
+PI 336;
+}
+ACTO 150 {
+O act-out;
+V "ret 0";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exit>":-2;
+CF 151;
+DD 156;
+}
+ACTO 151 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exception>":-2;
+CF 153;
+CE 966;
+HE 966;
+}
+CALL 152 {
+O call;
+V "v20 = v3.m()";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":56;
+CE 153;
+CE 154;
+CE 155;
+PS 153;
+PS 154;
+PS 155;
+CL 327: "virtual";
+CF 967;
+CE 967;
+HE 153;
+HE 154;
+HE 155;
+}
+ACTI 153 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<param> 0":-2;
+CF 152;
+CD 152;
+PI 330;
+}
+ACTO 154 {
+O act-out;
+V "ret 0";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exit>":-2;
+CF 155;
+DD 156;
+}
+ACTO 155 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exception>":-2;
+CF 156;
+CE 967;
+HE 967;
+}
+EXPR 156 {
+O assign;
+V "v21 = v18 - v20";
+T "Ljava/lang/Object";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":59;
+DD 166;
+CF 158;
+}
+CALL 157 {
+O call;
+V "v23 = v3.getB()";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":61;
+CE 158;
+CE 159;
+CE 160;
+PS 158;
+PS 159;
+PS 160;
+CL 365: "virtual";
+CE 746;
+CF 968;
+CE 968;
+HE 158;
+HE 159;
+HE 160;
+HE 746;
+}
+ACTI 158 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<param> 0":-2;
+CD 157;
+PI 368;
+CF 746;
+PS 746;
+SU 159;
+}
+ACTO 159 {
+O act-out;
+V "ret 0";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exit>":-2;
+CF 160;
+DD 165;
+}
+ACTO 160 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exception>":-2;
+CF 162;
+CE 968;
+HE 968;
+}
+CALL 161 {
+O call;
+V "v25 = v3.getA()";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":65;
+CE 162;
+CE 163;
+CE 164;
+PS 162;
+PS 163;
+PS 164;
+CL 374: "virtual";
+CE 747;
+CF 969;
+CE 969;
+HE 162;
+HE 163;
+HE 164;
+HE 747;
+}
+ACTI 162 {
+O act-in;
+V "this [v3]";
+T "Lcin/ufpe/br/Teste3";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<param> 0":-2;
+CD 161;
+PI 377;
+CF 747;
+PS 747;
+SU 163;
+}
+ACTO 163 {
+O act-out;
+V "ret 0";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exit>":-2;
+CF 164;
+DD 165;
+}
+ACTO 164 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "<exception>":-2;
+CF 165;
+CE 969;
+HE 969;
+}
+EXPR 165 {
+O assign;
+V "v26 = v23 - v25";
+T "Ljava/lang/Object";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":68;
+CF 166;
+DD 166;
+}
+PRED 166 {
+O IF;
+V "if (v21 != v26) goto 79";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":69;
+CD 167;
+CD 189;
+CF 167;
+CF 189;
+HE 167;
+HE 189;
+}
+NORM 167 {
+O compound;
+V "goto 79";
+T "Ljava/lang/Object";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":73;
+CF 189;
+}
+EXPR 168 {
+O reference;
+V "v28 = java.lang.System.out";
+T "Ljava/io/PrintStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":79;
+CE 169;
+DD 171;
+CF 171;
+HE 169;
+}
+NORM 169 {
+O compound;
+V "field out";
+T "Ljava/io/PrintStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "Ljava/lang/System.out":-3;
+DD 168;
+CF 168;
+}
+CALL 170 {
+O call;
+V "v28.print(#(Resultado: ))";
+T "V";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":84;
+CE 171;
+CE 172;
+CE 173;
+PS 171;
+PS 172;
+PS 173;
+CL 383: "virtual";
+CE 748;
+CE 749;
+CE 750;
+CE 751;
+CE 752;
+CF 970;
+CE 970;
+HE 171;
+HE 172;
+HE 173;
+HE 748;
+HE 749;
+HE 750;
+HE 751;
+HE 752;
+}
+ACTI 171 {
+O act-in;
+V "this [v28]";
+T "Ljava/io/PrintStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "<param> 0":-2;
+CF 172;
+CD 170;
+PI 386;
+PS 748;
+PS 749;
+PS 750;
+PS 751;
+PS 752;
+SU 173;
+}
+ACTI 172 {
+O act-in;
+V "param 1 [#(Resultado: )]";
+T "Ljava/lang/String";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "<param> 1":-2;
+PI 387;
+CF 748;
+SU 173;
+SU 752;
+}
+ACTO 173 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "<exception>":-2;
+CF 124: "exc";
+DD 124;
+CE 970;
+HE 970;
+}
+EXPR 174 {
+O reference;
+V "v31 = java.lang.System.out";
+T "Ljava/io/PrintStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":87;
+CE 175;
+DD 182;
+CF 176;
+HE 175;
+}
+NORM 175 {
+O compound;
+V "field out";
+T "Ljava/io/PrintStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "Ljava/lang/System.out":-3;
+DD 174;
+CF 174;
+}
+PRED 176 {
+O IF;
+V "if (v9 == #(0)) goto 113";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":91;
+CD 177;
+CD 190;
+CF 177;
+CF 190;
+HE 177;
+}
+PRED 177 {
+O IF;
+V "if (v12 == #(0)) goto 113";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":95;
+CD 178;
+CD 190;
+CF 178;
+CF 190;
+HE 178;
+}
+PRED 178 {
+O IF;
+V "if (v16 == #(0)) goto 113";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":100;
+CD 179;
+CD 190;
+CF 179;
+CF 190;
+HE 179;
+}
+PRED 179 {
+O IF;
+V "if (v27 == #(0)) goto 113";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":105;
+CD 180;
+CD 190;
+CF 180;
+CF 190;
+HE 180;
+HE 190;
+}
+NORM 180 {
+O compound;
+V "goto 113";
+T "Ljava/lang/Object";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":109;
+CF 190;
+}
+CALL 181 {
+O call;
+V "v31.println(v32)";
+T "V";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":113;
+CE 182;
+CE 183;
+CE 184;
+PS 182;
+PS 183;
+PS 184;
+CL 400: "virtual";
+CE 753;
+CE 754;
+CE 755;
+CE 756;
+CE 757;
+CE 758;
+CE 759;
+CF 971;
+CE 971;
+HE 182;
+HE 183;
+HE 184;
+HE 753;
+HE 754;
+HE 755;
+HE 756;
+HE 757;
+HE 758;
+HE 759;
+}
+ACTI 182 {
+O act-in;
+V "this [v31]";
+T "Ljava/io/PrintStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "<param> 0":-2;
+CF 183;
+CD 181;
+PI 403;
+PS 753;
+PS 754;
+PS 755;
+PS 756;
+PS 757;
+PS 758;
+PS 759;
+}
+ACTI 183 {
+O act-in;
+V "param 1 [v32]";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "<param> 1":-2;
+PI 404;
+CF 753;
+SU 759;
+SU 758;
+}
+ACTO 184 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "<exception>":-2;
+CF 124: "exc";
+DD 124;
+CE 971;
+HE 971;
+}
+NORM 185 {
+O compound;
+V "return";
+T "V";
+P 7;
+S "cin/ufpe/br/Teste3.java":56,0-56,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":116;
+CF 738;
+}
+EXPR 186 {
+O assign;
+V "PHI v9 = #(1), #(0)";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<phi>":-8;
+DD 176;
+CF 137;
+}
+EXPR 187 {
+O assign;
+V "PHI v12 = #(1), #(0)";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<phi>":-8;
+DD 177;
+CF 143;
+}
+EXPR 188 {
+O assign;
+V "PHI v16 = #(1), #(0)";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<phi>":-8;
+DD 178;
+CF 149;
+}
+EXPR 189 {
+O assign;
+V "PHI v27 = #(1), #(0)";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<phi>":-8;
+CF 169;
+DD 179;
+}
+EXPR 190 {
+O assign;
+V "PHI v32 = #(1), #(0)";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<phi>":-8;
+CF 182;
+DD 183;
+}
+FRMI 191 {
+O form-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Ljava/lang/System.out":-3;
+CF 126;
+DD 175;
+DD 169;
+PS 733;
+PS 734;
+PS 735;
+PS 736;
+PS 737;
+PS 738;
+PS 739;
+}
+ENTR 223 {
+O entry;
+V "cin.ufpe.br.Teste4.<init>(int,char,cin.ufpe.br.Teste2)";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":-1;
+C "Application";
+CE 224;
+CD 230;
+CE 225;
+CE 226;
+CE 227;
+CE 228;
+CE 229;
+CE 240;
+PS 225;
+PS 226;
+PS 227;
+PS 228;
+PS 229;
+PS 240;
+CE 760;
+CE 761;
+CE 762;
+CE 763;
+CE 764;
+CE 765;
+CE 766;
+CF 760;
+CF 224;
+HE 224;
+HE 230;
+HE 225;
+HE 226;
+HE 227;
+HE 228;
+HE 229;
+HE 240;
+HE 760;
+HE 761;
+HE 762;
+HE 763;
+HE 764;
+HE 765;
+HE 766;
+}
+EXIT 224 {
+O exit;
+V "cin.ufpe.br.Teste4.<init>(int,char,cin.ufpe.br.Teste2)";
+T "V";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<exit>":-2;
+RF 953;
+RF 955;
+}
+FRMO 225 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<exception>":-2;
+PO 18;
+PO 29;
+CF 765: "exc";
+PS 761;
+PS 765;
+}
+FRMI 226 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste4";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<param> 0":-2;
+CF 227;
+DD 231;
+}
+FRMI 227 {
+O form-in;
+V "param 1";
+T "I";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<param> 1":-2;
+CF 228;
+}
+FRMI 228 {
+O form-in;
+V "param 2";
+T "C";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<param> 2":-2;
+CF 229;
+}
+FRMI 229 {
+O form-in;
+V "param 3";
+T "Lcin/ufpe/br/Teste2";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<param> 3":-2;
+CF 240;
+}
+CALL 230 {
+O call;
+V "this.<init>()";
+T "V";
+P 8;
+S "cin/ufpe/br/Teste4.java":5,0-5,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":1;
+U "java.lang.Object.<init>()V";
+CF 232: "exc";
+CF 234;
+CD 233;
+CD 235;
+CE 231;
+CE 232;
+PS 231;
+PS 232;
+CE 927;
+CE 932;
+HE 233;
+HE 235;
+HE 231;
+HE 232;
+HE 927;
+HE 932;
+}
+ACTI 231 {
+O act-in;
+V "this [this]";
+T "Ljava/lang/Object";
+P 8;
+S "cin/ufpe/br/Teste4.java":5,0-5,0;
+B "<param> 0":-2;
+CF 230;
+CD 230;
+DD 932;
+}
+ACTO 232 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 8;
+S "cin/ufpe/br/Teste4.java":5,0-5,0;
+B "<exception>":-2;
+CF 225: "exc";
+DD 225;
+DD 927;
+}
+EXPR 233 {
+O reference;
+V "v7 = java.lang.System.out";
+T "Ljava/io/PrintStream";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":4;
+CE 234;
+DD 236;
+CF 236;
+HE 234;
+}
+NORM 234 {
+O compound;
+V "field out";
+T "Ljava/io/PrintStream";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "Ljava/lang/System.out":-3;
+DD 233;
+CF 233;
+}
+CALL 235 {
+O call;
+V "v7.println(#(Hey))";
+T "V";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":9;
+CE 236;
+CE 237;
+CE 238;
+PS 236;
+PS 237;
+PS 238;
+CL 426: "virtual";
+CE 767;
+CE 768;
+CE 769;
+CE 770;
+CE 771;
+CF 972;
+CE 972;
+HE 236;
+HE 237;
+HE 238;
+HE 767;
+HE 768;
+HE 769;
+HE 770;
+HE 771;
+}
+ACTI 236 {
+O act-in;
+V "this [v7]";
+T "Ljava/io/PrintStream";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "<param> 0":-2;
+CF 237;
+CD 235;
+PI 429;
+PS 767;
+PS 768;
+PS 769;
+PS 770;
+PS 771;
+}
+ACTI 237 {
+O act-in;
+V "param 1 [#(Hey)]";
+T "Ljava/lang/String";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "<param> 1":-2;
+PI 430;
+CF 767;
+SU 771;
+}
+ACTO 238 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "<exception>":-2;
+CF 225: "exc";
+DD 225;
+CE 972;
+HE 972;
+}
+NORM 239 {
+O compound;
+V "return";
+T "V";
+P 8;
+S "cin/ufpe/br/Teste4.java":7,0-7,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":12;
+CF 765;
+}
+FRMI 240 {
+O form-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/lang/System.out":-3;
+CF 231;
+DD 234;
+PS 760;
+PS 761;
+PS 762;
+PS 763;
+PS 764;
+PS 765;
+PS 766;
+}
+ENTR 243 {
+O entry;
+V "cin.ufpe.br.Teste4.m()";
+P 9;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "cin.ufpe.br.Teste4.m()I":-1;
+C "Application";
+CF 246;
+CF 244;
+CF 245;
+CE 244;
+CD 245;
+CD 247;
+CD 248;
+CE 245;
+CE 246;
+PS 244;
+PS 245;
+PS 246;
+HE 244;
+HE 245;
+HE 247;
+HE 248;
+HE 246;
+}
+EXIT 244 {
+O exit;
+V "cin.ufpe.br.Teste4.m()";
+T "I";
+P 9;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<exit>":-2;
+PO 21;
+PO 264;
+RF 954;
+RF 973;
+}
+FRMO 245 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 9;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<exception>":-2;
+CF 244: "exc";
+PO 22;
+PO 265;
+}
+FRMI 246 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste4";
+P 9;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<param> 0":-2;
+CF 247;
+}
+EXPR 247 {
+O assign;
+V "v5 = #(1) + #(2)";
+T "Ljava/lang/Object";
+P 9;
+S "cin/ufpe/br/Teste4.java":13,0-13,0;
+B "cin.ufpe.br.Teste4.m()I":6;
+DD 248;
+CF 248;
+}
+NORM 248 {
+O compound;
+V "return v5";
+T "I";
+P 9;
+S "cin/ufpe/br/Teste4.java":14,0-14,0;
+B "cin.ufpe.br.Teste4.m()I":9;
+CF 244;
+DD 244;
+}
+ENTR 257 {
+O entry;
+V "cin.ufpe.br.Teste4.n(int)";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "cin.ufpe.br.Teste4.n(I)V":-1;
+C "Application";
+CE 258;
+CD 262;
+CD 266;
+CD 267;
+CD 268;
+CD 270;
+CE 259;
+CE 260;
+CE 261;
+CE 275;
+PS 259;
+PS 260;
+PS 261;
+PS 275;
+CE 772;
+CE 773;
+CE 774;
+CE 775;
+CE 776;
+CE 777;
+CE 778;
+CF 772;
+CF 258;
+HE 258;
+HE 262;
+HE 266;
+HE 267;
+HE 268;
+HE 270;
+HE 259;
+HE 260;
+HE 261;
+HE 275;
+HE 772;
+HE 773;
+HE 774;
+HE 775;
+HE 776;
+HE 777;
+HE 778;
+}
+EXIT 258 {
+O exit;
+V "cin.ufpe.br.Teste4.n(int)";
+T "V";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<exit>":-2;
+RF 956;
+}
+FRMO 259 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<exception>":-2;
+PO 33;
+CF 777: "exc";
+PS 773;
+PS 777;
+}
+FRMI 260 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste4";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<param> 0":-2;
+CF 261;
+DD 263;
+}
+FRMI 261 {
+O form-in;
+V "param 1";
+T "I";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<param> 1":-2;
+CF 275;
+DD 266;
+}
+CALL 262 {
+O call;
+V "v5 = this.m()";
+T "I";
+P 10;
+S "cin/ufpe/br/Teste4.java":19,0-19,0;
+B "cin.ufpe.br.Teste4.n(I)V":1;
+CE 263;
+CE 264;
+CE 265;
+PS 263;
+PS 264;
+PS 265;
+CL 243: "virtual";
+CF 973;
+CE 973;
+HE 263;
+HE 264;
+HE 265;
+}
+ACTI 263 {
+O act-in;
+V "this [this]";
+T "Lcin/ufpe/br/Teste4";
+P 10;
+S "cin/ufpe/br/Teste4.java":19,0-19,0;
+B "<param> 0":-2;
+CF 262;
+CD 262;
+PI 246;
+}
+ACTO 264 {
+O act-out;
+V "ret 0";
+T "I";
+P 10;
+S "cin/ufpe/br/Teste4.java":19,0-19,0;
+B "<exit>":-2;
+CF 265;
+DD 267;
+}
+ACTO 265 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 10;
+S "cin/ufpe/br/Teste4.java":19,0-19,0;
+B "<exception>":-2;
+CF 266;
+CE 973;
+HE 973;
+}
+EXPR 266 {
+O assign;
+V "v7 = #(4) + p1";
+T "Ljava/lang/Object";
+P 10;
+S "cin/ufpe/br/Teste4.java":20,0-20,0;
+B "cin.ufpe.br.Teste4.n(I)V":7;
+DD 267;
+CF 267;
+}
+EXPR 267 {
+O assign;
+V "v8 = v5 + v7";
+T "Ljava/lang/Object";
+P 10;
+S "cin/ufpe/br/Teste4.java":21,0-21,0;
+B "cin.ufpe.br.Teste4.n(I)V":11;
+DD 272;
+CF 269;
+}
+EXPR 268 {
+O reference;
+V "v9 = java.lang.System.out";
+T "Ljava/io/PrintStream";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "cin.ufpe.br.Teste4.n(I)V":14;
+CE 269;
+DD 271;
+CF 271;
+HE 269;
+}
+NORM 269 {
+O compound;
+V "field out";
+T "Ljava/io/PrintStream";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "Ljava/lang/System.out":-3;
+DD 268;
+CF 268;
+}
+CALL 270 {
+O call;
+V "v9.println(v8)";
+T "V";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "cin.ufpe.br.Teste4.n(I)V":19;
+CE 271;
+CE 272;
+CE 273;
+PS 271;
+PS 272;
+PS 273;
+CL 452: "virtual";
+CE 779;
+CE 780;
+CE 781;
+CE 782;
+CE 783;
+CE 784;
+CE 785;
+CF 974;
+CE 974;
+HE 271;
+HE 272;
+HE 273;
+HE 779;
+HE 780;
+HE 781;
+HE 782;
+HE 783;
+HE 784;
+HE 785;
+}
+ACTI 271 {
+O act-in;
+V "this [v9]";
+T "Ljava/io/PrintStream";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "<param> 0":-2;
+CF 272;
+CD 270;
+PI 455;
+PS 779;
+PS 780;
+PS 781;
+PS 782;
+PS 783;
+PS 784;
+PS 785;
+}
+ACTI 272 {
+O act-in;
+V "param 1 [v8]";
+T "I";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "<param> 1":-2;
+PI 456;
+CF 779;
+SU 785;
+SU 784;
+}
+ACTO 273 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "<exception>":-2;
+CF 259: "exc";
+DD 259;
+CE 974;
+HE 974;
+}
+NORM 274 {
+O compound;
+V "return";
+T "V";
+P 10;
+S "cin/ufpe/br/Teste4.java":23,0-23,0;
+B "cin.ufpe.br.Teste4.n(I)V":22;
+CF 777;
+}
+FRMI 275 {
+O form-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/lang/System.out":-3;
+CF 263;
+DD 269;
+PS 772;
+PS 773;
+PS 774;
+PS 775;
+PS 776;
+PS 777;
+PS 778;
+}
+ENTR 285 {
+O entry;
+V "cin.ufpe.br.Teste2.<init>()";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "cin.ufpe.br.Teste2.<init>()V":-1;
+C "Application";
+CF 288;
+CE 286;
+CD 289;
+CE 287;
+CE 288;
+PS 287;
+PS 288;
+CE 786;
+CE 787;
+CF 786;
+CF 286;
+HE 286;
+HE 289;
+HE 287;
+HE 288;
+HE 786;
+HE 787;
+}
+EXIT 286 {
+O exit;
+V "cin.ufpe.br.Teste2.<init>()";
+T "V";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<exit>":-2;
+RF 958;
+}
+FRMO 287 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<exception>":-2;
+PO 41;
+CF 786: "exc";
+}
+FRMI 288 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste2";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<param> 0":-2;
+DD 290;
+DD 293;
+DD 296;
+CF 290;
+PS 786;
+PS 787;
+}
+CALL 289 {
+O call;
+V "this.<init>()";
+T "V";
+P 11;
+S "cin/ufpe/br/Teste2.java":7,0-7,0;
+B "cin.ufpe.br.Teste2.<init>()V":1;
+U "java.lang.Object.<init>()V";
+CF 291: "exc";
+CD 293;
+CD 296;
+CD 298;
+CE 290;
+CE 291;
+CF 293;
+PS 290;
+PS 291;
+CE 928;
+CE 933;
+HE 293;
+HE 296;
+HE 298;
+HE 290;
+HE 291;
+HE 928;
+HE 933;
+}
+ACTI 290 {
+O act-in;
+V "this [this]";
+T "Ljava/lang/Object";
+P 11;
+S "cin/ufpe/br/Teste2.java":7,0-7,0;
+B "<param> 0":-2;
+CF 289;
+CD 289;
+DD 933;
+}
+ACTO 291 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 11;
+S "cin/ufpe/br/Teste2.java":7,0-7,0;
+B "<exception>":-2;
+CF 287: "exc";
+DD 287;
+DD 928;
+}
+EXPR 292 {
+O modify;
+V "this.a = #(3)";
+T "I";
+P 11;
+S "cin/ufpe/br/Teste2.java":9,0-9,0;
+B "cin.ufpe.br.Teste2.<init>()V":6;
+DD 294;
+CE 294;
+CF 294;
+HE 294;
+}
+NORM 293 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste2";
+P 11;
+S "cin/ufpe/br/Teste2.java":9,0-9,0;
+B "<base>":-6;
+DD 292;
+CE 292;
+PS 294;
+CF 292;
+CF 296;
+HE 292;
+}
+NORM 294 {
+O compound;
+V "field a";
+T "I";
+P 11;
+S "cin/ufpe/br/Teste2.java":9,0-9,0;
+B "Lcin/ufpe/br/Teste2.a":-4;
+CF 293;
+DH 787;
+}
+EXPR 295 {
+O modify;
+V "this.b = #(2)";
+T "I";
+P 11;
+S "cin/ufpe/br/Teste2.java":11,0-11,0;
+B "cin.ufpe.br.Teste2.<init>()V":11;
+DD 297;
+CE 297;
+CF 297;
+HE 297;
+}
+NORM 296 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste2";
+P 11;
+S "cin/ufpe/br/Teste2.java":11,0-11,0;
+B "<base>":-6;
+DD 295;
+CE 295;
+PS 297;
+CF 295;
+CF 298;
+HE 295;
+}
+NORM 297 {
+O compound;
+V "field b";
+T "I";
+P 11;
+S "cin/ufpe/br/Teste2.java":11,0-11,0;
+B "Lcin/ufpe/br/Teste2.b":-4;
+CF 296;
+DH 786;
+}
+NORM 298 {
+O compound;
+V "return";
+T "V";
+P 11;
+S "cin/ufpe/br/Teste2.java":12,0-12,0;
+B "cin.ufpe.br.Teste2.<init>()V":14;
+CF 786;
+}
+ENTR 304 {
+O entry;
+V "cin.ufpe.br.Teste2.g(int,boolean,java.lang.String,[])";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "cin.ufpe.br.Teste2.g(IZLjava/lang/String;[I)I":-1;
+C "Application";
+CF 307;
+CF 305;
+CF 306;
+CE 305;
+CD 306;
+CD 312;
+CD 314;
+CE 306;
+CE 307;
+CE 308;
+CE 309;
+CE 310;
+CE 311;
+PS 305;
+PS 306;
+PS 307;
+PS 308;
+PS 309;
+PS 310;
+PS 311;
+HE 305;
+HE 306;
+HE 312;
+HE 314;
+HE 307;
+HE 308;
+HE 309;
+HE 310;
+HE 311;
+}
+EXIT 305 {
+O exit;
+V "cin.ufpe.br.Teste2.g(int,boolean,java.lang.String,[])";
+T "I";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<exit>":-2;
+PO 48;
+RF 959;
+}
+FRMO 306 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<exception>":-2;
+CF 305: "exc";
+PO 49;
+}
+FRMI 307 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste2";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<param> 0":-2;
+CF 308;
+}
+FRMI 308 {
+O form-in;
+V "param 1";
+T "I";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<param> 1":-2;
+CF 309;
+}
+FRMI 309 {
+O form-in;
+V "param 2";
+T "Z";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<param> 2":-2;
+CF 310;
+}
+FRMI 310 {
+O form-in;
+V "param 3";
+T "Ljava/lang/String";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<param> 3":-2;
+CF 311;
+}
+FRMI 311 {
+O form-in;
+V "param 4";
+T "[I";
+P 12;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "<param> 4":-2;
+CF 312;
+}
+PRED 312 {
+O IF;
+V "if (#(1) != #(0)) goto 13";
+T "Z";
+P 12;
+S "cin/ufpe/br/Teste2.java":53,0-53,0;
+B "cin.ufpe.br.Teste2.g(IZLjava/lang/String;[I)I":3;
+CD 313;
+CF 313;
+CF 314;
+HE 313;
+}
+NORM 313 {
+O compound;
+V "goto 13";
+T "Ljava/lang/Object";
+P 12;
+S "cin/ufpe/br/Teste2.java":53,0-53,0;
+B "cin.ufpe.br.Teste2.g(IZLjava/lang/String;[I)I":7;
+CF 314;
+}
+NORM 314 {
+O compound;
+V "return #(1)";
+T "I";
+P 12;
+S "cin/ufpe/br/Teste2.java":54,0-54,0;
+B "cin.ufpe.br.Teste2.g(IZLjava/lang/String;[I)I":13;
+CF 305;
+DD 305;
+}
+ENTR 323 {
+O entry;
+V "java.lang.Throwable.printStackTrace()";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "java.lang.Throwable.printStackTrace()V":-1;
+C "Primordial";
+CE 324;
+CE 325;
+CE 326;
+PS 326;
+PS 325;
+CE 788;
+CE 789;
+CE 790;
+CE 791;
+CE 792;
+CE 793;
+CE 794;
+CF 788;
+CE 934;
+CF 324;
+HE 324;
+HE 325;
+HE 326;
+HE 788;
+HE 789;
+HE 790;
+HE 791;
+HE 792;
+HE 793;
+HE 794;
+HE 934;
+}
+EXIT 324 {
+O exit;
+V "java.lang.Throwable.printStackTrace()";
+T "V";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "<exit>":-2;
+RF 960;
+}
+FRMO 325 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "<exception>":-2;
+PO 53;
+CF 793;
+PS 789;
+PS 793;
+}
+FRMI 326 {
+O form-in;
+V "this";
+T "Ljava/lang/Throwable";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "<param> 0":-2;
+CF 325;
+PS 789;
+PS 793;
+DD 934;
+}
+ENTR 327 {
+O entry;
+V "cin.ufpe.br.Teste3.m()";
+P 14;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.m()I":-1;
+C "Application";
+CF 330;
+CF 328;
+CF 329;
+CE 328;
+CD 329;
+CD 331;
+CE 329;
+CE 330;
+PS 328;
+PS 329;
+PS 330;
+HE 328;
+HE 329;
+HE 331;
+HE 330;
+}
+EXIT 328 {
+O exit;
+V "cin.ufpe.br.Teste3.m()";
+T "I";
+P 14;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exit>":-2;
+PO 132;
+PO 154;
+PO 345;
+RF 963;
+RF 967;
+RF 975;
+}
+FRMO 329 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 14;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exception>":-2;
+CF 328: "exc";
+PO 133;
+PO 155;
+PO 346;
+}
+FRMI 330 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste3";
+P 14;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<param> 0":-2;
+CF 331;
+}
+NORM 331 {
+O compound;
+V "return #(0)";
+T "I";
+P 14;
+S "cin/ufpe/br/Teste3.java":19,0-19,0;
+B "cin.ufpe.br.Teste3.m()I":1;
+CF 328;
+DD 328;
+}
+ENTR 333 {
+O entry;
+V "cin.ufpe.br.Teste3.n()";
+P 15;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.n()I":-1;
+C "Application";
+CF 336;
+CF 334;
+CF 335;
+CE 334;
+CD 335;
+CD 337;
+CE 335;
+CE 336;
+PS 334;
+PS 335;
+PS 336;
+HE 334;
+HE 335;
+HE 337;
+HE 336;
+}
+EXIT 334 {
+O exit;
+V "cin.ufpe.br.Teste3.n()";
+T "I";
+P 15;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exit>":-2;
+PO 138;
+PO 150;
+PO 349;
+RF 964;
+RF 966;
+RF 976;
+}
+FRMO 335 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 15;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exception>":-2;
+CF 334: "exc";
+PO 139;
+PO 151;
+PO 350;
+}
+FRMI 336 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste3";
+P 15;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<param> 0":-2;
+CF 337;
+}
+NORM 337 {
+O compound;
+V "return #(2)";
+T "I";
+P 15;
+S "cin/ufpe/br/Teste3.java":24,0-24,0;
+B "cin.ufpe.br.Teste3.n()I":1;
+CF 334;
+DD 334;
+}
+ENTR 339 {
+O entry;
+V "cin.ufpe.br.Teste3.mnplusAB()";
+P 16;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":-1;
+C "Application";
+CE 340;
+CD 341;
+CD 343;
+CD 347;
+CD 351;
+CD 353;
+CD 355;
+CD 357;
+CD 359;
+CD 360;
+CE 341;
+CE 342;
+PS 340;
+PS 341;
+PS 342;
+CE 795;
+CE 796;
+CF 795;
+CF 340;
+HE 340;
+HE 341;
+HE 343;
+HE 347;
+HE 351;
+HE 353;
+HE 355;
+HE 357;
+HE 359;
+HE 360;
+HE 342;
+HE 795;
+HE 796;
+}
+EXIT 340 {
+O exit;
+V "cin.ufpe.br.Teste3.mnplusAB()";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exit>":-2;
+PO 144;
+RF 965;
+}
+FRMO 341 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 16;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exception>":-2;
+CF 340: "exc";
+PO 145;
+}
+FRMI 342 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste3";
+P 16;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<param> 0":-2;
+DD 344;
+DD 348;
+DD 353;
+DD 357;
+CF 344;
+PS 795;
+PS 796;
+}
+CALL 343 {
+O call;
+V "v4 = this.m()";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":1;
+CE 344;
+CE 345;
+CE 346;
+PS 344;
+PS 345;
+PS 346;
+CL 327: "virtual";
+CF 975;
+CE 975;
+HE 344;
+HE 345;
+HE 346;
+}
+ACTI 344 {
+O act-in;
+V "this [this]";
+T "Lcin/ufpe/br/Teste3";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<param> 0":-2;
+CF 343;
+CD 343;
+PI 330;
+}
+ACTO 345 {
+O act-out;
+V "ret 0";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<exit>":-2;
+CF 346;
+DD 351;
+}
+ACTO 346 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<exception>":-2;
+CF 348;
+CE 975;
+HE 975;
+}
+CALL 347 {
+O call;
+V "v6 = this.n()";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":5;
+CE 348;
+CE 349;
+CE 350;
+PS 348;
+PS 349;
+PS 350;
+CL 333: "virtual";
+CF 976;
+CE 976;
+HE 348;
+HE 349;
+HE 350;
+}
+ACTI 348 {
+O act-in;
+V "this [this]";
+T "Lcin/ufpe/br/Teste3";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<param> 0":-2;
+CF 347;
+CD 347;
+PI 336;
+}
+ACTO 349 {
+O act-out;
+V "ret 0";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<exit>":-2;
+CF 350;
+DD 351;
+}
+ACTO 350 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<exception>":-2;
+CF 351;
+CE 976;
+HE 976;
+}
+EXPR 351 {
+O assign;
+V "v7 = v4 + v6";
+T "Ljava/lang/Object";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":8;
+DD 355;
+CF 353;
+}
+EXPR 352 {
+O reference;
+V "v8 = this.a";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":10;
+CE 354;
+CF 353;
+DD 355;
+HE 354;
+}
+NORM 353 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<base>":-6;
+DD 352;
+CE 352;
+PS 354;
+CF 354;
+CF 355;
+HE 352;
+}
+NORM 354 {
+O compound;
+V "field a";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+DD 352;
+CF 352;
+}
+EXPR 355 {
+O assign;
+V "v9 = v7 + v8";
+T "Ljava/lang/Object";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":13;
+DD 359;
+CF 357;
+}
+EXPR 356 {
+O reference;
+V "v10 = this.b";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":15;
+CE 358;
+CF 357;
+DD 359;
+HE 358;
+}
+NORM 357 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "<base>":-6;
+DD 356;
+CE 356;
+PS 358;
+CF 358;
+CF 359;
+HE 356;
+}
+NORM 358 {
+O compound;
+V "field b";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+DD 356;
+CF 356;
+}
+EXPR 359 {
+O assign;
+V "v11 = v9 + v10";
+T "Ljava/lang/Object";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":18;
+CF 360;
+DD 360;
+}
+NORM 360 {
+O compound;
+V "return v11";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":19;
+CF 340;
+DD 340;
+}
+ENTR 365 {
+O entry;
+V "cin.ufpe.br.Teste3.getB()";
+P 17;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.getB()I":-1;
+C "Application";
+CE 366;
+CD 367;
+CD 370;
+CD 372;
+CE 367;
+CE 368;
+PS 366;
+PS 367;
+PS 368;
+CE 797;
+CF 797;
+CF 366;
+HE 366;
+HE 367;
+HE 370;
+HE 372;
+HE 368;
+HE 797;
+}
+EXIT 366 {
+O exit;
+V "cin.ufpe.br.Teste3.getB()";
+T "I";
+P 17;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exit>":-2;
+PO 159;
+RF 968;
+}
+FRMO 367 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 17;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exception>":-2;
+CF 366: "exc";
+PO 160;
+}
+FRMI 368 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste3";
+P 17;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<param> 0":-2;
+DD 370;
+CF 370;
+PS 797;
+}
+EXPR 369 {
+O reference;
+V "v3 = this.b";
+T "I";
+P 17;
+S "cin/ufpe/br/Teste3.java":34,0-34,0;
+B "cin.ufpe.br.Teste3.getB()I":1;
+CE 371;
+CF 370;
+DD 372;
+HE 371;
+}
+NORM 370 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 17;
+S "cin/ufpe/br/Teste3.java":34,0-34,0;
+B "<base>":-6;
+DD 369;
+CE 369;
+PS 371;
+CF 371;
+CF 372;
+HE 369;
+}
+NORM 371 {
+O compound;
+V "field b";
+T "I";
+P 17;
+S "cin/ufpe/br/Teste3.java":34,0-34,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+DD 369;
+CF 369;
+}
+NORM 372 {
+O compound;
+V "return v3";
+T "I";
+P 17;
+S "cin/ufpe/br/Teste3.java":34,0-34,0;
+B "cin.ufpe.br.Teste3.getB()I":4;
+CF 366;
+DD 366;
+}
+ENTR 374 {
+O entry;
+V "cin.ufpe.br.Teste3.getA()";
+P 18;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.getA()I":-1;
+C "Application";
+CE 375;
+CD 376;
+CD 379;
+CD 381;
+CE 376;
+CE 377;
+PS 375;
+PS 376;
+PS 377;
+CE 798;
+CF 798;
+CF 375;
+HE 375;
+HE 376;
+HE 379;
+HE 381;
+HE 377;
+HE 798;
+}
+EXIT 375 {
+O exit;
+V "cin.ufpe.br.Teste3.getA()";
+T "I";
+P 18;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exit>":-2;
+PO 163;
+RF 969;
+}
+FRMO 376 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 18;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<exception>":-2;
+CF 375: "exc";
+PO 164;
+}
+FRMI 377 {
+O form-in;
+V "this";
+T "Lcin/ufpe/br/Teste3";
+P 18;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<param> 0":-2;
+DD 379;
+CF 379;
+PS 798;
+}
+EXPR 378 {
+O reference;
+V "v3 = this.a";
+T "I";
+P 18;
+S "cin/ufpe/br/Teste3.java":29,0-29,0;
+B "cin.ufpe.br.Teste3.getA()I":1;
+CE 380;
+CF 379;
+DD 381;
+HE 380;
+}
+NORM 379 {
+O compound;
+V "base";
+T "Lcin/ufpe/br/Teste3";
+P 18;
+S "cin/ufpe/br/Teste3.java":29,0-29,0;
+B "<base>":-6;
+DD 378;
+CE 378;
+PS 380;
+CF 380;
+CF 381;
+HE 378;
+}
+NORM 380 {
+O compound;
+V "field a";
+T "I";
+P 18;
+S "cin/ufpe/br/Teste3.java":29,0-29,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+DD 378;
+CF 378;
+}
+NORM 381 {
+O compound;
+V "return v3";
+T "I";
+P 18;
+S "cin/ufpe/br/Teste3.java":29,0-29,0;
+B "cin.ufpe.br.Teste3.getA()I":4;
+CF 375;
+DD 375;
+}
+ENTR 383 {
+O entry;
+V "java.io.PrintStream.print(java.lang.String)";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.print(Ljava/lang/String;)V":-1;
+C "Primordial";
+CE 384;
+CD 388;
+CD 389;
+CD 394;
+CE 385;
+CE 386;
+CE 387;
+PS 385;
+PS 386;
+PS 387;
+CE 799;
+CE 800;
+CE 801;
+CE 802;
+CE 803;
+CF 799;
+CF 384;
+HE 384;
+HE 388;
+HE 389;
+HE 385;
+HE 386;
+HE 387;
+HE 799;
+HE 800;
+HE 801;
+HE 802;
+HE 803;
+}
+EXIT 384 {
+O exit;
+V "java.io.PrintStream.print(java.lang.String)";
+T "V";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 970;
+RF 980;
+}
+FRMO 385 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 173;
+PO 435;
+CF 803: "exc";
+}
+FRMI 386 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+CF 387;
+DD 390;
+PS 799;
+PS 800;
+PS 801;
+PS 802;
+PS 803;
+}
+FRMI 387 {
+O form-in;
+V "param 1";
+T "Ljava/lang/String";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 1":-2;
+DD 388;
+DD 394;
+CF 388;
+}
+PRED 388 {
+O IF;
+V "if (p1 != #(null)) goto 9";
+T "Z";
+P 19;
+S "java/io/PrintStream.java":445,0-445,0;
+B "java.io.PrintStream.print(Ljava/lang/String;)V":1;
+CF 394;
+CD 394;
+HE 394;
+}
+CALL 389 {
+O call;
+V "this.write(v6)";
+T "V";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "java.io.PrintStream.print(Ljava/lang/String;)V":9;
+CE 390;
+CE 391;
+CE 392;
+PS 390;
+PS 391;
+PS 392;
+CL 478: "virtual";
+CE 804;
+CE 805;
+CE 806;
+CE 807;
+CE 808;
+CF 977;
+CE 977;
+HE 390;
+HE 391;
+HE 392;
+HE 804;
+HE 805;
+HE 806;
+HE 807;
+HE 808;
+}
+ACTI 390 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "<param> 0":-2;
+CF 391;
+CD 389;
+PI 481;
+PS 804;
+PS 805;
+PS 806;
+PS 807;
+PS 808;
+SU 392;
+}
+ACTI 391 {
+O act-in;
+V "param 1 [v6]";
+T "Ljava/lang/String";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "<param> 1":-2;
+PI 482;
+CF 804;
+SU 392;
+SU 808;
+}
+ACTO 392 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "<exception>":-2;
+CF 385: "exc";
+DD 385;
+CE 977;
+HE 977;
+}
+NORM 393 {
+O compound;
+V "return";
+T "V";
+P 19;
+S "java/io/PrintStream.java":449,0-449,0;
+B "java.io.PrintStream.print(Ljava/lang/String;)V":12;
+CF 803;
+}
+EXPR 394 {
+O assign;
+V "PHI v6 = p1, #(null)";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<phi>":-8;
+DD 391;
+CF 390;
+}
+ENTR 400 {
+O entry;
+V "java.io.PrintStream.println(boolean)";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.println(Z)V":-1;
+C "Primordial";
+CE 401;
+CD 405;
+CD 406;
+CE 402;
+CE 403;
+CE 404;
+PS 402;
+PS 403;
+PS 404;
+CE 809;
+CE 810;
+CE 811;
+CE 812;
+CE 813;
+CE 814;
+CE 815;
+CF 809;
+CF 401;
+HE 401;
+HE 405;
+HE 406;
+HE 402;
+HE 403;
+HE 404;
+HE 809;
+HE 810;
+HE 811;
+HE 812;
+HE 813;
+HE 814;
+HE 815;
+}
+EXIT 401 {
+O exit;
+V "java.io.PrintStream.println(boolean)";
+T "V";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 971;
+}
+FRMO 402 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 184;
+CF 814: "exc";
+PS 810;
+PS 814;
+}
+FRMI 403 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+CF 404;
+DD 405;
+DD 407;
+DD 411;
+DD 413;
+DD 415;
+PS 809;
+PS 810;
+PS 811;
+PS 812;
+PS 813;
+PS 814;
+PS 815;
+}
+FRMI 404 {
+O form-in;
+V "param 1";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 1":-2;
+DD 408;
+CF 405;
+}
+SYNC 405 {
+O monitor;
+V "MONITORENTER this";
+T "Ljava/lang/Object";
+P 20;
+S "java/io/PrintStream.java":486,0-486,0;
+B "java.io.PrintStream.println(Z)V":3;
+CF 407;
+}
+CALL 406 {
+O call;
+V "this.print(p1)";
+T "V";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "java.io.PrintStream.println(Z)V":6;
+CE 407;
+CE 408;
+CE 409;
+PS 407;
+PS 408;
+PS 409;
+CL 557: "virtual";
+CE 816;
+CE 817;
+CE 818;
+CE 819;
+CE 820;
+CE 821;
+CE 822;
+CF 978;
+CE 978;
+HE 407;
+HE 408;
+HE 409;
+HE 816;
+HE 817;
+HE 818;
+HE 819;
+HE 820;
+HE 821;
+HE 822;
+}
+ACTI 407 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "<param> 0":-2;
+CF 408;
+CD 406;
+PI 560;
+PS 816;
+PS 817;
+PS 818;
+PS 819;
+PS 820;
+PS 821;
+PS 822;
+SU 409;
+}
+ACTI 408 {
+O act-in;
+V "param 1 [p1]";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "<param> 1":-2;
+PI 561;
+CF 816;
+SU 409;
+SU 822;
+}
+ACTO 409 {
+O act-out;
+V "ret _exception_ exc 19";
+T "Ljava/lang/Exception";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "<exception>":-2;
+CF 418: "exc";
+CF 411;
+CE 978;
+HE 978;
+}
+CALL 410 {
+O call;
+V "this.newLine()";
+T "V";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "java.io.PrintStream.println(Z)V":10;
+CE 411;
+CE 412;
+PS 411;
+PS 412;
+CL 575: "virtual";
+CE 823;
+CE 824;
+CE 825;
+CE 826;
+CE 827;
+CE 828;
+CE 829;
+CF 979;
+CE 979;
+HE 411;
+HE 412;
+HE 823;
+HE 824;
+HE 825;
+HE 826;
+HE 827;
+HE 828;
+HE 829;
+}
+ACTI 411 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "<param> 0":-2;
+CD 410;
+PI 578;
+CF 823;
+PS 823;
+PS 824;
+PS 825;
+PS 826;
+PS 827;
+PS 828;
+PS 829;
+SU 412;
+}
+ACTO 412 {
+O act-out;
+V "ret _exception_ exc 19";
+T "Ljava/lang/Exception";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "<exception>":-2;
+CF 418: "exc";
+CF 413;
+CE 979;
+HE 979;
+}
+SYNC 413 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 20;
+S "java/io/PrintStream.java":486,0-486,0;
+B "java.io.PrintStream.println(Z)V":14;
+CF 414;
+}
+NORM 414 {
+O compound;
+V "goto 21";
+T "Ljava/lang/Object";
+P 20;
+S "java/io/PrintStream.java":486,0-486,0;
+B "java.io.PrintStream.println(Z)V":15;
+CF 417;
+}
+SYNC 415 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 20;
+S "java/io/PrintStream.java":486,0-486,0;
+B "java.io.PrintStream.println(Z)V":19;
+CF 416;
+}
+NORM 416 {
+O compound;
+V "throw v6";
+T "Ljava/lang/Exception";
+P 20;
+S "java/io/PrintStream.java":486,0-486,0;
+B "java.io.PrintStream.println(Z)V":20;
+CF 402: "exc";
+}
+NORM 417 {
+O compound;
+V "return";
+T "V";
+P 20;
+S "java/io/PrintStream.java":490,0-490,0;
+B "java.io.PrintStream.println(Z)V":21;
+CF 814;
+}
+EXPR 418 {
+O assign;
+V "v6 = catch <exc>";
+T "Ljava/lang/Exception";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 415;
+DD 416;
+}
+ENTR 426 {
+O entry;
+V "java.io.PrintStream.println(java.lang.String)";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":-1;
+C "Primordial";
+CE 427;
+CD 431;
+CD 432;
+CE 428;
+CE 429;
+CE 430;
+PS 428;
+PS 429;
+PS 430;
+CE 830;
+CE 831;
+CE 832;
+CE 833;
+CE 834;
+CF 830;
+CF 427;
+HE 427;
+HE 431;
+HE 432;
+HE 428;
+HE 429;
+HE 430;
+HE 830;
+HE 831;
+HE 832;
+HE 833;
+HE 834;
+}
+EXIT 427 {
+O exit;
+V "java.io.PrintStream.println(java.lang.String)";
+T "V";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 972;
+}
+FRMO 428 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 238;
+CF 834: "exc";
+}
+FRMI 429 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+CF 430;
+DD 431;
+DD 433;
+DD 437;
+DD 439;
+DD 441;
+PS 830;
+PS 831;
+PS 832;
+PS 833;
+PS 834;
+}
+FRMI 430 {
+O form-in;
+V "param 1";
+T "Ljava/lang/String";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 1":-2;
+DD 434;
+CF 431;
+}
+SYNC 431 {
+O monitor;
+V "MONITORENTER this";
+T "Ljava/lang/Object";
+P 21;
+S "java/io/PrintStream.java":584,0-584,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":3;
+CF 433;
+}
+CALL 432 {
+O call;
+V "this.print(p1)";
+T "V";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":6;
+CE 433;
+CE 434;
+CE 435;
+PS 433;
+PS 434;
+PS 435;
+CL 383: "virtual";
+CE 835;
+CE 836;
+CE 837;
+CE 838;
+CE 839;
+CF 980;
+CE 980;
+HE 433;
+HE 434;
+HE 435;
+HE 835;
+HE 836;
+HE 837;
+HE 838;
+HE 839;
+}
+ACTI 433 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "<param> 0":-2;
+CF 434;
+CD 432;
+PI 386;
+PS 835;
+PS 836;
+PS 837;
+PS 838;
+PS 839;
+SU 435;
+}
+ACTI 434 {
+O act-in;
+V "param 1 [p1]";
+T "Ljava/lang/String";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "<param> 1":-2;
+PI 387;
+CF 835;
+SU 435;
+SU 839;
+}
+ACTO 435 {
+O act-out;
+V "ret _exception_ exc 19";
+T "Ljava/lang/Exception";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "<exception>":-2;
+CF 444: "exc";
+CF 437;
+CE 980;
+HE 980;
+}
+CALL 436 {
+O call;
+V "this.newLine()";
+T "V";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":10;
+CE 437;
+CE 438;
+PS 437;
+PS 438;
+CL 575: "virtual";
+CE 840;
+CE 841;
+CE 842;
+CE 843;
+CE 844;
+CE 845;
+CE 846;
+CF 981;
+CE 981;
+HE 437;
+HE 438;
+HE 840;
+HE 841;
+HE 842;
+HE 843;
+HE 844;
+HE 845;
+HE 846;
+}
+ACTI 437 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "<param> 0":-2;
+CD 436;
+PI 578;
+CF 840;
+PS 840;
+PS 841;
+PS 842;
+PS 843;
+PS 844;
+PS 845;
+PS 846;
+SU 438;
+}
+ACTO 438 {
+O act-out;
+V "ret _exception_ exc 19";
+T "Ljava/lang/Exception";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "<exception>":-2;
+CF 444: "exc";
+CF 439;
+CE 981;
+HE 981;
+}
+SYNC 439 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 21;
+S "java/io/PrintStream.java":584,0-584,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":14;
+CF 440;
+}
+NORM 440 {
+O compound;
+V "goto 21";
+T "Ljava/lang/Object";
+P 21;
+S "java/io/PrintStream.java":584,0-584,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":15;
+CF 443;
+}
+SYNC 441 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 21;
+S "java/io/PrintStream.java":584,0-584,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":19;
+CF 442;
+}
+NORM 442 {
+O compound;
+V "throw v6";
+T "Ljava/lang/Exception";
+P 21;
+S "java/io/PrintStream.java":584,0-584,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":20;
+CF 428: "exc";
+}
+NORM 443 {
+O compound;
+V "return";
+T "V";
+P 21;
+S "java/io/PrintStream.java":588,0-588,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":21;
+CF 834;
+}
+EXPR 444 {
+O assign;
+V "v6 = catch <exc>";
+T "Ljava/lang/Exception";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 441;
+DD 442;
+}
+ENTR 452 {
+O entry;
+V "java.io.PrintStream.println(int)";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.println(I)V":-1;
+C "Primordial";
+CE 453;
+CD 457;
+CD 458;
+CE 454;
+CE 455;
+CE 456;
+PS 454;
+PS 455;
+PS 456;
+CE 847;
+CE 848;
+CE 849;
+CE 850;
+CE 851;
+CE 852;
+CE 853;
+CF 847;
+CF 453;
+HE 453;
+HE 457;
+HE 458;
+HE 454;
+HE 455;
+HE 456;
+HE 847;
+HE 848;
+HE 849;
+HE 850;
+HE 851;
+HE 852;
+HE 853;
+}
+EXIT 453 {
+O exit;
+V "java.io.PrintStream.println(int)";
+T "V";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 974;
+}
+FRMO 454 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 273;
+CF 852: "exc";
+PS 848;
+PS 852;
+}
+FRMI 455 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+CF 456;
+DD 457;
+DD 459;
+DD 463;
+DD 465;
+DD 467;
+PS 847;
+PS 848;
+PS 849;
+PS 850;
+PS 851;
+PS 852;
+PS 853;
+}
+FRMI 456 {
+O form-in;
+V "param 1";
+T "I";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 1":-2;
+DD 460;
+CF 457;
+}
+SYNC 457 {
+O monitor;
+V "MONITORENTER this";
+T "Ljava/lang/Object";
+P 22;
+S "java/io/PrintStream.java":514,0-514,0;
+B "java.io.PrintStream.println(I)V":3;
+CF 459;
+}
+CALL 458 {
+O call;
+V "this.print(p1)";
+T "V";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "java.io.PrintStream.println(I)V":6;
+CE 459;
+CE 460;
+CE 461;
+PS 459;
+PS 460;
+PS 461;
+CL 642: "virtual";
+CE 854;
+CE 855;
+CE 856;
+CE 857;
+CE 858;
+CE 859;
+CE 860;
+CF 982;
+CE 982;
+HE 459;
+HE 460;
+HE 461;
+HE 854;
+HE 855;
+HE 856;
+HE 857;
+HE 858;
+HE 859;
+HE 860;
+}
+ACTI 459 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "<param> 0":-2;
+CF 460;
+CD 458;
+PI 645;
+PS 854;
+PS 855;
+PS 856;
+PS 857;
+PS 858;
+PS 859;
+PS 860;
+SU 461;
+}
+ACTI 460 {
+O act-in;
+V "param 1 [p1]";
+T "I";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "<param> 1":-2;
+PI 646;
+CF 854;
+SU 461;
+SU 859;
+SU 860;
+}
+ACTO 461 {
+O act-out;
+V "ret _exception_ exc 19";
+T "Ljava/lang/Exception";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "<exception>":-2;
+CF 470: "exc";
+CF 463;
+CE 982;
+HE 982;
+}
+CALL 462 {
+O call;
+V "this.newLine()";
+T "V";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "java.io.PrintStream.println(I)V":10;
+CE 463;
+CE 464;
+PS 463;
+PS 464;
+CL 575: "virtual";
+CE 861;
+CE 862;
+CE 863;
+CE 864;
+CE 865;
+CE 866;
+CE 867;
+CF 983;
+CE 983;
+HE 463;
+HE 464;
+HE 861;
+HE 862;
+HE 863;
+HE 864;
+HE 865;
+HE 866;
+HE 867;
+}
+ACTI 463 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "<param> 0":-2;
+CD 462;
+PI 578;
+CF 861;
+PS 861;
+PS 862;
+PS 863;
+PS 864;
+PS 865;
+PS 866;
+PS 867;
+SU 464;
+}
+ACTO 464 {
+O act-out;
+V "ret _exception_ exc 19";
+T "Ljava/lang/Exception";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "<exception>":-2;
+CF 470: "exc";
+CF 465;
+CE 983;
+HE 983;
+}
+SYNC 465 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 22;
+S "java/io/PrintStream.java":514,0-514,0;
+B "java.io.PrintStream.println(I)V":14;
+CF 466;
+}
+NORM 466 {
+O compound;
+V "goto 21";
+T "Ljava/lang/Object";
+P 22;
+S "java/io/PrintStream.java":514,0-514,0;
+B "java.io.PrintStream.println(I)V":15;
+CF 469;
+}
+SYNC 467 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 22;
+S "java/io/PrintStream.java":514,0-514,0;
+B "java.io.PrintStream.println(I)V":19;
+CF 468;
+}
+NORM 468 {
+O compound;
+V "throw v6";
+T "Ljava/lang/Exception";
+P 22;
+S "java/io/PrintStream.java":514,0-514,0;
+B "java.io.PrintStream.println(I)V":20;
+CF 454: "exc";
+}
+NORM 469 {
+O compound;
+V "return";
+T "V";
+P 22;
+S "java/io/PrintStream.java":518,0-518,0;
+B "java.io.PrintStream.println(I)V":21;
+CF 852;
+}
+EXPR 470 {
+O assign;
+V "v6 = catch <exc>";
+T "Ljava/lang/Exception";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 467;
+DD 468;
+}
+ENTR 478 {
+O entry;
+V "java.io.PrintStream.write(java.lang.String)";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+C "Primordial";
+CE 479;
+CD 483;
+CD 484;
+CE 480;
+CE 481;
+CE 482;
+PS 480;
+PS 481;
+PS 482;
+CE 868;
+CE 869;
+CE 870;
+CE 871;
+CE 872;
+CF 868;
+CF 479;
+HE 479;
+HE 483;
+HE 484;
+HE 481;
+HE 482;
+HE 868;
+HE 869;
+HE 870;
+HE 871;
+HE 872;
+}
+EXIT 479 {
+O exit;
+V "java.io.PrintStream.write(java.lang.String)";
+T "V";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 977;
+RF 984;
+RF 985;
+}
+FRMO 480 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 392;
+PO 567;
+PO 654;
+CF 872: "exc";
+}
+FRMI 481 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+CF 482;
+DD 483;
+DD 485;
+DD 488;
+DD 495;
+DD 501;
+DD 507;
+DD 517;
+DD 522;
+DD 524;
+DD 534;
+PS 868;
+PS 869;
+PS 870;
+PS 871;
+PS 872;
+}
+FRMI 482 {
+O form-in;
+V "param 1";
+T "Ljava/lang/String";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 1":-2;
+DD 492;
+DD 511;
+CF 483;
+}
+SYNC 483 {
+O monitor;
+V "MONITORENTER this";
+T "Ljava/lang/Object";
+P 23;
+S "java/io/PrintStream.java":301,0-301,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":3;
+CF 485;
+}
+CALL 484 {
+O call;
+V "this.ensureOpen()";
+T "V";
+P 23;
+S "java/io/PrintStream.java":302,0-302,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":5;
+U "java.io.PrintStream.ensureOpen()V";
+CD 488;
+CD 490;
+CD 524;
+CD 525;
+CD 537;
+CE 485;
+CE 486;
+PS 485;
+PS 486;
+CE 873;
+CE 874;
+CF 874;
+CE 935;
+HE 488;
+HE 490;
+HE 485;
+HE 486;
+HE 873;
+HE 874;
+HE 935;
+}
+ACTI 485 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 23;
+S "java/io/PrintStream.java":302,0-302,0;
+B "<param> 0":-2;
+CD 484;
+CF 873;
+PS 873;
+PS 874;
+DD 935;
+}
+ACTO 486 {
+O act-out;
+V "ret _exception_ exc 59";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":302,0-302,0;
+B "<exception>":-2;
+CF 537: "exc";
+CF 488;
+}
+EXPR 487 {
+O reference;
+V "v5 = this.textOut";
+T "Ljava/io/BufferedWriter";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":9;
+CE 489;
+CF 488;
+DD 491;
+HE 489;
+}
+NORM 488 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "<base>":-6;
+DD 487;
+CE 487;
+PS 489;
+CF 489;
+CF 491;
+HE 487;
+}
+NORM 489 {
+O compound;
+V "field textOut";
+T "Ljava/io/BufferedWriter";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "Ljava/io/PrintStream.textOut":-4;
+DD 487;
+CF 487;
+}
+CALL 490 {
+O call;
+V "v5.write(p1)";
+T "V";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":13;
+U "java.io.BufferedWriter.write(Ljava/lang/String;)V";
+CD 495;
+CD 497;
+CD 524;
+CD 525;
+CD 537;
+CE 491;
+CE 492;
+CE 493;
+PS 491;
+PS 492;
+PS 493;
+CE 875;
+CE 876;
+CF 876;
+CE 936;
+HE 495;
+HE 497;
+HE 491;
+HE 492;
+HE 493;
+HE 875;
+HE 876;
+HE 936;
+}
+ACTI 491 {
+O act-in;
+V "this [v5]";
+T "Ljava/io/BufferedWriter";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "<param> 0":-2;
+CF 492;
+CD 490;
+PS 875;
+PS 876;
+DD 936;
+}
+ACTI 492 {
+O act-in;
+V "param 1 [p1]";
+T "Ljava/lang/String";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "<param> 1":-2;
+CF 875;
+PS 875;
+PS 876;
+DD 936;
+}
+ACTO 493 {
+O act-out;
+V "ret _exception_ exc 59";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "<exception>":-2;
+CF 537: "exc";
+CF 495;
+}
+EXPR 494 {
+O reference;
+V "v7 = this.textOut";
+T "Ljava/io/BufferedWriter";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":17;
+CE 496;
+CF 495;
+DD 498;
+HE 496;
+}
+NORM 495 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "<base>":-6;
+DD 494;
+CE 494;
+PS 496;
+CF 496;
+CF 498;
+HE 494;
+}
+NORM 496 {
+O compound;
+V "field textOut";
+T "Ljava/io/BufferedWriter";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "Ljava/io/PrintStream.textOut":-4;
+DD 494;
+CF 494;
+}
+CALL 497 {
+O call;
+V "v7.flushBuffer()";
+T "V";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":20;
+U "java.io.BufferedWriter.flushBuffer()V";
+CD 501;
+CD 503;
+CD 524;
+CD 525;
+CD 537;
+CE 498;
+CE 499;
+PS 498;
+PS 499;
+CE 877;
+CE 878;
+CF 878;
+CE 937;
+HE 501;
+HE 503;
+HE 498;
+HE 499;
+HE 877;
+HE 878;
+HE 937;
+}
+ACTI 498 {
+O act-in;
+V "this [v7]";
+T "Ljava/io/BufferedWriter";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "<param> 0":-2;
+CD 497;
+CF 877;
+PS 877;
+PS 878;
+DD 937;
+}
+ACTO 499 {
+O act-out;
+V "ret _exception_ exc 59";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "<exception>":-2;
+CF 537: "exc";
+CF 501;
+}
+EXPR 500 {
+O reference;
+V "v9 = this.charOut";
+T "Ljava/io/OutputStreamWriter";
+P 23;
+S "java/io/PrintStream.java":305,0-305,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":24;
+CE 502;
+CF 501;
+DD 504;
+HE 502;
+}
+NORM 501 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 23;
+S "java/io/PrintStream.java":305,0-305,0;
+B "<base>":-6;
+DD 500;
+CE 500;
+PS 502;
+CF 502;
+CF 504;
+HE 500;
+}
+NORM 502 {
+O compound;
+V "field charOut";
+T "Ljava/io/OutputStreamWriter";
+P 23;
+S "java/io/PrintStream.java":305,0-305,0;
+B "Ljava/io/PrintStream.charOut":-4;
+DD 500;
+CF 500;
+}
+CALL 503 {
+O call;
+V "v9.flushBuffer()";
+T "V";
+P 23;
+S "java/io/PrintStream.java":305,0-305,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":27;
+U "java.io.OutputStreamWriter.flushBuffer()V";
+CF 505;
+CD 507;
+CD 509;
+CD 524;
+CD 525;
+CD 537;
+CE 504;
+CE 505;
+PS 504;
+PS 505;
+CE 879;
+CE 938;
+HE 507;
+HE 509;
+HE 504;
+HE 505;
+HE 879;
+HE 938;
+}
+ACTI 504 {
+O act-in;
+V "this [v9]";
+T "Ljava/io/OutputStreamWriter";
+P 23;
+S "java/io/PrintStream.java":305,0-305,0;
+B "<param> 0":-2;
+CD 503;
+CF 879;
+PS 879;
+DD 938;
+}
+ACTO 505 {
+O act-out;
+V "ret _exception_ exc 59";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":305,0-305,0;
+B "<exception>":-2;
+CF 537: "exc";
+CF 507;
+}
+EXPR 506 {
+O reference;
+V "v11 = this.autoFlush";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":31;
+CE 508;
+CF 507;
+DD 509;
+HE 508;
+}
+NORM 507 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "<base>":-6;
+DD 506;
+CE 506;
+PS 508;
+CF 508;
+CF 509;
+HE 506;
+}
+NORM 508 {
+O compound;
+V "field autoFlush";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+DD 506;
+CF 506;
+}
+PRED 509 {
+O IF;
+V "if (v11 == #(0)) goto 54";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":34;
+CD 510;
+CD 522;
+CD 523;
+CD 536;
+CF 511;
+CF 522;
+HE 510;
+}
+CALL 510 {
+O call;
+V "v15 = p1.indexOf(#(10))";
+T "I";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":40;
+U "java.lang.String.indexOf(I)I";
+CF 513;
+CD 515;
+CD 524;
+CD 525;
+CD 537;
+CE 511;
+CE 512;
+CE 513;
+CE 514;
+PS 511;
+PS 512;
+PS 513;
+PS 514;
+CE 880;
+CE 939;
+HE 515;
+HE 511;
+HE 512;
+HE 513;
+HE 514;
+HE 880;
+HE 939;
+}
+ACTI 511 {
+O act-in;
+V "this [p1]";
+T "Ljava/lang/String";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "<param> 0":-2;
+CF 512;
+CD 510;
+PS 880;
+DD 939;
+}
+ACTI 512 {
+O act-in;
+V "param 1 [#(10)]";
+T "I";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "<param> 1":-2;
+CF 880;
+DD 939;
+}
+ACTO 513 {
+O act-out;
+V "ret 0";
+T "I";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "<exit>":-2;
+CF 514;
+DD 515;
+}
+ACTO 514 {
+O act-out;
+V "ret _exception_ exc 59";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "<exception>":-2;
+CF 537: "exc";
+CF 515;
+}
+PRED 515 {
+O IF;
+V "if (v15 < #(0)) goto 54";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":43;
+CD 517;
+CD 519;
+CD 522;
+CD 523;
+CD 536;
+CF 517;
+CF 522;
+HE 517;
+HE 519;
+}
+EXPR 516 {
+O reference;
+V "v16 = this.out";
+T "Ljava/io/OutputStream";
+P 23;
+S "java/io/PrintStream.java":307,0-307,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":47;
+CE 518;
+CF 517;
+DD 520;
+HE 518;
+}
+NORM 517 {
+O compound;
+V "base";
+T "Ljava/io/FilterOutputStream";
+P 23;
+S "java/io/PrintStream.java":307,0-307,0;
+B "<base>":-6;
+DD 516;
+CE 516;
+PS 518;
+CF 518;
+CF 520;
+HE 516;
+}
+NORM 518 {
+O compound;
+V "field out";
+T "Ljava/io/OutputStream";
+P 23;
+S "java/io/PrintStream.java":307,0-307,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+DD 516;
+CF 516;
+}
+CALL 519 {
+O call;
+V "v16.flush()";
+T "V";
+P 23;
+S "java/io/PrintStream.java":307,0-307,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":50;
+U "java.io.OutputStream.flush()V";
+CF 521;
+CD 522;
+CD 523;
+CD 524;
+CD 525;
+CD 536;
+CD 537;
+CE 520;
+CE 521;
+PS 520;
+PS 521;
+CE 940;
+HE 522;
+HE 523;
+HE 524;
+HE 525;
+HE 520;
+HE 521;
+HE 940;
+}
+ACTI 520 {
+O act-in;
+V "this [v16]";
+T "Ljava/io/OutputStream";
+P 23;
+S "java/io/PrintStream.java":307,0-307,0;
+B "<param> 0":-2;
+CF 519;
+CD 519;
+DD 940;
+}
+ACTO 521 {
+O act-out;
+V "ret _exception_ exc 59";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":307,0-307,0;
+B "<exception>":-2;
+CF 537: "exc";
+CF 522;
+}
+SYNC 522 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 23;
+S "java/io/PrintStream.java":301,0-301,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":54;
+CF 523;
+}
+NORM 523 {
+O compound;
+V "goto 77";
+T "Ljava/lang/Object";
+P 23;
+S "java/io/PrintStream.java":301,0-301,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":55;
+CF 536;
+}
+SYNC 524 {
+O monitor;
+V "MONITOREXIT this exc 59";
+T "Ljava/lang/Object";
+P 23;
+S "java/io/PrintStream.java":301,0-301,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":59;
+CF 525;
+CF 537: "exc";
+CD 537;
+HE 537;
+}
+NORM 525 {
+O compound;
+V "throw v18 exc 62 exc 74";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":301,0-301,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":60;
+CF 538: "exc";
+CF 539: "exc";
+CF 480: "exc";
+CD 480;
+CD 526;
+CD 529;
+CD 534;
+CD 536;
+CD 538;
+CD 539;
+HE 480;
+HE 526;
+HE 529;
+HE 534;
+HE 538;
+HE 539;
+}
+CALL 526 {
+O call;
+V "v23 = currentThread()";
+T "Ljava/lang/Thread";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":62;
+U "java.lang.Thread.currentThread()Ljava/lang/Thread;";
+CF 527;
+CE 527;
+CE 528;
+PS 527;
+PS 528;
+CE 941;
+HE 527;
+HE 528;
+HE 941;
+}
+ACTO 527 {
+O act-out;
+V "ret 0";
+T "Ljava/lang/Thread";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "<exit>":-2;
+CF 528;
+DD 530;
+}
+ACTO 528 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "<exception>":-2;
+CF 530;
+}
+CALL 529 {
+O call;
+V "v23.interrupt()";
+T "V";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":65;
+U "java.lang.Thread.interrupt()V";
+CD 532;
+CD 536;
+CE 530;
+CE 531;
+PS 530;
+PS 531;
+CE 881;
+CE 882;
+CF 882;
+CE 942;
+HE 532;
+HE 536;
+HE 530;
+HE 531;
+HE 881;
+HE 882;
+HE 942;
+}
+ACTI 530 {
+O act-in;
+V "this [v23]";
+T "Ljava/lang/Thread";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "<param> 0":-2;
+CD 529;
+CF 881;
+PS 881;
+PS 882;
+DD 942;
+}
+ACTO 531 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "<exception>":-2;
+CF 480: "exc";
+DD 480;
+}
+NORM 532 {
+O compound;
+V "goto 77";
+T "Ljava/lang/Object";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":68;
+CF 536;
+}
+EXPR 533 {
+O modify;
+V "this.trouble = #(1)";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":314,0-314,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":74;
+DD 535;
+CE 535;
+CF 535;
+HE 535;
+}
+NORM 534 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 23;
+S "java/io/PrintStream.java":314,0-314,0;
+B "<base>":-6;
+DD 533;
+CE 533;
+PS 535;
+CF 533;
+CF 536;
+HE 533;
+}
+NORM 535 {
+O compound;
+V "field trouble";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":314,0-314,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 534;
+DH 872;
+}
+NORM 536 {
+O compound;
+V "return";
+T "V";
+P 23;
+S "java/io/PrintStream.java":316,0-316,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":77;
+CF 872;
+}
+EXPR 537 {
+O assign;
+V "v18 = catch <exc>";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 524;
+DD 525;
+}
+EXPR 538 {
+O assign;
+V "v21 = catch <exc>";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 526;
+}
+EXPR 539 {
+O assign;
+V "v19 = catch <exc>";
+T "Ljava/lang/Exception";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 534;
+}
+ENTR 557 {
+O entry;
+V "java.io.PrintStream.print(boolean)";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.print(Z)V":-1;
+C "Primordial";
+CE 558;
+CD 562;
+CD 564;
+CD 569;
+CE 559;
+CE 560;
+CE 561;
+PS 559;
+PS 560;
+PS 561;
+CE 883;
+CE 884;
+CE 885;
+CE 886;
+CE 887;
+CE 888;
+CE 889;
+CF 883;
+CF 558;
+HE 558;
+HE 562;
+HE 564;
+HE 559;
+HE 560;
+HE 561;
+HE 883;
+HE 884;
+HE 885;
+HE 886;
+HE 887;
+HE 888;
+HE 889;
+}
+EXIT 558 {
+O exit;
+V "java.io.PrintStream.print(boolean)";
+T "V";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 978;
+}
+FRMO 559 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 409;
+CF 888: "exc";
+PS 884;
+PS 888;
+}
+FRMI 560 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+CF 561;
+DD 565;
+PS 883;
+PS 884;
+PS 885;
+PS 886;
+PS 887;
+PS 888;
+PS 889;
+}
+FRMI 561 {
+O form-in;
+V "param 1";
+T "Z";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 1":-2;
+DD 562;
+CF 562;
+}
+PRED 562 {
+O IF;
+V "if (p1 == #(0)) goto 12";
+T "Z";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "java.io.PrintStream.print(Z)V":2;
+CD 563;
+CD 569;
+CF 563;
+CF 569;
+HE 563;
+HE 569;
+}
+NORM 563 {
+O compound;
+V "goto 12";
+T "Ljava/lang/Object";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "java.io.PrintStream.print(Z)V":7;
+CF 569;
+}
+CALL 564 {
+O call;
+V "this.write(v7)";
+T "V";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "java.io.PrintStream.print(Z)V":12;
+CE 565;
+CE 566;
+CE 567;
+PS 565;
+PS 566;
+PS 567;
+CL 478: "virtual";
+CE 890;
+CE 891;
+CE 892;
+CE 893;
+CE 894;
+CF 984;
+CE 984;
+HE 565;
+HE 566;
+HE 567;
+HE 890;
+HE 891;
+HE 892;
+HE 893;
+HE 894;
+}
+ACTI 565 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "<param> 0":-2;
+CF 566;
+CD 564;
+PI 481;
+PS 890;
+PS 891;
+PS 892;
+PS 893;
+PS 894;
+SU 567;
+}
+ACTI 566 {
+O act-in;
+V "param 1 [v7]";
+T "Ljava/lang/String";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "<param> 1":-2;
+PI 482;
+CF 890;
+SU 567;
+SU 894;
+}
+ACTO 567 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "<exception>":-2;
+CF 559: "exc";
+DD 559;
+CE 984;
+HE 984;
+}
+NORM 568 {
+O compound;
+V "return";
+T "V";
+P 24;
+S "java/io/PrintStream.java":351,0-351,0;
+B "java.io.PrintStream.print(Z)V":15;
+CF 888;
+}
+EXPR 569 {
+O assign;
+V "PHI v7 = #(true), #(false)";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<phi>":-8;
+CF 565;
+DD 566;
+}
+ENTR 575 {
+O entry;
+V "java.io.PrintStream.newLine()";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+C "Primordial";
+CE 576;
+CD 579;
+CD 580;
+CE 577;
+CE 578;
+PS 577;
+PS 578;
+CE 895;
+CE 896;
+CE 897;
+CE 898;
+CE 899;
+CE 900;
+CE 901;
+CF 895;
+CF 576;
+HE 576;
+HE 579;
+HE 580;
+HE 578;
+HE 895;
+HE 896;
+HE 897;
+HE 898;
+HE 899;
+HE 900;
+HE 901;
+}
+EXIT 576 {
+O exit;
+V "java.io.PrintStream.newLine()";
+T "V";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 979;
+RF 981;
+RF 983;
+}
+FRMO 577 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 412;
+PO 438;
+PO 464;
+CF 900: "exc";
+PS 896;
+PS 900;
+}
+FRMI 578 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+DD 579;
+DD 581;
+DD 584;
+DD 590;
+DD 596;
+DD 602;
+DD 606;
+DD 611;
+DD 613;
+DD 623;
+CF 579;
+PS 895;
+PS 896;
+PS 897;
+PS 898;
+PS 899;
+PS 900;
+PS 901;
+}
+SYNC 579 {
+O monitor;
+V "MONITORENTER this";
+T "Ljava/lang/Object";
+P 25;
+S "java/io/PrintStream.java":320,0-320,0;
+B "java.io.PrintStream.newLine()V":3;
+CF 581;
+}
+CALL 580 {
+O call;
+V "this.ensureOpen()";
+T "V";
+P 25;
+S "java/io/PrintStream.java":321,0-321,0;
+B "java.io.PrintStream.newLine()V":5;
+U "java.io.PrintStream.ensureOpen()V";
+CD 584;
+CD 586;
+CD 613;
+CD 614;
+CD 626;
+CE 581;
+CE 582;
+PS 581;
+PS 582;
+CE 902;
+CE 903;
+CF 903;
+CE 943;
+HE 584;
+HE 586;
+HE 581;
+HE 582;
+HE 902;
+HE 903;
+HE 943;
+}
+ACTI 581 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 25;
+S "java/io/PrintStream.java":321,0-321,0;
+B "<param> 0":-2;
+CD 580;
+CF 902;
+PS 902;
+PS 903;
+DD 943;
+}
+ACTO 582 {
+O act-out;
+V "ret _exception_ exc 49";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":321,0-321,0;
+B "<exception>":-2;
+CF 626: "exc";
+CF 584;
+}
+EXPR 583 {
+O reference;
+V "v4 = this.textOut";
+T "Ljava/io/BufferedWriter";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "java.io.PrintStream.newLine()V":9;
+CE 585;
+CF 584;
+DD 587;
+HE 585;
+}
+NORM 584 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "<base>":-6;
+DD 583;
+CE 583;
+PS 585;
+CF 585;
+CF 587;
+HE 583;
+}
+NORM 585 {
+O compound;
+V "field textOut";
+T "Ljava/io/BufferedWriter";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "Ljava/io/PrintStream.textOut":-4;
+DD 583;
+CF 583;
+}
+CALL 586 {
+O call;
+V "v4.newLine()";
+T "V";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "java.io.PrintStream.newLine()V":12;
+U "java.io.BufferedWriter.newLine()V";
+CD 590;
+CD 592;
+CD 613;
+CD 614;
+CD 626;
+CE 587;
+CE 588;
+PS 587;
+PS 588;
+CE 904;
+CE 905;
+CF 905;
+CE 944;
+HE 590;
+HE 592;
+HE 587;
+HE 588;
+HE 904;
+HE 905;
+HE 944;
+}
+ACTI 587 {
+O act-in;
+V "this [v4]";
+T "Ljava/io/BufferedWriter";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "<param> 0":-2;
+CD 586;
+CF 904;
+PS 904;
+PS 905;
+DD 944;
+}
+ACTO 588 {
+O act-out;
+V "ret _exception_ exc 49";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "<exception>":-2;
+CF 626: "exc";
+CF 590;
+}
+EXPR 589 {
+O reference;
+V "v6 = this.textOut";
+T "Ljava/io/BufferedWriter";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "java.io.PrintStream.newLine()V":16;
+CE 591;
+CF 590;
+DD 593;
+HE 591;
+}
+NORM 590 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "<base>":-6;
+DD 589;
+CE 589;
+PS 591;
+CF 591;
+CF 593;
+HE 589;
+}
+NORM 591 {
+O compound;
+V "field textOut";
+T "Ljava/io/BufferedWriter";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "Ljava/io/PrintStream.textOut":-4;
+DD 589;
+CF 589;
+}
+CALL 592 {
+O call;
+V "v6.flushBuffer()";
+T "V";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "java.io.PrintStream.newLine()V":19;
+U "java.io.BufferedWriter.flushBuffer()V";
+CD 596;
+CD 598;
+CD 613;
+CD 614;
+CD 626;
+CE 593;
+CE 594;
+PS 593;
+PS 594;
+CE 906;
+CE 907;
+CF 907;
+CE 945;
+HE 596;
+HE 598;
+HE 593;
+HE 594;
+HE 906;
+HE 907;
+HE 945;
+}
+ACTI 593 {
+O act-in;
+V "this [v6]";
+T "Ljava/io/BufferedWriter";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "<param> 0":-2;
+CD 592;
+CF 906;
+PS 906;
+PS 907;
+DD 945;
+}
+ACTO 594 {
+O act-out;
+V "ret _exception_ exc 49";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "<exception>":-2;
+CF 626: "exc";
+CF 596;
+}
+EXPR 595 {
+O reference;
+V "v8 = this.charOut";
+T "Ljava/io/OutputStreamWriter";
+P 25;
+S "java/io/PrintStream.java":324,0-324,0;
+B "java.io.PrintStream.newLine()V":23;
+CE 597;
+CF 596;
+DD 599;
+HE 597;
+}
+NORM 596 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 25;
+S "java/io/PrintStream.java":324,0-324,0;
+B "<base>":-6;
+DD 595;
+CE 595;
+PS 597;
+CF 597;
+CF 599;
+HE 595;
+}
+NORM 597 {
+O compound;
+V "field charOut";
+T "Ljava/io/OutputStreamWriter";
+P 25;
+S "java/io/PrintStream.java":324,0-324,0;
+B "Ljava/io/PrintStream.charOut":-4;
+DD 595;
+CF 595;
+}
+CALL 598 {
+O call;
+V "v8.flushBuffer()";
+T "V";
+P 25;
+S "java/io/PrintStream.java":324,0-324,0;
+B "java.io.PrintStream.newLine()V":26;
+U "java.io.OutputStreamWriter.flushBuffer()V";
+CF 600;
+CD 602;
+CD 604;
+CD 613;
+CD 614;
+CD 626;
+CE 599;
+CE 600;
+PS 599;
+PS 600;
+CE 908;
+CE 946;
+HE 602;
+HE 604;
+HE 599;
+HE 600;
+HE 908;
+HE 946;
+}
+ACTI 599 {
+O act-in;
+V "this [v8]";
+T "Ljava/io/OutputStreamWriter";
+P 25;
+S "java/io/PrintStream.java":324,0-324,0;
+B "<param> 0":-2;
+CD 598;
+CF 908;
+PS 908;
+DD 946;
+}
+ACTO 600 {
+O act-out;
+V "ret _exception_ exc 49";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":324,0-324,0;
+B "<exception>":-2;
+CF 626: "exc";
+CF 602;
+}
+EXPR 601 {
+O reference;
+V "v10 = this.autoFlush";
+T "Z";
+P 25;
+S "java/io/PrintStream.java":325,0-325,0;
+B "java.io.PrintStream.newLine()V":30;
+CE 603;
+CF 602;
+DD 604;
+HE 603;
+}
+NORM 602 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 25;
+S "java/io/PrintStream.java":325,0-325,0;
+B "<base>":-6;
+DD 601;
+CE 601;
+PS 603;
+CF 603;
+CF 604;
+HE 601;
+}
+NORM 603 {
+O compound;
+V "field autoFlush";
+T "Z";
+P 25;
+S "java/io/PrintStream.java":325,0-325,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+DD 601;
+CF 601;
+}
+PRED 604 {
+O IF;
+V "if (v10 == #(0)) goto 44";
+T "Z";
+P 25;
+S "java/io/PrintStream.java":325,0-325,0;
+B "java.io.PrintStream.newLine()V":33;
+CD 606;
+CD 608;
+CD 611;
+CD 612;
+CD 625;
+CF 606;
+CF 611;
+HE 606;
+HE 608;
+}
+EXPR 605 {
+O reference;
+V "v12 = this.out";
+T "Ljava/io/OutputStream";
+P 25;
+S "java/io/PrintStream.java":326,0-326,0;
+B "java.io.PrintStream.newLine()V":37;
+CE 607;
+CF 606;
+DD 609;
+HE 607;
+}
+NORM 606 {
+O compound;
+V "base";
+T "Ljava/io/FilterOutputStream";
+P 25;
+S "java/io/PrintStream.java":326,0-326,0;
+B "<base>":-6;
+DD 605;
+CE 605;
+PS 607;
+CF 607;
+CF 609;
+HE 605;
+}
+NORM 607 {
+O compound;
+V "field out";
+T "Ljava/io/OutputStream";
+P 25;
+S "java/io/PrintStream.java":326,0-326,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+DD 605;
+CF 605;
+}
+CALL 608 {
+O call;
+V "v12.flush()";
+T "V";
+P 25;
+S "java/io/PrintStream.java":326,0-326,0;
+B "java.io.PrintStream.newLine()V":40;
+U "java.io.OutputStream.flush()V";
+CF 610;
+CD 611;
+CD 612;
+CD 613;
+CD 614;
+CD 625;
+CD 626;
+CE 609;
+CE 610;
+PS 609;
+PS 610;
+CE 947;
+HE 611;
+HE 612;
+HE 613;
+HE 614;
+HE 609;
+HE 610;
+HE 947;
+}
+ACTI 609 {
+O act-in;
+V "this [v12]";
+T "Ljava/io/OutputStream";
+P 25;
+S "java/io/PrintStream.java":326,0-326,0;
+B "<param> 0":-2;
+CF 608;
+CD 608;
+DD 947;
+}
+ACTO 610 {
+O act-out;
+V "ret _exception_ exc 49";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":326,0-326,0;
+B "<exception>":-2;
+CF 626: "exc";
+CF 611;
+}
+SYNC 611 {
+O monitor;
+V "MONITOREXIT this";
+T "Ljava/lang/Object";
+P 25;
+S "java/io/PrintStream.java":320,0-320,0;
+B "java.io.PrintStream.newLine()V":44;
+CF 612;
+}
+NORM 612 {
+O compound;
+V "goto 67";
+T "Ljava/lang/Object";
+P 25;
+S "java/io/PrintStream.java":320,0-320,0;
+B "java.io.PrintStream.newLine()V":45;
+CF 625;
+}
+SYNC 613 {
+O monitor;
+V "MONITOREXIT this exc 49";
+T "Ljava/lang/Object";
+P 25;
+S "java/io/PrintStream.java":320,0-320,0;
+B "java.io.PrintStream.newLine()V":49;
+CF 614;
+CF 626: "exc";
+CD 626;
+HE 626;
+}
+NORM 614 {
+O compound;
+V "throw v14 exc 52 exc 64";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":320,0-320,0;
+B "java.io.PrintStream.newLine()V":50;
+CF 627: "exc";
+CF 628: "exc";
+CF 577: "exc";
+CD 577;
+CD 615;
+CD 618;
+CD 623;
+CD 625;
+CD 627;
+CD 628;
+HE 577;
+HE 615;
+HE 618;
+HE 623;
+HE 627;
+HE 628;
+}
+CALL 615 {
+O call;
+V "v19 = currentThread()";
+T "Ljava/lang/Thread";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "java.io.PrintStream.newLine()V":52;
+U "java.lang.Thread.currentThread()Ljava/lang/Thread;";
+CF 616;
+CE 616;
+CE 617;
+PS 616;
+PS 617;
+CE 948;
+HE 616;
+HE 617;
+HE 948;
+}
+ACTO 616 {
+O act-out;
+V "ret 0";
+T "Ljava/lang/Thread";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "<exit>":-2;
+CF 617;
+DD 619;
+}
+ACTO 617 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "<exception>":-2;
+CF 619;
+}
+CALL 618 {
+O call;
+V "v19.interrupt()";
+T "V";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "java.io.PrintStream.newLine()V":55;
+U "java.lang.Thread.interrupt()V";
+CD 621;
+CD 625;
+CE 619;
+CE 620;
+PS 619;
+PS 620;
+CE 909;
+CE 910;
+CF 910;
+CE 949;
+HE 621;
+HE 625;
+HE 619;
+HE 620;
+HE 909;
+HE 910;
+HE 949;
+}
+ACTI 619 {
+O act-in;
+V "this [v19]";
+T "Ljava/lang/Thread";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "<param> 0":-2;
+CD 618;
+CF 909;
+PS 909;
+PS 910;
+DD 949;
+}
+ACTO 620 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "<exception>":-2;
+CF 577: "exc";
+DD 577;
+}
+NORM 621 {
+O compound;
+V "goto 67";
+T "Ljava/lang/Object";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "java.io.PrintStream.newLine()V":58;
+CF 625;
+}
+EXPR 622 {
+O modify;
+V "this.trouble = #(1)";
+T "Z";
+P 25;
+S "java/io/PrintStream.java":333,0-333,0;
+B "java.io.PrintStream.newLine()V":64;
+DD 624;
+CE 624;
+CF 624;
+HE 624;
+}
+NORM 623 {
+O compound;
+V "base";
+T "Ljava/io/PrintStream";
+P 25;
+S "java/io/PrintStream.java":333,0-333,0;
+B "<base>":-6;
+DD 622;
+CE 622;
+PS 624;
+CF 622;
+CF 625;
+HE 622;
+}
+NORM 624 {
+O compound;
+V "field trouble";
+T "Z";
+P 25;
+S "java/io/PrintStream.java":333,0-333,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 623;
+DH 901;
+}
+NORM 625 {
+O compound;
+V "return";
+T "V";
+P 25;
+S "java/io/PrintStream.java":335,0-335,0;
+B "java.io.PrintStream.newLine()V":67;
+CF 900;
+}
+EXPR 626 {
+O assign;
+V "v14 = catch <exc>";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 613;
+DD 614;
+}
+EXPR 627 {
+O assign;
+V "v17 = catch <exc>";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 615;
+}
+EXPR 628 {
+O assign;
+V "v15 = catch <exc>";
+T "Ljava/lang/Exception";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+CF 623;
+}
+ENTR 642 {
+O entry;
+V "java.io.PrintStream.print(int)";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.print(I)V":-1;
+C "Primordial";
+CE 643;
+CD 647;
+CE 644;
+CE 645;
+CE 646;
+PS 644;
+PS 645;
+PS 646;
+CE 911;
+CE 912;
+CE 913;
+CE 914;
+CE 915;
+CE 916;
+CE 917;
+CF 911;
+CF 643;
+HE 643;
+HE 647;
+HE 644;
+HE 645;
+HE 646;
+HE 911;
+HE 912;
+HE 913;
+HE 914;
+HE 915;
+HE 916;
+HE 917;
+}
+EXIT 643 {
+O exit;
+V "java.io.PrintStream.print(int)";
+T "V";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exit>":-2;
+RF 982;
+}
+FRMO 644 {
+O form-out;
+V "_exception_";
+T "Ljava/lang/Exception";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<exception>":-2;
+PO 461;
+CF 916: "exc";
+PS 912;
+PS 916;
+}
+FRMI 645 {
+O form-in;
+V "this";
+T "Ljava/io/PrintStream";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 0":-2;
+CF 646;
+DD 652;
+PS 911;
+PS 912;
+PS 913;
+PS 914;
+PS 915;
+PS 916;
+PS 917;
+}
+FRMI 646 {
+O form-in;
+V "param 1";
+T "I";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<param> 1":-2;
+DD 648;
+CF 648;
+}
+CALL 647 {
+O call;
+V "v5 = valueOf(p1)";
+T "Ljava/lang/String";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "java.io.PrintStream.print(I)V":2;
+U "java.lang.String.valueOf(I)Ljava/lang/String;";
+CD 651;
+CE 648;
+CE 649;
+CE 650;
+PS 648;
+PS 649;
+PS 650;
+CE 918;
+CE 919;
+CF 919;
+CE 950;
+HE 651;
+HE 648;
+HE 649;
+HE 650;
+HE 918;
+HE 919;
+HE 950;
+}
+ACTI 648 {
+O act-in;
+V "param 1 [p1]";
+T "I";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<param> 1":-2;
+CF 918;
+DD 950;
+}
+ACTO 649 {
+O act-out;
+V "ret 0";
+T "Ljava/lang/String";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<exit>":-2;
+CF 650: "exc";
+CF 652;
+DD 653;
+PS 918;
+PS 919;
+}
+ACTO 650 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<exception>":-2;
+CF 644: "exc";
+DD 644;
+}
+CALL 651 {
+O call;
+V "this.write(v5)";
+T "V";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "java.io.PrintStream.print(I)V":5;
+CE 652;
+CE 653;
+CE 654;
+PS 652;
+PS 653;
+PS 654;
+CL 478: "virtual";
+CE 920;
+CE 921;
+CE 922;
+CE 923;
+CE 924;
+CF 985;
+CE 985;
+HE 652;
+HE 653;
+HE 654;
+HE 920;
+HE 921;
+HE 922;
+HE 923;
+HE 924;
+}
+ACTI 652 {
+O act-in;
+V "this [this]";
+T "Ljava/io/PrintStream";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<param> 0":-2;
+CF 653;
+CD 651;
+PI 481;
+PS 920;
+PS 921;
+PS 922;
+PS 923;
+PS 924;
+SU 654;
+}
+ACTI 653 {
+O act-in;
+V "param 1 [v5]";
+T "Ljava/lang/String";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<param> 1":-2;
+PI 482;
+CF 920;
+SU 654;
+SU 924;
+}
+ACTO 654 {
+O act-out;
+V "ret _exception_";
+T "Ljava/lang/Exception";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<exception>":-2;
+CF 644: "exc";
+DD 644;
+CE 985;
+HE 985;
+}
+NORM 655 {
+O compound;
+V "return";
+T "V";
+P 26;
+S "java/io/PrintStream.java":377,0-377,0;
+B "java.io.PrintStream.print(I)V":8;
+CF 916;
+}
+FRMI 658 {
+O form-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "Ljava/lang/System.out":-3;
+CF 4;
+DD 660;
+DD 661;
+DD 662;
+DD 663;
+PS 665;
+PS 666;
+PS 667;
+PS 668;
+PS 669;
+PS 670;
+PS 671;
+}
+FRMI 659 {
+O form-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/lang/System.out":-3;
+DD 664;
+CF 720;
+PS 717;
+PS 718;
+PS 719;
+}
+ACTI 660 {
+O act-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Ljava/lang/System.out":-3;
+PI 191;
+CF 676;
+PS 676;
+PS 677;
+PS 678;
+PS 679;
+PS 680;
+PS 681;
+PS 682;
+SU 11;
+}
+ACTI 661 {
+O act-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "Ljava/lang/System.out":-3;
+PI 240;
+CF 683;
+PS 683;
+PS 684;
+PS 685;
+PS 686;
+PS 687;
+PS 688;
+PS 689;
+SU 18;
+}
+ACTI 662 {
+O act-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/lang/System.out":-3;
+PI 240;
+CF 690;
+PS 690;
+PS 691;
+PS 692;
+PS 693;
+PS 694;
+PS 695;
+PS 696;
+SU 29;
+}
+ACTI 663 {
+O act-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/lang/System.out":-3;
+PI 275;
+CF 697;
+PS 697;
+PS 698;
+PS 699;
+PS 700;
+PS 701;
+PS 702;
+PS 703;
+SU 33;
+}
+ACTI 664 {
+O act-in;
+V "out";
+T "Ljava/io/PrintStream";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/lang/System.out":-3;
+PI 658;
+CF 722;
+PS 722;
+PS 723;
+PS 724;
+PS 725;
+PS 726;
+PS 727;
+PS 728;
+SU 94;
+}
+FRMI 665 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 666;
+DH 676;
+DH 683;
+DH 690;
+DH 697;
+DH 710;
+}
+FRMI 666 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "<???>":-4;
+CF 667;
+DH 670;
+DH 677;
+DH 684;
+DH 691;
+DH 698;
+DH 711;
+PS 665;
+PS 667;
+PS 668;
+PS 669;
+PS 670;
+PS 671;
+}
+FRMI 667 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 668;
+DH 678;
+DH 685;
+DH 692;
+DH 699;
+DH 712;
+PS 666;
+PS 670;
+}
+FRMI 668 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 669;
+DH 679;
+DH 686;
+DH 693;
+DH 700;
+DH 713;
+}
+FRMI 669 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 658;
+CF 670;
+DH 680;
+DH 687;
+DH 694;
+DH 701;
+DH 714;
+PS 666;
+PS 670;
+}
+FRMO 670 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "<???>":-4;
+CF 671;
+PO 727;
+PS 665;
+PS 666;
+PS 667;
+PS 668;
+PS 669;
+PS 671;
+}
+FRMO 671 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 2;
+PO 728;
+}
+ACTI 672 {
+O act-in;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 6;
+PI 729;
+SU 675;
+}
+ACTO 673 {
+O act-out;
+V "[M] |0|UNIQ(c)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Lcin/ufpe/br/Teste3.c":-4;
+CF 674;
+}
+ACTO 674 {
+O act-out;
+V "[M] |0|UNIQ(b)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 675;
+}
+ACTO 675 {
+O act-out;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 8;
+DH 704;
+}
+ACTI 676 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 677;
+PI 733;
+SU 11;
+SU 682;
+SU 681;
+}
+ACTI 677 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "<???>":-4;
+CF 678;
+PI 734;
+PS 676;
+PS 678;
+PS 679;
+PS 680;
+PS 681;
+PS 682;
+}
+ACTI 678 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 679;
+PI 735;
+PS 677;
+PS 681;
+SU 11;
+SU 682;
+}
+ACTI 679 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 680;
+PI 736;
+SU 11;
+SU 682;
+SU 681;
+}
+ACTI 680 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 9;
+PI 737;
+PS 677;
+PS 681;
+SU 11;
+SU 682;
+}
+ACTO 681 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "<???>":-4;
+CF 682;
+DH 670;
+DH 684;
+DH 691;
+DH 698;
+DH 711;
+PS 676;
+PS 677;
+PS 678;
+PS 679;
+PS 680;
+PS 682;
+}
+ACTO 682 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 11;
+DH 671;
+}
+ACTI 683 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 684;
+PI 760;
+SU 689;
+}
+ACTI 684 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<???>":-4;
+CF 685;
+PI 761;
+PS 683;
+PS 685;
+PS 686;
+PS 687;
+PS 688;
+PS 689;
+}
+ACTI 685 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 686;
+PI 762;
+PS 684;
+PS 688;
+SU 689;
+}
+ACTI 686 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 687;
+PI 763;
+SU 689;
+}
+ACTI 687 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 13;
+PI 764;
+PS 684;
+PS 688;
+SU 689;
+}
+ACTO 688 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "<???>":-4;
+CF 689;
+DH 670;
+DH 691;
+DH 698;
+DH 711;
+PS 683;
+PS 684;
+PS 685;
+PS 686;
+PS 687;
+PS 689;
+}
+ACTO 689 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 18;
+DH 671;
+}
+ACTI 690 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 691;
+PI 760;
+SU 696;
+}
+ACTI 691 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<???>":-4;
+CF 692;
+PI 761;
+PS 690;
+PS 692;
+PS 693;
+PS 694;
+PS 695;
+PS 696;
+}
+ACTI 692 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 693;
+PI 762;
+PS 691;
+PS 695;
+SU 696;
+}
+ACTI 693 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 694;
+PI 763;
+SU 696;
+}
+ACTI 694 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 24;
+PI 764;
+PS 691;
+PS 695;
+SU 696;
+}
+ACTO 695 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<???>":-4;
+CF 696;
+DH 670;
+DH 698;
+DH 711;
+PS 690;
+PS 691;
+PS 692;
+PS 693;
+PS 694;
+PS 696;
+}
+ACTO 696 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 29;
+DH 671;
+}
+ACTI 697 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 698;
+PI 772;
+SU 702;
+SU 703;
+}
+ACTI 698 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<???>":-4;
+CF 699;
+PI 773;
+PS 697;
+PS 699;
+PS 700;
+PS 701;
+PS 702;
+PS 703;
+}
+ACTI 699 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 700;
+PI 774;
+PS 698;
+PS 702;
+SU 703;
+}
+ACTI 700 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 701;
+PI 775;
+SU 702;
+SU 703;
+}
+ACTI 701 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 30;
+PI 776;
+PS 698;
+PS 702;
+SU 703;
+}
+ACTO 702 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "<???>":-4;
+CF 703;
+DH 670;
+DH 711;
+PS 697;
+PS 698;
+PS 699;
+PS 700;
+PS 701;
+PS 703;
+}
+ACTO 703 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 33;
+DH 671;
+}
+ACTI 704 {
+O act-in;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 35;
+PI 729;
+SU 707;
+}
+ACTO 705 {
+O act-out;
+V "[M] |0|UNIQ(c)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "Lcin/ufpe/br/Teste3.c":-4;
+CF 706;
+}
+ACTO 706 {
+O act-out;
+V "[M] |0|UNIQ(b)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 707;
+}
+ACTO 707 {
+O act-out;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 37;
+}
+ACTO 708 {
+O act-out;
+V "[M] |0|UNIQ(b)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "Lcin/ufpe/br/Teste2.b":-4;
+CF 709;
+}
+ACTO 709 {
+O act-out;
+V "[M] |0|UNIQ(a)";
+T "I";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "Lcin/ufpe/br/Teste2.a":-4;
+CF 41;
+}
+ACTI 710 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 711;
+PI 788;
+SU 53;
+SU 715;
+SU 716;
+}
+ACTI 711 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "<???>":-4;
+CF 712;
+PI 789;
+PS 710;
+PS 712;
+PS 713;
+PS 714;
+PS 715;
+PS 716;
+SU 53;
+}
+ACTI 712 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 713;
+PI 790;
+PS 711;
+PS 715;
+SU 53;
+SU 716;
+}
+ACTI 713 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 714;
+PI 791;
+SU 53;
+SU 715;
+SU 716;
+}
+ACTI 714 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 51;
+PI 792;
+PS 711;
+PS 715;
+SU 53;
+SU 716;
+}
+ACTO 715 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "<???>":-4;
+CF 716;
+DH 670;
+PS 710;
+PS 711;
+PS 712;
+PS 713;
+PS 714;
+PS 716;
+}
+ACTO 716 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 53: "exc";
+CF 54;
+DH 671;
+}
+FRMI 717 {
+O form-in;
+V "[MR] |141|MERGE *";
+T "?unknown?";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<???>":-4;
+CF 80: "exc";
+CF 659;
+CF 718;
+DH 719;
+DH 720;
+DH 722;
+DH 723;
+DH 724;
+DH 725;
+DH 726;
+PS 718;
+PS 719;
+}
+FRMO 718 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 719;
+}
+FRMO 719 {
+O form-out;
+V "[MR] |141|MERGE *";
+T "?unknown?";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<???>":-4;
+CF 79;
+PS 717;
+PS 718;
+}
+ACTI 720 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<???>":-4;
+CF 81;
+PS 721;
+DD 929;
+}
+ACTO 721 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<???>":-4;
+CF 82: "exc";
+CF 83;
+DH 718;
+DH 719;
+DH 722;
+DH 723;
+DH 724;
+DH 725;
+DH 726;
+PS 720;
+}
+ACTI 722 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 723;
+PI 665;
+SU 94;
+SU 727;
+SU 728;
+}
+ACTI 723 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<???>":-4;
+CF 724;
+PI 666;
+PS 722;
+PS 724;
+PS 725;
+PS 726;
+PS 727;
+PS 728;
+SU 94;
+}
+ACTI 724 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 725;
+PI 667;
+PS 723;
+PS 727;
+SU 94;
+SU 728;
+}
+ACTI 725 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 726;
+PI 668;
+SU 94;
+SU 727;
+SU 728;
+}
+ACTI 726 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 92;
+PI 669;
+PS 723;
+PS 727;
+SU 94;
+SU 728;
+}
+ACTO 727 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "<???>":-4;
+CF 728;
+DH 719;
+PS 722;
+PS 723;
+PS 724;
+PS 725;
+PS 726;
+PS 728;
+}
+ACTO 728 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 94: "exc";
+CF 718;
+DH 718;
+}
+FRMI 729 {
+O form-in;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 98;
+CF 730;
+DH 732;
+}
+FRMO 730 {
+O form-out;
+V "[M] |0|UNIQ(c)";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.c":-4;
+CF 731;
+PO 673;
+PO 705;
+PO 741;
+}
+FRMO 731 {
+O form-out;
+V "[M] |0|UNIQ(b)";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 732;
+PO 674;
+PO 706;
+PO 742;
+}
+FRMO 732 {
+O form-out;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 96;
+PO 675;
+PO 707;
+PO 743;
+}
+FRMI 733 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 734;
+DH 748;
+DH 753;
+}
+FRMI 734 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<???>":-4;
+CF 735;
+DH 738;
+DH 754;
+PS 733;
+PS 735;
+PS 736;
+PS 737;
+PS 738;
+PS 739;
+}
+FRMI 735 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 736;
+DH 749;
+DH 755;
+PS 734;
+PS 738;
+}
+FRMI 736 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 737;
+DH 750;
+DH 756;
+}
+FRMI 737 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 125;
+CF 738;
+DH 751;
+DH 757;
+PS 734;
+PS 738;
+}
+FRMO 738 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "<???>":-4;
+CF 739;
+PO 681;
+PS 733;
+PS 734;
+PS 735;
+PS 736;
+PS 737;
+PS 739;
+}
+FRMO 739 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 123;
+PO 682;
+}
+ACTI 740 {
+O act-in;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 127;
+PI 729;
+SU 743;
+}
+ACTO 741 {
+O act-out;
+V "[M] |0|UNIQ(c)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "Lcin/ufpe/br/Teste3.c":-4;
+CF 742;
+}
+ACTO 742 {
+O act-out;
+V "[M] |0|UNIQ(b)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 743;
+DH 744;
+DH 746;
+}
+ACTO 743 {
+O act-out;
+V "[MR] |0|UNIQ(a)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 129;
+DH 745;
+DH 747;
+}
+ACTI 744 {
+O act-in;
+V "[R] |0|UNIQ(b)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 745;
+PI 795;
+SU 144;
+}
+ACTI 745 {
+O act-in;
+V "[R] |0|UNIQ(a)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 142;
+PI 796;
+SU 144;
+}
+ACTI 746 {
+O act-in;
+V "[R] |0|UNIQ(b)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 157;
+PI 797;
+SU 159;
+}
+ACTI 747 {
+O act-in;
+V "[R] |0|UNIQ(a)";
+T "I";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 161;
+PI 798;
+SU 163;
+}
+ACTI 748 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 749;
+PI 799;
+SU 173;
+SU 752;
+}
+ACTI 749 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 750;
+PI 800;
+SU 173;
+SU 752;
+}
+ACTI 750 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 751;
+PI 801;
+SU 173;
+SU 752;
+}
+ACTI 751 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 170;
+PI 802;
+SU 173;
+SU 752;
+}
+ACTO 752 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 173: "exc";
+CF 175;
+DH 739;
+}
+ACTI 753 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 754;
+PI 809;
+SU 758;
+SU 759;
+}
+ACTI 754 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "<???>":-4;
+CF 755;
+PI 810;
+PS 753;
+PS 755;
+PS 756;
+PS 757;
+PS 758;
+PS 759;
+}
+ACTI 755 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 756;
+PI 811;
+PS 754;
+PS 758;
+SU 759;
+}
+ACTI 756 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 757;
+PI 812;
+SU 758;
+SU 759;
+}
+ACTI 757 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 181;
+PI 813;
+PS 754;
+PS 758;
+SU 759;
+}
+ACTO 758 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "<???>":-4;
+CF 759;
+DH 738;
+PS 753;
+PS 754;
+PS 755;
+PS 756;
+PS 757;
+PS 759;
+}
+ACTO 759 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 184: "exc";
+CF 185;
+DH 739;
+}
+FRMI 760 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 761;
+DH 767;
+}
+FRMI 761 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<???>":-4;
+CF 762;
+DH 765;
+PS 760;
+PS 762;
+PS 763;
+PS 764;
+PS 765;
+PS 766;
+}
+FRMI 762 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 763;
+DH 768;
+PS 761;
+PS 765;
+}
+FRMI 763 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 764;
+DH 769;
+}
+FRMI 764 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 226;
+CF 765;
+DH 770;
+PS 761;
+PS 765;
+}
+FRMO 765 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<???>":-4;
+CF 766;
+PO 688;
+PO 695;
+PS 760;
+PS 761;
+PS 762;
+PS 763;
+PS 764;
+PS 766;
+}
+FRMO 766 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 224;
+PO 689;
+PO 696;
+}
+ACTI 767 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 768;
+PI 830;
+SU 771;
+}
+ACTI 768 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 769;
+PI 831;
+SU 771;
+}
+ACTI 769 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 770;
+PI 832;
+SU 771;
+}
+ACTI 770 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 235;
+PI 833;
+SU 771;
+}
+ACTO 771 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 238: "exc";
+CF 239;
+DH 766;
+}
+FRMI 772 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 773;
+DH 779;
+}
+FRMI 773 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<???>":-4;
+CF 774;
+DH 777;
+DH 780;
+PS 772;
+PS 774;
+PS 775;
+PS 776;
+PS 777;
+PS 778;
+}
+FRMI 774 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 775;
+DH 781;
+PS 773;
+PS 777;
+}
+FRMI 775 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 776;
+DH 782;
+}
+FRMI 776 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 260;
+CF 777;
+DH 783;
+PS 773;
+PS 777;
+}
+FRMO 777 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "<???>":-4;
+CF 778;
+PO 702;
+PS 772;
+PS 773;
+PS 774;
+PS 775;
+PS 776;
+PS 778;
+}
+FRMO 778 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 10;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 258;
+PO 703;
+}
+ACTI 779 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 780;
+PI 847;
+SU 784;
+SU 785;
+}
+ACTI 780 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "<???>":-4;
+CF 781;
+PI 848;
+PS 779;
+PS 781;
+PS 782;
+PS 783;
+PS 784;
+PS 785;
+}
+ACTI 781 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 782;
+PI 849;
+PS 780;
+PS 784;
+SU 785;
+}
+ACTI 782 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 783;
+PI 850;
+SU 784;
+SU 785;
+}
+ACTI 783 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 270;
+PI 851;
+PS 780;
+PS 784;
+SU 785;
+}
+ACTO 784 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "<???>":-4;
+CF 785;
+DH 777;
+PS 779;
+PS 780;
+PS 781;
+PS 782;
+PS 783;
+PS 785;
+}
+ACTO 785 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 273: "exc";
+CF 274;
+DH 778;
+}
+FRMO 786 {
+O form-out;
+V "[M] |0|UNIQ(b)";
+T "I";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste2.b":-4;
+CF 787;
+PO 708;
+}
+FRMO 787 {
+O form-out;
+V "[M] |0|UNIQ(a)";
+T "I";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste2.a":-4;
+CF 286;
+PO 709;
+}
+FRMI 788 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 789;
+DD 934;
+}
+FRMI 789 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "<???>":-4;
+CF 790;
+DH 793;
+PS 788;
+PS 790;
+PS 791;
+PS 792;
+PS 793;
+PS 794;
+DD 934;
+}
+FRMI 790 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 791;
+PS 789;
+PS 793;
+DD 934;
+}
+FRMI 791 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 792;
+DD 934;
+}
+FRMI 792 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 326;
+CF 793;
+PS 789;
+PS 793;
+DD 934;
+}
+FRMO 793 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "<???>":-4;
+CF 794;
+PO 715;
+PS 788;
+PS 789;
+PS 790;
+PS 791;
+PS 792;
+PS 794;
+}
+FRMO 794 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 324;
+PO 716;
+}
+FRMI 795 {
+O form-in;
+V "[R] |0|UNIQ(b)";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 796;
+DH 358;
+}
+FRMI 796 {
+O form-in;
+V "[R] |0|UNIQ(a)";
+T "I";
+P 16;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 342;
+CF 340;
+CF 341;
+DH 354;
+}
+FRMI 797 {
+O form-in;
+V "[R] |0|UNIQ(b)";
+T "I";
+P 17;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.b":-4;
+CF 368;
+CF 366;
+CF 367;
+DH 371;
+}
+FRMI 798 {
+O form-in;
+V "[R] |0|UNIQ(a)";
+T "I";
+P 18;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "Lcin/ufpe/br/Teste3.a":-4;
+CF 377;
+CF 375;
+CF 376;
+DH 380;
+}
+FRMI 799 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 800;
+DH 804;
+}
+FRMI 800 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 801;
+DH 805;
+}
+FRMI 801 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 802;
+DH 806;
+}
+FRMI 802 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 386;
+CF 803;
+DH 807;
+}
+FRMO 803 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 19;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 384;
+PO 752;
+PO 839;
+}
+ACTI 804 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 805;
+PI 868;
+SU 392;
+SU 808;
+}
+ACTI 805 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 806;
+PI 869;
+SU 392;
+SU 808;
+}
+ACTI 806 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 807;
+PI 870;
+SU 392;
+SU 808;
+}
+ACTI 807 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 389;
+PI 871;
+SU 392;
+SU 808;
+}
+ACTO 808 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 392: "exc";
+CF 393;
+DH 803;
+}
+FRMI 809 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 810;
+DH 823;
+DH 816;
+}
+FRMI 810 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 811;
+DH 824;
+DH 814;
+DH 817;
+PS 809;
+PS 811;
+PS 812;
+PS 813;
+PS 814;
+PS 815;
+}
+FRMI 811 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 812;
+DH 825;
+DH 818;
+PS 810;
+PS 814;
+}
+FRMI 812 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 813;
+DH 826;
+DH 819;
+}
+FRMI 813 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 403;
+CF 814;
+DH 827;
+DH 820;
+PS 810;
+PS 814;
+}
+FRMO 814 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 815;
+PO 758;
+PS 809;
+PS 810;
+PS 811;
+PS 812;
+PS 813;
+PS 815;
+}
+FRMO 815 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 401;
+PO 759;
+}
+ACTI 816 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 817;
+PI 883;
+SU 409;
+SU 822;
+}
+ACTI 817 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "<???>":-4;
+CF 818;
+PI 884;
+PS 816;
+PS 818;
+PS 819;
+PS 820;
+PS 821;
+PS 822;
+}
+ACTI 818 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 819;
+PI 885;
+PS 817;
+PS 821;
+SU 409;
+SU 822;
+}
+ACTI 819 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 820;
+PI 886;
+SU 409;
+SU 822;
+}
+ACTI 820 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 406;
+PI 887;
+PS 817;
+PS 821;
+SU 409;
+SU 822;
+}
+ACTO 821 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "<???>":-4;
+CF 822;
+DH 824;
+DH 814;
+PS 816;
+PS 817;
+PS 818;
+PS 819;
+PS 820;
+PS 822;
+}
+ACTO 822 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 409;
+DH 815;
+}
+ACTI 823 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 824;
+PI 895;
+SU 412;
+SU 828;
+SU 829;
+}
+ACTI 824 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "<???>":-4;
+CF 825;
+PI 896;
+PS 823;
+PS 825;
+PS 826;
+PS 827;
+PS 828;
+PS 829;
+SU 412;
+}
+ACTI 825 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 826;
+PI 897;
+PS 824;
+PS 828;
+SU 412;
+SU 829;
+}
+ACTI 826 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 827;
+PI 898;
+SU 412;
+SU 828;
+SU 829;
+}
+ACTI 827 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 410;
+PI 899;
+PS 824;
+PS 828;
+SU 412;
+SU 829;
+}
+ACTO 828 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "<???>":-4;
+CF 829;
+DH 814;
+PS 823;
+PS 824;
+PS 825;
+PS 826;
+PS 827;
+PS 829;
+}
+ACTO 829 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 412;
+DH 815;
+}
+FRMI 830 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 831;
+DH 835;
+DH 840;
+}
+FRMI 831 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 832;
+DH 842;
+DH 836;
+}
+FRMI 832 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 833;
+DH 843;
+DH 837;
+}
+FRMI 833 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 429;
+CF 834;
+DH 844;
+DH 838;
+}
+FRMO 834 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 21;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 427;
+PO 771;
+}
+ACTI 835 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 836;
+PI 799;
+SU 435;
+SU 839;
+}
+ACTI 836 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 837;
+PI 800;
+SU 435;
+SU 839;
+}
+ACTI 837 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 838;
+PI 801;
+SU 435;
+SU 839;
+}
+ACTI 838 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 432;
+PI 802;
+SU 435;
+SU 839;
+}
+ACTO 839 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 435;
+DH 834;
+}
+ACTI 840 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 841;
+PI 895;
+SU 438;
+SU 845;
+SU 846;
+}
+ACTI 841 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "<???>":-4;
+CF 842;
+PI 896;
+PS 840;
+PS 842;
+PS 843;
+PS 844;
+PS 845;
+PS 846;
+SU 438;
+}
+ACTI 842 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 843;
+PI 897;
+PS 841;
+PS 845;
+SU 438;
+SU 846;
+}
+ACTI 843 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 844;
+PI 898;
+SU 438;
+SU 845;
+SU 846;
+}
+ACTI 844 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 436;
+PI 899;
+PS 841;
+PS 845;
+SU 438;
+SU 846;
+}
+ACTO 845 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "<???>":-4;
+CF 846;
+PS 840;
+PS 841;
+PS 842;
+PS 843;
+PS 844;
+PS 846;
+}
+ACTO 846 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 438;
+DH 834;
+}
+FRMI 847 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 848;
+DH 861;
+DH 854;
+}
+FRMI 848 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 849;
+DH 862;
+DH 852;
+DH 855;
+PS 847;
+PS 849;
+PS 850;
+PS 851;
+PS 852;
+PS 853;
+}
+FRMI 849 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 850;
+DH 863;
+DH 856;
+PS 848;
+PS 852;
+}
+FRMI 850 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 851;
+DH 864;
+DH 857;
+}
+FRMI 851 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 455;
+CF 852;
+DH 865;
+DH 858;
+PS 848;
+PS 852;
+}
+FRMO 852 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 853;
+PO 784;
+PS 847;
+PS 848;
+PS 849;
+PS 850;
+PS 851;
+PS 853;
+}
+FRMO 853 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 22;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 453;
+PO 785;
+}
+ACTI 854 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 855;
+PI 911;
+SU 461;
+SU 860;
+}
+ACTI 855 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "<???>":-4;
+CF 856;
+PI 912;
+PS 854;
+PS 856;
+PS 857;
+PS 858;
+PS 859;
+PS 860;
+SU 461;
+}
+ACTI 856 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 857;
+PI 913;
+PS 855;
+PS 859;
+SU 461;
+SU 860;
+}
+ACTI 857 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 858;
+PI 914;
+SU 461;
+SU 860;
+}
+ACTI 858 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 458;
+PI 915;
+PS 855;
+PS 859;
+SU 461;
+SU 860;
+}
+ACTO 859 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "<???>":-4;
+CF 860;
+DH 862;
+DH 852;
+PS 854;
+PS 855;
+PS 856;
+PS 857;
+PS 858;
+PS 860;
+}
+ACTO 860 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 461;
+DH 853;
+}
+ACTI 861 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 862;
+PI 895;
+SU 464;
+SU 866;
+SU 867;
+}
+ACTI 862 {
+O act-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "<???>":-4;
+CF 863;
+PI 896;
+PS 861;
+PS 863;
+PS 864;
+PS 865;
+PS 866;
+PS 867;
+SU 464;
+}
+ACTI 863 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 864;
+PI 897;
+PS 862;
+PS 866;
+SU 464;
+SU 867;
+}
+ACTI 864 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 865;
+PI 898;
+SU 464;
+SU 866;
+SU 867;
+}
+ACTI 865 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 462;
+PI 899;
+PS 862;
+PS 866;
+SU 464;
+SU 867;
+}
+ACTO 866 {
+O act-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "<???>":-4;
+CF 867;
+DH 852;
+PS 861;
+PS 862;
+PS 863;
+PS 864;
+PS 865;
+PS 867;
+}
+ACTO 867 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 464;
+DH 853;
+}
+FRMI 868 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 869;
+DH 873;
+DH 518;
+DH 881;
+}
+FRMI 869 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 870;
+DH 489;
+DH 496;
+DH 881;
+}
+FRMI 870 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 871;
+DH 508;
+DH 881;
+}
+FRMI 871 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 481;
+CF 872;
+DH 502;
+DH 881;
+}
+FRMO 872 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 479;
+PO 808;
+PO 894;
+PO 924;
+}
+ACTI 873 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":302,0-302,0;
+B "<???>":-4;
+CF 484;
+PS 874;
+DD 935;
+}
+ACTO 874 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":302,0-302,0;
+B "<???>":-4;
+CF 486;
+DH 875;
+DH 518;
+DH 877;
+DH 879;
+DH 880;
+DH 881;
+PS 873;
+}
+ACTI 875 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "<???>":-4;
+CF 490;
+PS 876;
+DD 936;
+}
+ACTO 876 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":303,0-303,0;
+B "<???>":-4;
+CF 493;
+DH 877;
+DH 879;
+DH 880;
+DH 881;
+PS 875;
+}
+ACTI 877 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "<???>":-4;
+CF 497;
+PS 878;
+DD 937;
+}
+ACTO 878 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":304,0-304,0;
+B "<???>":-4;
+CF 499;
+DH 879;
+DH 880;
+DH 881;
+PS 877;
+}
+ACTI 879 {
+O act-in;
+V "[R] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":305,0-305,0;
+B "<???>":-4;
+CF 503;
+DD 938;
+}
+ACTI 880 {
+O act-in;
+V "[R] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":306,0-306,0;
+B "<???>":-4;
+CF 510;
+DD 939;
+}
+ACTI 881 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "<???>":-4;
+CF 529;
+PS 882;
+DD 942;
+}
+ACTO 882 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 23;
+S "java/io/PrintStream.java":311,0-311,0;
+B "<???>":-4;
+CF 531: "exc";
+CF 532;
+DH 872;
+PS 881;
+}
+FRMI 883 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 884;
+DH 890;
+}
+FRMI 884 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 885;
+DH 888;
+PS 883;
+PS 885;
+PS 886;
+PS 887;
+PS 888;
+PS 889;
+}
+FRMI 885 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 886;
+DH 891;
+PS 884;
+PS 888;
+}
+FRMI 886 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 887;
+DH 892;
+}
+FRMI 887 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 560;
+CF 888;
+DH 893;
+PS 884;
+PS 888;
+}
+FRMO 888 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 889;
+PO 821;
+PS 883;
+PS 884;
+PS 885;
+PS 886;
+PS 887;
+PS 889;
+}
+FRMO 889 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 24;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 558;
+PO 822;
+}
+ACTI 890 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 891;
+PI 868;
+SU 567;
+SU 894;
+}
+ACTI 891 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 892;
+PI 869;
+SU 567;
+SU 894;
+}
+ACTI 892 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 893;
+PI 870;
+SU 567;
+SU 894;
+}
+ACTI 893 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 564;
+PI 871;
+SU 567;
+SU 894;
+}
+ACTO 894 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 567: "exc";
+CF 568;
+DH 889;
+}
+FRMI 895 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 896;
+DH 909;
+DH 607;
+DH 902;
+}
+FRMI 896 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 897;
+DH 904;
+DH 906;
+DH 908;
+DH 909;
+DH 900;
+DH 902;
+PS 895;
+PS 897;
+PS 898;
+PS 899;
+PS 900;
+PS 901;
+}
+FRMI 897 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 898;
+DH 585;
+DH 591;
+DH 909;
+PS 896;
+PS 900;
+}
+FRMI 898 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 899;
+DH 909;
+DH 603;
+}
+FRMI 899 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 578;
+CF 900;
+DH 597;
+DH 909;
+PS 896;
+PS 900;
+}
+FRMO 900 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 901;
+PO 828;
+PO 845;
+PO 866;
+PS 895;
+PS 896;
+PS 897;
+PS 898;
+PS 899;
+PS 901;
+}
+FRMO 901 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 576;
+PO 829;
+PO 846;
+PO 867;
+}
+ACTI 902 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":321,0-321,0;
+B "<???>":-4;
+CF 580;
+PS 903;
+DD 943;
+}
+ACTO 903 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":321,0-321,0;
+B "<???>":-4;
+CF 582;
+DH 904;
+DH 906;
+DH 908;
+DH 909;
+DH 607;
+DH 900;
+PS 902;
+}
+ACTI 904 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "<???>":-4;
+CF 586;
+PS 905;
+DD 944;
+}
+ACTO 905 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":322,0-322,0;
+B "<???>":-4;
+CF 588;
+DH 906;
+DH 908;
+DH 909;
+DH 900;
+PS 904;
+}
+ACTI 906 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "<???>":-4;
+CF 592;
+PS 907;
+DD 945;
+}
+ACTO 907 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":323,0-323,0;
+B "<???>":-4;
+CF 594;
+DH 908;
+DH 909;
+DH 900;
+PS 906;
+}
+ACTI 908 {
+O act-in;
+V "[R] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":324,0-324,0;
+B "<???>":-4;
+CF 598;
+DD 946;
+}
+ACTI 909 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "<???>":-4;
+CF 618;
+PS 910;
+DD 949;
+}
+ACTO 910 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 25;
+S "java/io/PrintStream.java":330,0-330,0;
+B "<???>":-4;
+CF 620: "exc";
+CF 621;
+DH 900;
+DH 901;
+PS 909;
+}
+FRMI 911 {
+O form-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 912;
+DH 920;
+}
+FRMI 912 {
+O form-in;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 913;
+DH 916;
+DH 918;
+PS 911;
+PS 913;
+PS 914;
+PS 915;
+PS 916;
+PS 917;
+}
+FRMI 913 {
+O form-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 914;
+DH 921;
+PS 912;
+PS 916;
+}
+FRMI 914 {
+O form-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 915;
+DH 922;
+}
+FRMI 915 {
+O form-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 645;
+CF 916;
+DH 923;
+PS 912;
+PS 916;
+}
+FRMO 916 {
+O form-out;
+V "[MR] |140|MERGE *";
+T "?unknown?";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "<???>":-4;
+CF 917;
+PO 859;
+PS 911;
+PS 912;
+PS 913;
+PS 914;
+PS 915;
+PS 917;
+}
+FRMO 917 {
+O form-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 643;
+PO 860;
+}
+ACTI 918 {
+O act-in;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<???>":-4;
+CF 647;
+PS 919;
+DD 950;
+}
+ACTO 919 {
+O act-out;
+V "[MR] |136|MERGE *";
+T "?unknown?";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "<???>":-4;
+CF 649;
+DH 916;
+PS 918;
+}
+ACTI 920 {
+O act-in;
+V "[R] |0|UNIQ(out)";
+T "Ljava/io/OutputStream";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "Ljava/io/FilterOutputStream.out":-4;
+CF 921;
+PI 868;
+SU 654;
+SU 924;
+}
+ACTI 921 {
+O act-in;
+V "[R] |0|UNIQ(textOut)";
+T "Ljava/io/BufferedWriter";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "Ljava/io/PrintStream.textOut":-4;
+CF 922;
+PI 869;
+SU 654;
+SU 924;
+}
+ACTI 922 {
+O act-in;
+V "[R] |0|UNIQ(autoFlush)";
+T "Z";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "Ljava/io/PrintStream.autoFlush":-4;
+CF 923;
+PI 870;
+SU 654;
+SU 924;
+}
+ACTI 923 {
+O act-in;
+V "[R] |0|UNIQ(charOut)";
+T "Ljava/io/OutputStreamWriter";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "Ljava/io/PrintStream.charOut":-4;
+CF 651;
+PI 871;
+SU 654;
+SU 924;
+}
+ACTO 924 {
+O act-out;
+V "[M] |0|UNIQ(trouble)";
+T "Z";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "Ljava/io/PrintStream.trouble":-4;
+CF 654: "exc";
+CF 655;
+DH 917;
+}
+NORM 925 {
+O compound;
+V "immutable";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+DD 83;
+}
+NORM 926 {
+O compound;
+V "immutable";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.<init>()V":-1;
+DD 98;
+}
+NORM 927 {
+O compound;
+V "immutable";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":-1;
+DD 226;
+}
+NORM 928 {
+O compound;
+V "immutable";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "cin.ufpe.br.Teste2.<init>()V":-1;
+DD 288;
+}
+NORM 929 {
+O compound;
+V "many2many";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+DD 82;
+DD 721;
+}
+NORM 930 {
+O compound;
+V "many2many";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-1;
+DD 91;
+}
+NORM 931 {
+O compound;
+V "many2many";
+P 6;
+S "cin/ufpe/br/Teste3.java":0,0-0,0;
+B "cin.ufpe.br.Teste3.<init>()V":-1;
+DD 101;
+}
+NORM 932 {
+O compound;
+V "many2many";
+P 8;
+S "cin/ufpe/br/Teste4.java":0,0-0,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":-1;
+DD 232;
+}
+NORM 933 {
+O compound;
+V "many2many";
+P 11;
+S "cin/ufpe/br/Teste2.java":0,0-0,0;
+B "cin.ufpe.br.Teste2.<init>()V":-1;
+DD 291;
+}
+NORM 934 {
+O compound;
+V "many2many";
+P 13;
+S "java/lang/Throwable.java":0,0-0,0;
+B "java.lang.Throwable.printStackTrace()V":-1;
+DD 325;
+DD 793;
+DD 794;
+}
+NORM 935 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 486;
+DD 874;
+}
+NORM 936 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 493;
+DD 876;
+}
+NORM 937 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 499;
+DD 878;
+}
+NORM 938 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 505;
+}
+NORM 939 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 513;
+DD 514;
+}
+NORM 940 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 521;
+}
+NORM 941 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 527;
+DD 528;
+}
+NORM 942 {
+O compound;
+V "many2many";
+P 23;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.write(Ljava/lang/String;)V":-1;
+DD 531;
+DD 882;
+}
+NORM 943 {
+O compound;
+V "many2many";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+DD 582;
+DD 903;
+}
+NORM 944 {
+O compound;
+V "many2many";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+DD 588;
+DD 905;
+}
+NORM 945 {
+O compound;
+V "many2many";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+DD 594;
+DD 907;
+}
+NORM 946 {
+O compound;
+V "many2many";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+DD 600;
+}
+NORM 947 {
+O compound;
+V "many2many";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+DD 610;
+}
+NORM 948 {
+O compound;
+V "many2many";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+DD 616;
+DD 617;
+}
+NORM 949 {
+O compound;
+V "many2many";
+P 25;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.newLine()V":-1;
+DD 620;
+DD 910;
+}
+NORM 950 {
+O compound;
+V "many2many";
+P 26;
+S "java/io/PrintStream.java":0,0-0,0;
+B "java.io.PrintStream.print(I)V":-1;
+DD 649;
+DD 650;
+DD 919;
+}
+NORM 951 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 673;
+}
+NORM 952 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":7,0-7,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 681;
+CD 12;
+CD 13;
+CD 19;
+CD 23;
+CD 24;
+CD 30;
+CD 51;
+CD 55;
+HE 12;
+HE 13;
+HE 19;
+HE 23;
+HE 24;
+HE 30;
+}
+NORM 953 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 688;
+}
+NORM 954 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":8,0-8,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 21;
+}
+NORM 955 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 695;
+}
+NORM 956 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":9,0-9,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 702;
+CD 34;
+CD 35;
+CD 38;
+CD 39;
+CD 42;
+CD 50;
+CD 51;
+CD 54;
+CD 55;
+HE 34;
+HE 35;
+HE 38;
+HE 39;
+HE 42;
+HE 50;
+HE 51;
+HE 55;
+}
+NORM 957 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":10,0-10,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 705;
+}
+NORM 958 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 708;
+}
+NORM 959 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":11,0-11,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 48;
+}
+NORM 960 {
+O compound;
+V "CALL_RET";
+P 4;
+S "JoanaEntryPoint.java":14,0-14,0;
+B "JoanaEntryPoint.main([Ljava/lang/String;)V":-9;
+CF 715;
+CD 54;
+HE 54;
+}
+NORM 961 {
+O compound;
+V "CALL_RET";
+P 5;
+S "com/ibm/wala/FakeRootClass.java":0,0-0,0;
+B "com.ibm.wala.FakeRootClass.fakeRootMethod()V":-9;
+CF 727;
+}
+NORM 962 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":48,0-48,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 741;
+}
+NORM 963 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":49,0-49,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 132;
+}
+NORM 964 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":50,0-50,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 138;
+}
+NORM 965 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":51,0-51,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 144;
+}
+NORM 966 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 150;
+}
+NORM 967 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 154;
+}
+NORM 968 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 159;
+}
+NORM 969 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":53,0-53,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 163;
+}
+NORM 970 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":54,0-54,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 752;
+CD 174;
+CD 176;
+CD 181;
+CD 190;
+HE 174;
+HE 176;
+HE 181;
+}
+NORM 971 {
+O compound;
+V "CALL_RET";
+P 7;
+S "cin/ufpe/br/Teste3.java":55,0-55,0;
+B "cin.ufpe.br.Teste3.main([Ljava/lang/String;)V":-9;
+CF 758;
+CD 185;
+HE 185;
+}
+NORM 972 {
+O compound;
+V "CALL_RET";
+P 8;
+S "cin/ufpe/br/Teste4.java":6,0-6,0;
+B "cin.ufpe.br.Teste4.<init>(ICLcin/ufpe/br/Teste2;)V":-9;
+CF 771;
+CD 239;
+HE 239;
+}
+NORM 973 {
+O compound;
+V "CALL_RET";
+P 10;
+S "cin/ufpe/br/Teste4.java":19,0-19,0;
+B "cin.ufpe.br.Teste4.n(I)V":-9;
+CF 264;
+}
+NORM 974 {
+O compound;
+V "CALL_RET";
+P 10;
+S "cin/ufpe/br/Teste4.java":22,0-22,0;
+B "cin.ufpe.br.Teste4.n(I)V":-9;
+CF 784;
+CD 274;
+HE 274;
+}
+NORM 975 {
+O compound;
+V "CALL_RET";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":-9;
+CF 345;
+}
+NORM 976 {
+O compound;
+V "CALL_RET";
+P 16;
+S "cin/ufpe/br/Teste3.java":39,0-39,0;
+B "cin.ufpe.br.Teste3.mnplusAB()I":-9;
+CF 349;
+}
+NORM 977 {
+O compound;
+V "CALL_RET";
+P 19;
+S "java/io/PrintStream.java":448,0-448,0;
+B "java.io.PrintStream.print(Ljava/lang/String;)V":-9;
+CF 808;
+CD 393;
+HE 393;
+}
+NORM 978 {
+O compound;
+V "CALL_RET";
+P 20;
+S "java/io/PrintStream.java":487,0-487,0;
+B "java.io.PrintStream.println(Z)V":-9;
+CF 821;
+CD 410;
+CD 415;
+CD 416;
+CD 418;
+HE 410;
+}
+NORM 979 {
+O compound;
+V "CALL_RET";
+P 20;
+S "java/io/PrintStream.java":488,0-488,0;
+B "java.io.PrintStream.println(Z)V":-9;
+CF 828;
+CD 413;
+CD 414;
+CD 415;
+CD 416;
+CD 417;
+CD 418;
+HE 413;
+HE 414;
+HE 415;
+HE 416;
+HE 417;
+HE 418;
+}
+NORM 980 {
+O compound;
+V "CALL_RET";
+P 21;
+S "java/io/PrintStream.java":585,0-585,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":-9;
+CF 839;
+CD 436;
+CD 441;
+CD 442;
+CD 444;
+HE 436;
+}
+NORM 981 {
+O compound;
+V "CALL_RET";
+P 21;
+S "java/io/PrintStream.java":586,0-586,0;
+B "java.io.PrintStream.println(Ljava/lang/String;)V":-9;
+CF 845;
+CD 439;
+CD 440;
+CD 441;
+CD 442;
+CD 443;
+CD 444;
+HE 439;
+HE 440;
+HE 441;
+HE 442;
+HE 443;
+HE 444;
+}
+NORM 982 {
+O compound;
+V "CALL_RET";
+P 22;
+S "java/io/PrintStream.java":515,0-515,0;
+B "java.io.PrintStream.println(I)V":-9;
+CF 859;
+CD 462;
+CD 467;
+CD 468;
+CD 470;
+HE 462;
+}
+NORM 983 {
+O compound;
+V "CALL_RET";
+P 22;
+S "java/io/PrintStream.java":516,0-516,0;
+B "java.io.PrintStream.println(I)V":-9;
+CF 866;
+CD 465;
+CD 466;
+CD 467;
+CD 468;
+CD 469;
+CD 470;
+HE 465;
+HE 466;
+HE 467;
+HE 468;
+HE 469;
+HE 470;
+}
+NORM 984 {
+O compound;
+V "CALL_RET";
+P 24;
+S "java/io/PrintStream.java":350,0-350,0;
+B "java.io.PrintStream.print(Z)V":-9;
+CF 894;
+CD 568;
+HE 568;
+}
+NORM 985 {
+O compound;
+V "CALL_RET";
+P 26;
+S "java/io/PrintStream.java":376,0-376,0;
+B "java.io.PrintStream.print(I)V":-9;
+CF 924;
+CD 655;
+HE 655;
+}
+}
