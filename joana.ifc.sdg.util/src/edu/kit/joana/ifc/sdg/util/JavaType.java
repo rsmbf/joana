@@ -47,7 +47,7 @@ public class JavaType {
 	private final JavaPackage pack;
 	private final String baseType;
 	private final int arrDim;
-
+	
 	private final String bcStringWTS;
 	private final String bcStringWOTS;
 	private final int hashCode;
@@ -119,7 +119,7 @@ public class JavaType {
 			return bcStringWOTS;
 		}
 	}
-
+	
 	private String mkBCChars(final boolean trailingsemicolon) {
 		StringBuilder sbBC = new StringBuilder("");
 		for (int i = 0; i < arrDim; i++) {
@@ -234,17 +234,17 @@ public class JavaType {
 				baseType = s;
 			}
 			break;
-		case HR:
-			if (s.contains("[")) {
-				arrDim = (s.length() - s.indexOf('[')) / 2;
-				baseType = s.substring(0, s.indexOf('['));
-			} else {
-				arrDim = 0;
-				baseType = s;
-			}
-			break;
-		default:
-			throw new IllegalStateException();
+			case HR:
+				if (s.contains("[")) {
+					arrDim = (s.length() - s.indexOf('[')) / 2;
+					baseType = s.substring(0, s.indexOf('['));
+				} else {
+					arrDim = 0;
+					baseType = s;
+				}
+				break;
+			default:
+				throw new IllegalStateException();
 		}
 
 		return new JavaType(f, baseType, arrDim);
@@ -303,11 +303,15 @@ public class JavaType {
 			}
 			break;
 		case HR:
-			String[] singleTypes = s.split("\\s*,\\s*");			
-			for (String singleType : singleTypes) {
-				ret.add(parseSingleTypeFromString(singleType, f));
+			//MODIFIED - INCLUDED IF
+			if(s.length() > 0)
+			{
+				String[] singleTypes = s.split("\\s*,\\s*");			
+				for (String singleType : singleTypes) {
+					ret.add(parseSingleTypeFromString(singleType, f));
+				}
 			}
-
+			
 			break;
 		}
 
