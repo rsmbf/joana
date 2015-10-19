@@ -125,45 +125,51 @@ public class JoanaInvocation {
 		Collection<SDGClass> classes = program.getClasses();
 		Iterator<SDGClass> classesIt = classes.iterator();
 		boolean methodFound = false;
-		System.out.println("Searched method: "+methodEvaluated);
+		JavaMethodSignature methodSignature = modMethods.get(methodEvaluated).getMethodSignature();
+		JavaType declaringClassType = methodSignature.getDeclaringType();
+		//System.out.println("Searched method: "+methodEvaluated);
 		while(!methodFound && classesIt.hasNext())
 		{
 			SDGClass SdgClass = classesIt.next();
-			Collection<SDGMethod> methods = SdgClass.getMethods();
-			Iterator<SDGMethod> methIt = methods.iterator();
-			while(!methodFound && methIt.hasNext())
-			{
-				SDGMethod method = methIt.next();
-				IMethod meth = method.getMethod();
-				String meth_signature = method.getSignature().toHRString();
-				String mod_sign = meth_signature.split(" ",2)[1];
-				methodFound = methodEvaluated.equals(mod_sign);
-				System.out.println("Mod sign: "+mod_sign + " , "+methodFound);
-				if(methodFound)
+			//System.out.println(SdgClass.getTypeName().toHRString());
+			if(SdgClass.getTypeName().equals(declaringClassType)){
+				Collection<SDGMethod> methods = SdgClass.getMethods();
+				Iterator<SDGMethod> methIt = methods.iterator();
+				while(!methodFound && methIt.hasNext())
 				{
-					List<List<Integer>> contribs = modMethods.get(methodEvaluated).getContribLines();
-					List<Integer> left_cont = contribs.get(0);
-					System.out.println(left_cont);
-					List<Integer> right_cont = contribs.get(1);
-					System.out.println(right_cont);
-					Collection<SDGInstruction> instructions = method.getInstructions();
-					for(SDGInstruction instruction : instructions ){
-						int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
-						System.out.println(line_number);
-						if(left_cont.contains(line_number))							
-						{
-							System.out.println("Adding source...");
-							ana.addSourceAnnotation(instruction, BuiltinLattices.STD_SECLEVEL_HIGH);
-							parts_map.put(instruction, line_number);
-						}else if(right_cont.contains(line_number))
-						{
-							System.out.println("Adding sink...");
-							ana.addSinkAnnotation(instruction, BuiltinLattices.STD_SECLEVEL_LOW);
-							parts_map.put(instruction, line_number);
+					SDGMethod method = methIt.next();
+					IMethod meth = method.getMethod();
+					String meth_signature = method.getSignature().toHRString();
+					String mod_sign = meth_signature.split(" ",2)[1];
+					methodFound = methodEvaluated.equals(mod_sign);
+					//System.out.println("Mod sign: "+mod_sign + " , "+methodFound);
+					if(methodFound)
+					{
+						List<List<Integer>> contribs = modMethods.get(methodEvaluated).getContribLines();
+						List<Integer> left_cont = contribs.get(0);
+						//System.out.println(left_cont);
+						List<Integer> right_cont = contribs.get(1);
+						//System.out.println(right_cont);
+						Collection<SDGInstruction> instructions = method.getInstructions();
+						for(SDGInstruction instruction : instructions ){
+							int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
+							//System.out.println(line_number);
+							if(left_cont.contains(line_number))							
+							{
+								//System.out.println("Adding source...");
+								ana.addSourceAnnotation(instruction, BuiltinLattices.STD_SECLEVEL_HIGH);
+								parts_map.put(instruction, line_number);
+							}else if(right_cont.contains(line_number))
+							{
+								//System.out.println("Adding sink...");
+								ana.addSinkAnnotation(instruction, BuiltinLattices.STD_SECLEVEL_LOW);
+								parts_map.put(instruction, line_number);
+							}
 						}
 					}
 				}
 			}
+
 		}
 
 
@@ -202,7 +208,7 @@ public class JoanaInvocation {
 		for(String method : results.keySet())
 		{
 			methodResults = results.get(method);
-			
+
 			for(int i = 0; i < 2; i++)
 			{
 				resultsByPart = methodResults.get(i);
@@ -260,13 +266,13 @@ public class JoanaInvocation {
 
 				for(IFCAnnotation sink : sinks)
 				{
-					System.out.println("Adding source...");
+					//System.out.println("Adding source...");
 					ana.addSourceAnnotation(sink.getProgramPart(), BuiltinLattices.STD_SECLEVEL_HIGH);
 				}
 
 				for(IFCAnnotation source : sources)
 				{
-					System.out.println("Adding sink...");
+					//System.out.println("Adding sink...");
 					ana.addSinkAnnotation(source.getProgramPart(), BuiltinLattices.STD_SECLEVEL_LOW);
 				}
 				printSourcesAndSinks(ana.getSources(), ana.getSinks());
@@ -392,7 +398,7 @@ public class JoanaInvocation {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		int result = compiler.run(null, null, null, new String[] {"-sourcepath", projectPath +"/src", "-d", projectPath + "/bin", newClassPath});
 	}
-	
+
 	private String getTypeDefaultValue(String type)
 	{
 		String value = "null";
@@ -414,7 +420,7 @@ public class JoanaInvocation {
 		createEntryPoint();
 		/** the class path is either a directory or a jar containing all the classes of the program which you want to analyze */
 		String classPath = projectPath + "/bin";//"/data1/mmohr/git/CVJMultithreading/bin";
-		
+
 		///Users/Roberto/Documents/UFPE/Msc/Projeto/joana_rcaa/joana/example/joana.example.tiny-special-tests/bin
 		//COMPILAR PROJETO (PELO MENOS A CLASSE ADICIONADA)
 		//javac -sourcepath src src/JoanaEntryPoint.java -d bin		
@@ -502,7 +508,7 @@ public class JoanaInvocation {
 		right.add(53);
 		right.add(55);		
 		methods.put("cin.ufpe.br.Teste3.main(java.lang.String[])",new ModifiedMethod("cin.ufpe.br.Teste3.main(java.lang.String[])", new ArrayList<String>(), contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -512,7 +518,7 @@ public class JoanaInvocation {
 		left.add(12);
 		right.add(14);		
 		methods.put("cin.ufpe.br.Teste3.<init>()", new ModifiedMethod("cin.ufpe.br.Teste3.<init>()", new ArrayList<String>(),contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -522,7 +528,7 @@ public class JoanaInvocation {
 		left.add(54);
 		right.add(53);		
 		methods.put("cin.ufpe.br.Teste2.g(int, boolean, java.lang.String, int[])", new ModifiedMethod("cin.ufpe.br.Teste2.g(int, boolean, java.lang.String, int[])", new ArrayList<String>(), contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -535,7 +541,7 @@ public class JoanaInvocation {
 		argsList.add("char");
 		argsList.add("Teste2");
 		methods.put("cin.ufpe.br.Teste4.m()", new ModifiedMethod("cin.ufpe.br.Teste4.m()", argsList,contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -544,11 +550,11 @@ public class JoanaInvocation {
 		left.add(19);
 		right.add(22);
 		methods.put("cin.ufpe.br.Teste4.n(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n(int)", argsList,contribs));
-		
+
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
-		
+
 		joana.run();
 	}
-		
+
 }
