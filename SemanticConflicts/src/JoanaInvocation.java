@@ -253,7 +253,7 @@ public class JoanaInvocation {
 				addSourcesAndSinks(method);
 
 				printSourcesAndSinks(ana.getSources(), ana.getSinks());
-				System.out.println(method + " First analysis");
+				System.out.println("FIRST ANALYSIS"+method);
 				/** run the analysis */
 				Collection<? extends IViolation<SecurityNode>> result = ana.doIFC();		
 				List<TObjectIntMap<IViolation<SDGProgramPart>>> methodResults = new ArrayList<TObjectIntMap<IViolation<SDGProgramPart>>>();
@@ -276,7 +276,7 @@ public class JoanaInvocation {
 					ana.addSinkAnnotation(source.getProgramPart(), BuiltinLattices.STD_SECLEVEL_LOW);
 				}
 				printSourcesAndSinks(ana.getSources(), ana.getSinks());
-				System.out.println(method + " Second analysis");
+				System.out.println("SECOND ANALYSIS: "+method);
 				result = ana.doIFC();
 				TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart2 = ana.groupByPPPart(result);	
 				if(!resultByProgramPart.isEmpty() || !resultByProgramPart2.isEmpty()){
@@ -309,7 +309,7 @@ public class JoanaInvocation {
 		for(String method : modMethods.keySet())
 		{
 			JavaMethodSignature signature = JavaMethodSignature.fromString("void "+method);
-			System.out.println(signature.getDeclaringType());
+			//System.out.println(signature.getDeclaringType());
 			imports.add(signature.getDeclaringType().toHRString());	
 		}
 		return imports;
@@ -318,15 +318,6 @@ public class JoanaInvocation {
 	private void createEntryPoint() throws IOException, ClassNotFoundException
 	{		
 		String newClassPath = projectPath + "/src/JoanaEntryPoint.java";
-		JavaMethodSignature aux = JavaMethodSignature.fromString("void JoanaEntryPoint.h()");
-		System.out.println(aux == null);
-		System.out.println("Return type: " +aux.getReturnType().toHRString());
-		//System.out.println(aux.getArgumentTypes().get(0).toHRString());
-		//System.out.println(Class.forName("cin.ufpe.br.Teste2"));
-		System.out.println(aux.getDeclaringType());
-
-		System.out.println(aux.getFullyQualifiedMethodName());
-		System.out.println(aux.getMethodName());
 
 		File file = new File(newClassPath);
 		if(file.exists())
@@ -416,7 +407,6 @@ public class JoanaInvocation {
 	}
 
 	private SDGConfig setConfig() throws IOException, ClassNotFoundException {
-		compileAll();
 		createEntryPoint();
 		/** the class path is either a directory or a jar containing all the classes of the program which you want to analyze */
 		String classPath = projectPath + "/bin";//"/data1/mmohr/git/CVJMultithreading/bin";
@@ -442,59 +432,6 @@ public class JoanaInvocation {
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
 		config.setExceptionAnalysis(ExceptionAnalysis.INTERPROC);
 		return config;
-	}
-
-	private void compileAll() {
-		//COMPILAR PROJETO		
-		String[] paths = buildClassPath(projectPath+"/src/*");
-		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		List<String> configs_list = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", projectPath +"/src", "-d", projectPath + "/bin"}));
-		List<String> paths_list = Arrays.asList(paths);
-		configs_list.addAll(paths_list);
-		Object[] obj_params = configs_list.toArray();
-		String[] params = new String[obj_params.length];
-		for(int i = 0; i < params.length; i++)
-		{
-			params[i] = obj_params[i].toString();
-			System.out.println(params[i]);
-		}
-
-		int result = compiler.run(null, null, null, params);
-	}
-
-	private static String[] buildClassPath(String... paths) {
-		StringBuilder sb = new StringBuilder();
-		for (String path : paths) {
-			if (path.endsWith("*")) {
-				path = path.substring(0, path.length() - 1);
-				File pathFile = new File(path);
-				for (File file : pathFile.listFiles()) {
-					if (file.isFile() && file.getName().endsWith(".java")) {
-						sb.append(path);
-						sb.append(file.getName());
-						sb.append(System.getProperty("path.separator"));
-					}else if(file.isDirectory())
-					{
-						String[] dir_paths = buildClassPath(file.getAbsolutePath() + "/*");
-						for(String file_path : dir_paths)
-						{
-							File pathFilDir = new File(file_path);
-							if(pathFilDir.isFile() && pathFilDir.getName().endsWith(".java"))
-							{
-								sb.append(file_path);
-								//System.out.println(file_path);
-								sb.append(System.getProperty("path.separator"));
-							}
-
-						}
-					}
-				}
-			} else {
-				sb.append(path);
-				sb.append(System.getProperty("path.separator"));
-			}
-		}
-		return sb.toString().split(System.getProperty("path.separator"));
 	}
 
 	public static void main(String[] args) throws ClassHierarchyException, IOException, UnsoundGraphException, CancelException, ClassNotFoundException {				
