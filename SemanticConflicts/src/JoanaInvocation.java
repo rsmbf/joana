@@ -75,14 +75,15 @@ public class JoanaInvocation {
 			String[] msg = violation.toString().split(" to ");
 			String str_from = msg[0].toString().split(" from ")[1];
 			str_from = str_from.substring(1).split("\\) ")[0]; 
-			//System.out.println(str_from);
-			SDGProgramPart from = program.getPart(str_from);			
+			int lastColonIndex = str_from.lastIndexOf(':');
+			SDGProgramPart from = program.getPart(JavaMethodSignature.fromString(str_from.substring(0, lastColonIndex)).toBCString() + str_from.substring(lastColonIndex));	
 			int from_line = parts_map.get(from);
 
 			String str_to =  msg[1].toString().substring(1);
 			str_to = str_to.split("\\) ")[0]; 
 
-			SDGProgramPart to = program.getPart(str_to);
+			lastColonIndex = str_to.lastIndexOf(':');
+			SDGProgramPart to = program.getPart(JavaMethodSignature.fromString(str_to.substring(0, lastColonIndex)).toBCString() + str_to.substring(lastColonIndex));
 			int to_line = parts_map.get(to);
 			String error_msg = base_msg + from.getOwningMethod().getSignature() + "' (line " + from_line + ") to '" +to.getOwningMethod().getSignature() +"' (line "+to_line+")";
 			int value = resultByProgramPart.get(violation);
@@ -153,7 +154,7 @@ public class JoanaInvocation {
 						Collection<SDGInstruction> instructions = method.getInstructions();
 						for(SDGInstruction instruction : instructions ){
 							int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
-							//System.out.println(line_number);
+							//System.out.println("LINE "+line_number+": "+instruction.getLabel());
 							if(left_cont.contains(line_number))							
 							{
 								//System.out.println("Adding source...");
@@ -253,7 +254,7 @@ public class JoanaInvocation {
 				addSourcesAndSinks(method);
 
 				printSourcesAndSinks(ana.getSources(), ana.getSinks());
-				System.out.println("FIRST ANALYSIS"+method);
+				System.out.println("FIRST ANALYSIS: "+method);
 				/** run the analysis */
 				Collection<? extends IViolation<SecurityNode>> result = ana.doIFC();		
 				List<TObjectIntMap<IViolation<SDGProgramPart>>> methodResults = new ArrayList<TObjectIntMap<IViolation<SDGProgramPart>>>();
@@ -484,10 +485,82 @@ public class JoanaInvocation {
 		left = new ArrayList<Integer>();
 		contribs.add(left);
 		contribs.add(right);
+		left.add(27);
+		right.add(28);
+		methods.put("cin.ufpe.br.Teste4.m2()", new ModifiedMethod("cin.ufpe.br.Teste4.m2()", argsList, contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(33);
+		right.add(36);
+		methods.put("cin.ufpe.br.Teste4.m3()", new ModifiedMethod("cin.ufpe.br.Teste4.m3()", argsList, contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
 		left.add(19);
 		right.add(22);
 		methods.put("cin.ufpe.br.Teste4.n(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n(int)", argsList,contribs));
 
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(52);
+		right.add(54);
+		methods.put("cin.ufpe.br.Teste4.n2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n2(int)", argsList,contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(59);
+		right.add(60);
+		methods.put("cin.ufpe.br.Teste4.n3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n3(int)", argsList,contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(65);
+		right.add(68);
+		methods.put("cin.ufpe.br.Teste4.nm(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm(int)", argsList,contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(73);
+		right.add(76);
+		methods.put("cin.ufpe.br.Teste4.nm2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm2(int)", argsList,contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(89);
+		right.add(92);
+		methods.put("cin.ufpe.br.Teste4.k()", new ModifiedMethod("cin.ufpe.br.Teste4.k()", argsList,contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(81);
+		right.add(84);
+		methods.put("cin.ufpe.br.Teste4.nm3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm3(int)", argsList,contribs));
+		
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
 

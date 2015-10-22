@@ -791,8 +791,7 @@ public class SDGProgram {
 		}
 
 		private Collection<? extends SDGProgramPart> getProgramParts(String str) {
-			//MODIFIED - REMOVED LINE BELOW
-			//str = str.replaceAll("\\s+", "");
+			str = str.replaceAll("\\s+", "");
 			if (str.contains(":")) {
 				return getInstructions(str);
 			} else if (str.endsWith("->exit")) {
