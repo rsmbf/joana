@@ -47,14 +47,21 @@ public class JoanaInvocation {
 	private Map<SDGProgramPart, Integer> parts_map;
 	private SDGProgram program;
 	private IFCAnalysis ana;
-	private String projectPath;
 	private Map<String, ModifiedMethod> modMethods;
+	private String classPath;
+	private String srcPath;
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
+	{	
+		this(projectPath, "/bin", "/src", modMethods);
+	}
+	
+	public JoanaInvocation(String projectPath, String binPath, String srcPath, Map<String, ModifiedMethod> modMethods)
 	{
-		this.projectPath = projectPath;
+		this.classPath = projectPath + binPath;
+		this.srcPath = projectPath + srcPath;
 		this.modMethods = modMethods;
-		parts_map = new HashMap<SDGProgramPart, Integer>();		
+		parts_map = new HashMap<SDGProgramPart, Integer>();	
 	}
 
 	private static void printViolations(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart)
@@ -75,8 +82,11 @@ public class JoanaInvocation {
 			String[] msg = violation.toString().split(" to ");
 			String str_from = msg[0].toString().split(" from ")[1];
 			str_from = str_from.substring(1).split("\\) ")[0]; 
+			//System.out.println(str_from);
 			int lastColonIndex = str_from.lastIndexOf(':');
-			SDGProgramPart from = program.getPart(JavaMethodSignature.fromString(str_from.substring(0, lastColonIndex)).toBCString() + str_from.substring(lastColonIndex));	
+			//System.out.println((JavaMethodSignature.fromString(str_from.substring(0, lastColonIndex)).toBCString() + str_from.substring(lastColonIndex)));
+			SDGProgramPart from = program.getPart((JavaMethodSignature.fromString(str_from.substring(0, lastColonIndex)).toBCString() + str_from.substring(lastColonIndex)));	
+			//System.out.println(from);
 			int from_line = parts_map.get(from);
 
 			String str_to =  msg[1].toString().substring(1);
@@ -154,7 +164,7 @@ public class JoanaInvocation {
 						Collection<SDGInstruction> instructions = method.getInstructions();
 						for(SDGInstruction instruction : instructions ){
 							int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
-							//System.out.println("LINE "+line_number+": "+instruction.getLabel());
+							System.out.println("LINE "+line_number+": "+instruction);
 							if(left_cont.contains(line_number))							
 							{
 								//System.out.println("Adding source...");
@@ -318,8 +328,39 @@ public class JoanaInvocation {
 
 	private void createEntryPoint() throws IOException, ClassNotFoundException
 	{		
-		String newClassPath = projectPath + "/src/JoanaEntryPoint.java";
+		String newClassPath = srcPath + "/JoanaEntryPoint.java";
 
+		BufferedWriter bw = createFile(newClassPath);
+
+		Set<String> imports = getImports();
+
+
+		for(String import_str : imports)
+		{
+			writeNewLine(bw, "import "+import_str+";");
+		}
+		
+		writeNewLine(bw, "public class JoanaEntryPoint {");
+		writeNewLine(bw, "	public static void main(String[] args) {");
+		writeNewLine(bw, "		try {");
+		for(String method : modMethods.keySet())
+		{
+			callMethod(bw, method);
+		}
+		
+		writeNewLine(bw, "		}");
+		writeNewLine(bw, "		catch(Exception e) {");
+		writeNewLine(bw, "			e.printStackTrace();");
+		writeNewLine(bw, "		}");	
+		writeNewLine(bw, "	}");
+		writeNewLine(bw, "}");
+		bw.close();	
+
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		int result = compiler.run(null, null, null, new String[] {"-sourcepath", srcPath, "-d", classPath, newClassPath});
+	}
+
+	private BufferedWriter createFile(String newClassPath) throws IOException {
 		File file = new File(newClassPath);
 		if(file.exists())
 		{
@@ -330,65 +371,44 @@ public class JoanaInvocation {
 		}
 		FileWriter fw = new FileWriter(newClassPath);
 		BufferedWriter bw = new BufferedWriter(fw);
+		return bw;
+	}
 
-
-		Set<String> imports = getImports();
-
-
-		for(String import_str : imports)
+	private void callMethod(BufferedWriter bw, String method)
+			throws IOException {
+		ModifiedMethod modMethod = modMethods.get(method);
+		JavaMethodSignature methodSign = modMethod.getMethodSignature();
+		write(bw, "			new "+methodSign.getDeclaringType().toHRStringShort() + "(");
+		List<String> constArgs = modMethod.getDefaultConstructorArgs();
+		if(constArgs.size() > 0)
 		{
-			writeNewLine(bw, "import "+import_str+";");
-		}
-		writeNewLine(bw, "public class JoanaEntryPoint {");
-		writeNewLine(bw, "	public static void main(String[] args) {");
-		writeNewLine(bw, "		try {");
-		for(String method : modMethods.keySet())
-		{
-			ModifiedMethod modMethod = modMethods.get(method);
-			JavaMethodSignature methodSign = modMethod.getMethodSignature();
-			write(bw, "			new "+methodSign.getDeclaringType().toHRStringShort() + "(");
-			List<String> constArgs = modMethod.getDefaultConstructorArgs();
-			if(constArgs.size() > 0)
+			String argsStr = "";
+			for(String constructorArg : constArgs )
 			{
-				String argsStr = "";
-				for(String constructorArg : constArgs )
+				argsStr += getTypeDefaultValue(constructorArg) + " , ";
+			}
+			argsStr = argsStr.substring(0,argsStr.length() - 3);
+			write(bw, argsStr);
+		}
+		write(bw, ")");
+		if(!methodSign.getMethodName().equals("<init>"))
+		{
+			write(bw, "."+methodSign.getMethodName() +"(");
+			String argsStr = "";				
+			if(methodSign.getArgumentTypes().size() > 1 || 
+					(methodSign.getArgumentTypes().size() == 1 && !methodSign.getArgumentTypes().get(0).toHRString().equals("")))
+			{
+				for(JavaType argType : methodSign.getArgumentTypes())
 				{
-					argsStr += getTypeDefaultValue(constructorArg) + " , ";
+					argsStr += getTypeDefaultValue(argType.toHRStringShort().split(" ")[0]) +" , ";
 				}
 				argsStr = argsStr.substring(0,argsStr.length() - 3);
 				write(bw, argsStr);
 			}
-			write(bw, ")");
-			if(!methodSign.getMethodName().equals("<init>"))
-			{
-				write(bw, "."+methodSign.getMethodName() +"(");
-				String argsStr = "";
-				if(methodSign.getArgumentTypes().size() > 0){
-					for(JavaType argType : methodSign.getArgumentTypes())
-					{
-						argsStr += getTypeDefaultValue(argType.toHRStringShort().split(" ")[0]) +" , ";
-					}
-					argsStr = argsStr.substring(0,argsStr.length() - 3);
-					write(bw, argsStr);
-				}
-				writeNewLine(bw,");");
-			}else{
-				writeNewLine(bw, ";");
-			}
-
-
-
+			writeNewLine(bw,");");
+		}else{
+			writeNewLine(bw, ";");
 		}
-		writeNewLine(bw, "		}");
-		writeNewLine(bw, "		catch(Exception e) {");
-		writeNewLine(bw, "			e.printStackTrace();");
-		writeNewLine(bw, "		}");	
-		writeNewLine(bw, "	}");
-		writeNewLine(bw, "}");
-		bw.close();	
-
-		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		int result = compiler.run(null, null, null, new String[] {"-sourcepath", projectPath +"/src", "-d", projectPath + "/bin", newClassPath});
 	}
 
 	private String getTypeDefaultValue(String type)
@@ -410,7 +430,7 @@ public class JoanaInvocation {
 	private SDGConfig setConfig() throws IOException, ClassNotFoundException {
 		createEntryPoint();
 		/** the class path is either a directory or a jar containing all the classes of the program which you want to analyze */
-		String classPath = projectPath + "/bin";//"/data1/mmohr/git/CVJMultithreading/bin";
+		//String classPath = projectPath + "/bin";//"/data1/mmohr/git/CVJMultithreading/bin";
 
 		///Users/Roberto/Documents/UFPE/Msc/Projeto/joana_rcaa/joana/example/joana.example.tiny-special-tests/bin
 		//COMPILAR PROJETO (PELO MENOS A CLASSE ADICIONADA)
@@ -428,7 +448,7 @@ public class JoanaInvocation {
 		config.setMhpType(MHPType.PRECISE);
 
 		/** precision of the used points-to analysis - INSTANCE_BASED is a good value for simple examples */
-		config.setPointsToPrecision(PointsToPrecision.INSTANCE_BASED);
+		config.setPointsToPrecision(PointsToPrecision.TYPE_BASED);
 
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
 		config.setExceptionAnalysis(ExceptionAnalysis.INTERPROC);
@@ -440,6 +460,8 @@ public class JoanaInvocation {
 		List<List<Integer>> contribs = new ArrayList<List<Integer>>();
 		List<Integer> right = new ArrayList<Integer>();
 		List<Integer> left = new ArrayList<Integer>();		
+		
+		/*
 		contribs.add(left);
 		contribs.add(right);
 		left.add(51);
@@ -488,7 +510,7 @@ public class JoanaInvocation {
 		left.add(27);
 		right.add(28);
 		methods.put("cin.ufpe.br.Teste4.m2()", new ModifiedMethod("cin.ufpe.br.Teste4.m2()", argsList, contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -497,7 +519,7 @@ public class JoanaInvocation {
 		left.add(33);
 		right.add(36);
 		methods.put("cin.ufpe.br.Teste4.m3()", new ModifiedMethod("cin.ufpe.br.Teste4.m3()", argsList, contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -515,7 +537,7 @@ public class JoanaInvocation {
 		left.add(52);
 		right.add(54);
 		methods.put("cin.ufpe.br.Teste4.n2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n2(int)", argsList,contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -524,7 +546,7 @@ public class JoanaInvocation {
 		left.add(59);
 		right.add(60);
 		methods.put("cin.ufpe.br.Teste4.n3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n3(int)", argsList,contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -533,7 +555,7 @@ public class JoanaInvocation {
 		left.add(65);
 		right.add(68);
 		methods.put("cin.ufpe.br.Teste4.nm(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm(int)", argsList,contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -542,7 +564,7 @@ public class JoanaInvocation {
 		left.add(73);
 		right.add(76);
 		methods.put("cin.ufpe.br.Teste4.nm2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm2(int)", argsList,contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -551,7 +573,7 @@ public class JoanaInvocation {
 		left.add(89);
 		right.add(92);
 		methods.put("cin.ufpe.br.Teste4.k()", new ModifiedMethod("cin.ufpe.br.Teste4.k()", argsList,contribs));
-		
+
 		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -560,10 +582,39 @@ public class JoanaInvocation {
 		left.add(81);
 		right.add(84);
 		methods.put("cin.ufpe.br.Teste4.nm3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm3(int)", argsList,contribs));
+		 */
+		
+		/*
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(6);
+		right.add(9);
+		methods.put("cin.ufpe.br2.Teste5.m()", new ModifiedMethod("cin.ufpe.br2.Teste5.m()", new ArrayList<String>(),contribs));
+		
+		contribs = new ArrayList<List<Integer>>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		contribs.add(left);
+		contribs.add(right);
+		left.add(60);
+		right.add(62);
+		right.add(64);
+		methods.put("Test2.main(java.lang.String[])", new ModifiedMethod("Test2.main(java.lang.String[])", new ArrayList<String>(),contribs));
 		
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
-
+		*/
+		
+		contribs.add(left);
+		contribs.add(right);
+		left.add(186);
+		right.add(193);
+		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulerHook()", new ArrayList<String>(), contribs ));
+		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", "/build/classes/main", "/src/main/java", methods);
+		
 		joana.run();
 	}
 
