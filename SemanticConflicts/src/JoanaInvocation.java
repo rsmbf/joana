@@ -612,7 +612,7 @@ public class JoanaInvocation {
 		contribs.add(right);
 		left.add(186);
 		right.add(193);
-		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulerHook()", new ArrayList<String>(), contribs ));
+		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ArrayList<String>(), contribs ));
 		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", "/build/classes/main", "/src/main/java", methods);
 		
 		joana.run();
