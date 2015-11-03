@@ -1,3 +1,4 @@
+package main;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -156,10 +157,10 @@ public class JoanaInvocation {
 					//System.out.println("Mod sign: "+mod_sign + " , "+methodFound);
 					if(methodFound)
 					{
-						List<List<Integer>> contribs = modMethods.get(methodEvaluated).getContribLines();
-						List<Integer> left_cont = contribs.get(0);
+						ModifiedMethod modMethod = modMethods.get(methodEvaluated);
+						List<Integer> left_cont = modMethod.getLeftContribs();
 						//System.out.println(left_cont);
-						List<Integer> right_cont = contribs.get(1);
+						List<Integer> right_cont = modMethod.getRightContribs();
 						//System.out.println(right_cont);
 						Collection<SDGInstruction> instructions = method.getInstructions();
 						for(SDGInstruction instruction : instructions ){
@@ -258,8 +259,8 @@ public class JoanaInvocation {
 		Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = new HashMap<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>>();
 		for(String method : modMethods.keySet())
 		{
-			List<List<Integer>> contribs = modMethods.get(method).getContribLines();
-			if(contribs.size() == 2 && contribs.get(0).size() > 0 && contribs.get(1).size() > 0)
+			ModifiedMethod modMethod = modMethods.get(method);
+			if(modMethod.getLeftContribs().size() > 0 && modMethod.getRightContribs().size() > 0)
 			{
 				addSourcesAndSinks(method);
 
@@ -457,132 +458,92 @@ public class JoanaInvocation {
 
 	public static void main(String[] args) throws ClassHierarchyException, IOException, UnsoundGraphException, CancelException, ClassNotFoundException {				
 		Map<String, ModifiedMethod> methods = new HashMap<String, ModifiedMethod>();
-		List<List<Integer>> contribs = new ArrayList<List<Integer>>();
 		List<Integer> right = new ArrayList<Integer>();
 		List<Integer> left = new ArrayList<Integer>();		
 		
-		/*
-		contribs.add(left);
-		contribs.add(right);
 		left.add(51);
 		right.add(53);
 		right.add(55);		
-		methods.put("cin.ufpe.br.Teste3.main(java.lang.String[])",new ModifiedMethod("cin.ufpe.br.Teste3.main(java.lang.String[])", new ArrayList<String>(), contribs));
+		methods.put("cin.ufpe.br.Teste3.main(java.lang.String[])",new ModifiedMethod("cin.ufpe.br.Teste3.main(java.lang.String[])", new ArrayList<String>(), left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(10);
 		left.add(12);
 		right.add(14);		
-		methods.put("cin.ufpe.br.Teste3.<init>()", new ModifiedMethod("cin.ufpe.br.Teste3.<init>()", new ArrayList<String>(),contribs));
+		methods.put("cin.ufpe.br.Teste3.<init>()", new ModifiedMethod("cin.ufpe.br.Teste3.<init>()", new ArrayList<String>(), left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(52);
 		left.add(54);
 		right.add(53);		
-		methods.put("cin.ufpe.br.Teste2.g(int, boolean, java.lang.String, int[])", new ModifiedMethod("cin.ufpe.br.Teste2.g(int, boolean, java.lang.String, int[])", new ArrayList<String>(), contribs));
+		methods.put("cin.ufpe.br.Teste2.g(int, boolean, java.lang.String, int[])", new ModifiedMethod("cin.ufpe.br.Teste2.g(int, boolean, java.lang.String, int[])", new ArrayList<String>(),  left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(11);
 		right.add(13);
 		List<String> argsList = new ArrayList<String>();
 		argsList.add("int");
 		argsList.add("char");
 		argsList.add("Teste2");
-		methods.put("cin.ufpe.br.Teste4.m()", new ModifiedMethod("cin.ufpe.br.Teste4.m()", argsList,contribs));
+		methods.put("cin.ufpe.br.Teste4.m()", new ModifiedMethod("cin.ufpe.br.Teste4.m()", argsList, left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(27);
 		right.add(28);
-		methods.put("cin.ufpe.br.Teste4.m2()", new ModifiedMethod("cin.ufpe.br.Teste4.m2()", argsList, contribs));
+		methods.put("cin.ufpe.br.Teste4.m2()", new ModifiedMethod("cin.ufpe.br.Teste4.m2()", argsList,  left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(33);
 		right.add(36);
-		methods.put("cin.ufpe.br.Teste4.m3()", new ModifiedMethod("cin.ufpe.br.Teste4.m3()", argsList, contribs));
+		methods.put("cin.ufpe.br.Teste4.m3()", new ModifiedMethod("cin.ufpe.br.Teste4.m3()", argsList,  left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(19);
 		right.add(22);
-		methods.put("cin.ufpe.br.Teste4.n(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n(int)", argsList,contribs));
+		methods.put("cin.ufpe.br.Teste4.n(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n(int)", argsList, left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(52);
 		right.add(54);
-		methods.put("cin.ufpe.br.Teste4.n2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n2(int)", argsList,contribs));
+		methods.put("cin.ufpe.br.Teste4.n2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n2(int)", argsList, left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(59);
 		right.add(60);
-		methods.put("cin.ufpe.br.Teste4.n3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n3(int)", argsList,contribs));
+		methods.put("cin.ufpe.br.Teste4.n3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.n3(int)", argsList,left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(65);
 		right.add(68);
-		methods.put("cin.ufpe.br.Teste4.nm(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm(int)", argsList,contribs));
+		methods.put("cin.ufpe.br.Teste4.nm(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm(int)", argsList, left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(73);
 		right.add(76);
-		methods.put("cin.ufpe.br.Teste4.nm2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm2(int)", argsList,contribs));
+		methods.put("cin.ufpe.br.Teste4.nm2(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm2(int)", argsList, left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(89);
 		right.add(92);
-		methods.put("cin.ufpe.br.Teste4.k()", new ModifiedMethod("cin.ufpe.br.Teste4.k()", argsList,contribs));
+		methods.put("cin.ufpe.br.Teste4.k()", new ModifiedMethod("cin.ufpe.br.Teste4.k()", argsList, left, right));
 
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(81);
 		right.add(84);
-		methods.put("cin.ufpe.br.Teste4.nm3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm3(int)", argsList,contribs));
-		 */
+		methods.put("cin.ufpe.br.Teste4.nm3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm3(int)", argsList, left, right));
+		 
 		
 		/*
 		contribs = new ArrayList<List<Integer>>();
@@ -603,18 +564,16 @@ public class JoanaInvocation {
 		right.add(62);
 		right.add(64);
 		methods.put("Test2.main(java.lang.String[])", new ModifiedMethod("Test2.main(java.lang.String[])", new ArrayList<String>(),contribs));
-		
+		*/
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
-		*/
-		
-		contribs.add(left);
-		contribs.add(right);
+
+		/*
 		left.add(186);
 		right.add(193);
-		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ArrayList<String>(), contribs ));
-		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", "/build/classes/main", "/src/main/java", methods);
-		
+		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ArrayList<String>(), left, right ));
+		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", methods, "/build/classes/main", "/src/main/java");
+		*/
 		joana.run();
 	}
 

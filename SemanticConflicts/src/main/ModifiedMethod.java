@@ -1,3 +1,4 @@
+package main;
 import java.util.List;
 
 import edu.kit.joana.ifc.sdg.util.JavaMethodSignature;
@@ -5,13 +6,15 @@ import edu.kit.joana.ifc.sdg.util.JavaMethodSignature;
 
 public class ModifiedMethod {
 	private JavaMethodSignature signature;
-	private List<List<Integer>> contribLines;
+	private List<Integer> leftContribs;
+	private List<Integer> rightContribs;
 	private List<String> defaultConstructorArgs;
 
-	public ModifiedMethod(String signature, List<String> defaultConstructorArgs, List<List<Integer>> contribLines)
+	public ModifiedMethod(String signature, List<String> defaultConstructorArgs, List<Integer> leftContribs, List<Integer> rightContribs)
 	{
 		this.signature = JavaMethodSignature.fromString("void "+signature);
-		this.contribLines = contribLines;
+		this.leftContribs = leftContribs;
+		this.rightContribs = rightContribs;
 		this.defaultConstructorArgs = defaultConstructorArgs;
 	}
 
@@ -19,8 +22,13 @@ public class ModifiedMethod {
 		return signature;
 	}
 
-	public List<List<Integer>> getContribLines() {
-		return contribLines;
+	public List<Integer> getLeftContribs() {
+		return leftContribs;
+	}
+	
+	public List<Integer> getRightContribs()
+	{
+		return rightContribs;
 	}
 
 	public List<String> getDefaultConstructorArgs()
