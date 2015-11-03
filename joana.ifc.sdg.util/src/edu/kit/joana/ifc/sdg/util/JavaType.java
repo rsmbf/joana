@@ -47,7 +47,7 @@ public class JavaType {
 	private final JavaPackage pack;
 	private final String baseType;
 	private final int arrDim;
-	
+
 	private final String bcStringWTS;
 	private final String bcStringWOTS;
 	private final int hashCode;
@@ -119,7 +119,7 @@ public class JavaType {
 			return bcStringWOTS;
 		}
 	}
-	
+
 	private String mkBCChars(final boolean trailingsemicolon) {
 		StringBuilder sbBC = new StringBuilder("");
 		for (int i = 0; i < arrDim; i++) {
@@ -303,15 +303,11 @@ public class JavaType {
 			}
 			break;
 		case HR:
-			//MODIFIED - INCLUDED IF
-			if(s.length() > 0)
-			{
 				String[] singleTypes = s.split("\\s*,\\s*");			
 				for (String singleType : singleTypes) {
 					ret.add(parseSingleTypeFromString(singleType, f));
 				}
-			}
-			
+
 			break;
 		}
 

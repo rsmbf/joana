@@ -84,9 +84,8 @@ public class JoanaInvocation {
 			String str_from = msg[0].toString().split(" from ")[1];
 			str_from = str_from.substring(1).split("\\) ")[0]; 
 			//System.out.println(str_from);
-			int lastColonIndex = str_from.lastIndexOf(':');
-			//System.out.println((JavaMethodSignature.fromString(str_from.substring(0, lastColonIndex)).toBCString() + str_from.substring(lastColonIndex)));
-			SDGProgramPart from = program.getPart((JavaMethodSignature.fromString(str_from.substring(0, lastColonIndex)).toBCString() + str_from.substring(lastColonIndex)));	
+			int lastColonIndex = str_from.lastIndexOf(':');				
+			SDGProgramPart from = program.getPart((JavaMethodSignature.fromString(str_from.substring(0, lastColonIndex)).toBCString().replace("(L;)", "()") + str_from.substring(lastColonIndex)));	
 			//System.out.println(from);
 			int from_line = parts_map.get(from);
 
@@ -94,7 +93,7 @@ public class JoanaInvocation {
 			str_to = str_to.split("\\) ")[0]; 
 
 			lastColonIndex = str_to.lastIndexOf(':');
-			SDGProgramPart to = program.getPart(JavaMethodSignature.fromString(str_to.substring(0, lastColonIndex)).toBCString() + str_to.substring(lastColonIndex));
+			SDGProgramPart to = program.getPart(JavaMethodSignature.fromString(str_to.substring(0, lastColonIndex)).toBCString().replace("(L;)", "()") + str_to.substring(lastColonIndex));
 			int to_line = parts_map.get(to);
 			String error_msg = base_msg + from.getOwningMethod().getSignature() + "' (line " + from_line + ") to '" +to.getOwningMethod().getSignature() +"' (line "+to_line+")";
 			int value = resultByProgramPart.get(violation);
