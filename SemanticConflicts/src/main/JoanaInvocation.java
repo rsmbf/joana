@@ -54,10 +54,10 @@ public class JoanaInvocation {
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
 	{	
-		this(projectPath, "/bin", "/src", modMethods);
+		this(projectPath, modMethods, "/bin", "/src");
 	}
 	
-	public JoanaInvocation(String projectPath, String binPath, String srcPath, Map<String, ModifiedMethod> modMethods)
+	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath)
 	{
 		this.classPath = projectPath + binPath;
 		this.srcPath = projectPath + srcPath;
