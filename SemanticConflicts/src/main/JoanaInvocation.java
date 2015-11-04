@@ -191,6 +191,7 @@ public class JoanaInvocation {
 
 	public void run() throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
 	{
+		createFile(reportFilePath);
 		if(createEntryPoint() == 0)
 		{
 			String parent = new File(reportFilePath).getParent();
@@ -208,7 +209,6 @@ public class JoanaInvocation {
 			// for example: fields
 			//ana.addSourceAnnotation(program.getPart("foo.bar.MyClass.secretField"), BuiltinLattices.STD_SECLEVEL_HIGH);
 			//ana.addSinkAnnotation(program.getPart("foo.bar.MyClass.publicField"), BuiltinLattices.STD_SECLEVEL_LOW);
-			createFile(reportFilePath);
 			Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = runAnalysisPerMethod();
 			if(results.size() > 0)
 			{
@@ -381,7 +381,9 @@ public class JoanaInvocation {
 
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		String parent = new File(reportFilePath).getParent();
-		OutputStream err = new FileOutputStream(new File(parent+File.separator+"entryPoint_err.txt"));
+		File entryPoint_err = new File(parent+File.separator+"entryPoint_err.txt");
+		entryPoint_err.createNewFile();
+		OutputStream err = new FileOutputStream(entryPoint_err);
 		return compiler.run(null, null, err, new String[] {"-sourcepath", srcPath, "-d", classPath, newClassPath});
 	}
 
