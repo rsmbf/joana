@@ -51,30 +51,32 @@ public class JoanaInvocation {
 	private Map<String, ModifiedMethod> modMethods;
 	private String classPath;
 	private String srcPath;
+	private String reportFilePath;
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
 	{	
-		this(projectPath, modMethods, "/bin", "/src");
+		this(projectPath, modMethods, "/bin", "/src", System.getProperty("user.dir")+File.separator+"joana_reports/joana_report.txt");
 	}
 	
-	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath)
+	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath, String reportFilePath)
 	{
 		this.classPath = projectPath + binPath;
 		this.srcPath = projectPath + srcPath;
 		this.modMethods = modMethods;
+		this.reportFilePath = reportFilePath;
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
 	}
 
-	private static void printViolations(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart)
+	private void printViolations(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart) throws IOException
 	{
 		for(Object key : resultByProgramPart.keys())
 		{
-			System.out.print("Key: "+key);
-			System.out.println(", Value: "+resultByProgramPart.get(key));
+			write(reportFilePath,"Key: "+key);
+			writeNewLine(reportFilePath,", Value: "+resultByProgramPart.get(key));
 		}
 	}
 
-	private void printViolationsByLine(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart)
+	private void printViolationsByLine(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart) throws IOException
 	{
 		Map<String, Integer> msgs = new HashMap<String, Integer>();
 		String base_msg = "Illegal flow from '";
@@ -106,28 +108,28 @@ public class JoanaInvocation {
 		//System.out.println("Lines Summary");
 		for(String msg : msgs.keySet())
 		{
-			System.out.print("Key: "+msg);
-			System.out.println(", Value: "+msgs.get(msg));
+			write(reportFilePath, "Key: "+msg);			
+			writeNewLine(reportFilePath, ", Value: "+msgs.get(msg));
 		}
 
 	}
 
-	private static void printSourcesAndSinks(Collection<IFCAnnotation> sources, Collection<IFCAnnotation> sinks) {
-		System.out.println("Sources: "+sources.size());
+	private void printSourcesAndSinks(Collection<IFCAnnotation> sources, Collection<IFCAnnotation> sinks) throws IOException {
+		writeNewLine(reportFilePath, "Sources: "+sources.size());
 		for(IFCAnnotation source : sources)
 		{
-			System.out.print("	SOURCE: "+ source.toString());
-			System.out.print("	- PROGRAM PART: "+source.getProgramPart());
-			System.out.print(" - CONTEXT: "+source.getContext());
-			System.out.println(" - TYPE: "+source.getType());
+			write(reportFilePath,"	SOURCE: "+ source.toString());
+			write(reportFilePath,"	- PROGRAM PART: "+source.getProgramPart());
+			write(reportFilePath," - CONTEXT: "+source.getContext());
+			writeNewLine(reportFilePath," - TYPE: "+source.getType());
 		}
-		System.out.println("Sinks: "+sinks.size());
+		writeNewLine(reportFilePath,"Sinks: "+sinks.size());
 		for(IFCAnnotation sink : sinks)
 		{
-			System.out.print("	SINK: "+sink.toString());
-			System.out.print("	- PROGRAM PART: "+sink.getProgramPart());
-			System.out.print(" - CONTEXT: "+sink.getContext());
-			System.out.println(" - TYPE: "+sink.getType());			
+			write(reportFilePath,"	SINK: "+sink.toString());
+			write(reportFilePath,"	- PROGRAM PART: "+sink.getProgramPart());
+			write(reportFilePath," - CONTEXT: "+sink.getContext());
+			writeNewLine(reportFilePath," - TYPE: "+sink.getType());			
 		}
 	}
 
@@ -201,19 +203,20 @@ public class JoanaInvocation {
 		// for example: fields
 		//ana.addSourceAnnotation(program.getPart("foo.bar.MyClass.secretField"), BuiltinLattices.STD_SECLEVEL_HIGH);
 		//ana.addSinkAnnotation(program.getPart("foo.bar.MyClass.publicField"), BuiltinLattices.STD_SECLEVEL_LOW);
-
+		createFile(reportFilePath);
 		Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = runAnalysisPerMethod();
 		if(results.size() > 0)
 		{
 			printAllMethodsViolations(results);
 			printAllMethodsViolationsByLine(results);
 		}else{
-			System.out.println("NO VIOLATION FOUND!");
+			writeNewLine(reportFilePath, "NO VIOLATION FOUND!");
 		}		
 	}
 
-	private void printAllMethodsViolationsByLine(Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results) {
-		System.out.println("LINE violations");
+	private void printAllMethodsViolationsByLine(Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results) throws IOException {
+		//System.out.println("LINE violations");
+		writeNewLine(reportFilePath, "LINE violations");
 		TObjectIntMap<IViolation<SDGProgramPart>> resultsByPart;
 		List<TObjectIntMap<IViolation<SDGProgramPart>>> methodResults;
 		for(String method : results.keySet())
@@ -228,15 +231,15 @@ public class JoanaInvocation {
 				}				
 			}
 		}
-
 	}
 
 	private void printAllMethodsViolations(
-			Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results) {		
+			Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results) throws IOException {		
+		
 		int violations = 0;
 		TObjectIntMap<IViolation<SDGProgramPart>> resultsByPart;
 		List<TObjectIntMap<IViolation<SDGProgramPart>>> methodResults;
-		System.out.println("VIOLATIONS");
+		writeNewLine(reportFilePath, "VIOLATIONS");
 		for(String method : results.keySet())
 		{
 			methodResults = results.get(method);
@@ -249,7 +252,7 @@ public class JoanaInvocation {
 				}
 			}
 		}
-		System.out.println("TOTAL VIOLATIONS: "+violations);
+		writeNewLine(reportFilePath, "TOTAL VIOLATIONS: "+violations);
 
 	}
 
@@ -262,39 +265,46 @@ public class JoanaInvocation {
 			if(modMethod.getLeftContribs().size() > 0 && modMethod.getRightContribs().size() > 0)
 			{
 				addSourcesAndSinks(method);
-
-				printSourcesAndSinks(ana.getSources(), ana.getSinks());
-				System.out.println("FIRST ANALYSIS: "+method);
-				/** run the analysis */
-				Collection<? extends IViolation<SecurityNode>> result = ana.doIFC();		
-				List<TObjectIntMap<IViolation<SDGProgramPart>>> methodResults = new ArrayList<TObjectIntMap<IViolation<SDGProgramPart>>>();
-				TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart = ana.groupByPPPart(result);			
-
-				/** do something with result */
 				Collection<IFCAnnotation> sinks = ana.getSinks();
 				Collection<IFCAnnotation> sources = ana.getSources();
-				ana.clearAllAnnotations();
-
-				for(IFCAnnotation sink : sinks)
+				printSourcesAndSinks(sources, sinks);
+				if(sources.size() > 0 && sinks.size() > 0)
 				{
-					//System.out.println("Adding source...");
-					ana.addSourceAnnotation(sink.getProgramPart(), BuiltinLattices.STD_SECLEVEL_HIGH);
-				}
+					writeNewLine(reportFilePath,"FIRST ANALYSIS: "+method);
+					/** run the analysis */
+					Collection<? extends IViolation<SecurityNode>> result = ana.doIFC();		
+					List<TObjectIntMap<IViolation<SDGProgramPart>>> methodResults = new ArrayList<TObjectIntMap<IViolation<SDGProgramPart>>>();
+					TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart = ana.groupByPPPart(result);			
 
-				for(IFCAnnotation source : sources)
-				{
-					//System.out.println("Adding sink...");
-					ana.addSinkAnnotation(source.getProgramPart(), BuiltinLattices.STD_SECLEVEL_LOW);
+					/** do something with result */
+					
+					ana.clearAllAnnotations();
+
+					for(IFCAnnotation sink : sinks)
+					{
+						//System.out.println("Adding source...");
+						ana.addSourceAnnotation(sink.getProgramPart(), BuiltinLattices.STD_SECLEVEL_HIGH);
+					}
+
+					for(IFCAnnotation source : sources)
+					{
+						//System.out.println("Adding sink...");
+						ana.addSinkAnnotation(source.getProgramPart(), BuiltinLattices.STD_SECLEVEL_LOW);
+					}
+					printSourcesAndSinks(ana.getSources(), ana.getSinks());
+					writeNewLine(reportFilePath, "SECOND ANALYSIS: "+method);
+					
+					result = ana.doIFC();
+					TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart2 = ana.groupByPPPart(result);	
+					if(!resultByProgramPart.isEmpty() || !resultByProgramPart2.isEmpty()){
+						methodResults.add(resultByProgramPart);
+						methodResults.add(resultByProgramPart2);
+						results.put(method, methodResults);
+					}
+				}else{
+					writeNewLine(reportFilePath,"0 SOURCES AND/OR SINKS");
 				}
-				printSourcesAndSinks(ana.getSources(), ana.getSinks());
-				System.out.println("SECOND ANALYSIS: "+method);
-				result = ana.doIFC();
-				TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart2 = ana.groupByPPPart(result);	
-				if(!resultByProgramPart.isEmpty() || !resultByProgramPart2.isEmpty()){
-					methodResults.add(resultByProgramPart);
-					methodResults.add(resultByProgramPart2);
-					results.put(method, methodResults);
-				}
+				writeNewLine(reportFilePath, "");
 				ana.clearAllAnnotations();
 			}
 
@@ -302,15 +312,19 @@ public class JoanaInvocation {
 		return results;
 	}
 
-	private void writeNewLine(BufferedWriter bw, String line) throws IOException
+	private void writeNewLine(String path, String line) throws IOException
 	{
+		BufferedWriter bw = new BufferedWriter(new FileWriter(path, true));
 		bw.write(line + "\n");
+		bw.close();
 		System.out.println(line);
 	}
 
-	private void write(BufferedWriter bw, String line) throws IOException
+	private void write(String path, String line) throws IOException
 	{
+		BufferedWriter bw = new BufferedWriter(new FileWriter(path, true));
 		bw.write(line);
+		bw.close();
 		System.out.print(line);
 	}
 
@@ -330,55 +344,55 @@ public class JoanaInvocation {
 	{		
 		String newClassPath = srcPath + "/JoanaEntryPoint.java";
 
-		BufferedWriter bw = createFile(newClassPath);
+		createFile(newClassPath);
 
 		Set<String> imports = getImports();
 
 
 		for(String import_str : imports)
 		{
-			writeNewLine(bw, "import "+import_str+";");
+			writeNewLine(newClassPath, "import "+import_str+";");
 		}
 		
-		writeNewLine(bw, "public class JoanaEntryPoint {");
-		writeNewLine(bw, "	public static void main(String[] args) {");
-		writeNewLine(bw, "		try {");
+		writeNewLine(newClassPath, "public class JoanaEntryPoint {");
+		writeNewLine(newClassPath, "	public static void main(String[] args) {");
+		writeNewLine(newClassPath, "		try {");
 		for(String method : modMethods.keySet())
 		{
-			callMethod(bw, method);
+			callMethod(newClassPath, method);
 		}
 		
-		writeNewLine(bw, "		}");
-		writeNewLine(bw, "		catch(Exception e) {");
-		writeNewLine(bw, "			e.printStackTrace();");
-		writeNewLine(bw, "		}");	
-		writeNewLine(bw, "	}");
-		writeNewLine(bw, "}");
-		bw.close();	
+		writeNewLine(newClassPath, "		}");
+		writeNewLine(newClassPath, "		catch(Exception e) {");
+		writeNewLine(newClassPath, "			e.printStackTrace();");
+		writeNewLine(newClassPath, "		}");	
+		writeNewLine(newClassPath, "	}");
+		writeNewLine(newClassPath, "}");
 
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		int result = compiler.run(null, null, null, new String[] {"-sourcepath", srcPath, "-d", classPath, newClassPath});
 	}
 
-	private BufferedWriter createFile(String newClassPath) throws IOException {
+	private void createFile(String newClassPath) throws IOException {
 		File file = new File(newClassPath);
 		if(file.exists())
 		{
 			file.delete();
 		}
+		File parent = file.getParentFile();
+		if(!parent.exists()){
+			parent.mkdirs();
+		}
 		if (!file.exists()) {
 			file.createNewFile();
 		}
-		FileWriter fw = new FileWriter(newClassPath);
-		BufferedWriter bw = new BufferedWriter(fw);
-		return bw;
 	}
 
-	private void callMethod(BufferedWriter bw, String method)
+	private void callMethod(String path, String method)
 			throws IOException {
 		ModifiedMethod modMethod = modMethods.get(method);
 		JavaMethodSignature methodSign = modMethod.getMethodSignature();
-		write(bw, "			new "+methodSign.getDeclaringType().toHRStringShort() + "(");
+		write(path, "			new "+methodSign.getDeclaringType().toHRStringShort() + "(");
 		List<String> constArgs = modMethod.getDefaultConstructorArgs();
 		if(constArgs.size() > 0)
 		{
@@ -388,12 +402,12 @@ public class JoanaInvocation {
 				argsStr += getTypeDefaultValue(constructorArg) + " , ";
 			}
 			argsStr = argsStr.substring(0,argsStr.length() - 3);
-			write(bw, argsStr);
+			write(path, argsStr);
 		}
-		write(bw, ")");
+		write(path, ")");
 		if(!methodSign.getMethodName().equals("<init>"))
 		{
-			write(bw, "."+methodSign.getMethodName() +"(");
+			write(path, "."+methodSign.getMethodName() +"(");
 			String argsStr = "";				
 			if(methodSign.getArgumentTypes().size() > 1 || 
 					(methodSign.getArgumentTypes().size() == 1 && !methodSign.getArgumentTypes().get(0).toHRString().equals("")))
@@ -403,11 +417,11 @@ public class JoanaInvocation {
 					argsStr += getTypeDefaultValue(argType.toHRStringShort().split(" ")[0]) +" , ";
 				}
 				argsStr = argsStr.substring(0,argsStr.length() - 3);
-				write(bw, argsStr);
+				write(path, argsStr);
 			}
-			writeNewLine(bw,");");
+			writeNewLine(path,");");
 		}else{
-			writeNewLine(bw, ";");
+			writeNewLine(path, ";");
 		}
 	}
 
@@ -541,6 +555,8 @@ public class JoanaInvocation {
 		left = new ArrayList<Integer>();
 		left.add(81);
 		right.add(84);
+		methods.put("cin.ufpe.br.Teste4.nm3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm3(int)", argsList, left, right));
+		right.remove(0);
 		methods.put("cin.ufpe.br.Teste4.nm3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm3(int)", argsList, left, right));
 		 
 		
