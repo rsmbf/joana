@@ -56,7 +56,7 @@ public class JoanaInvocation {
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
 	{	
-		this(projectPath, modMethods, "/bin", "/src", System.getProperty("user.dir")+File.separator+"joana_reports");
+		this(projectPath, modMethods, "/bin", "/src", System.getProperty("user.dir")+File.separator+"reports");
 	}
 	
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath, String reportFilePath)
@@ -64,7 +64,7 @@ public class JoanaInvocation {
 		this.classPath = projectPath + binPath;
 		this.srcPath = projectPath + srcPath;
 		this.modMethods = modMethods;
-		this.reportFilePath = reportFilePath + File.separator+"report.txt";
+		this.reportFilePath = reportFilePath + File.separator+"joana_report.txt";
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
 	}
 
@@ -195,7 +195,11 @@ public class JoanaInvocation {
 		if(createEntryPoint() == 0)
 		{
 			String parent = new File(reportFilePath).getParent();
-			new File(parent+File.separator+"entryPoint_err.txt").delete();
+			File entryPointBuild= new File(parent+File.separator+"entryPointBuild_report.txt");
+			if(entryPointBuild.length() == 0)
+			{
+				entryPointBuild.delete();
+			}
 			SDGConfig config = setConfig();
 
 			/** build the PDG */
@@ -381,9 +385,9 @@ public class JoanaInvocation {
 
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		String parent = new File(reportFilePath).getParent();
-		File entryPoint_err = new File(parent+File.separator+"entryPoint_err.txt");
-		entryPoint_err.createNewFile();
-		OutputStream err = new FileOutputStream(entryPoint_err);
+		File entryPointBuild_report = new File(parent+File.separator+"entryPointBuild_report.txt");
+		entryPointBuild_report.createNewFile();
+		OutputStream err = new FileOutputStream(entryPointBuild_report);
 		return compiler.run(null, null, err, new String[] {"-sourcepath", srcPath, "-d", classPath, newClassPath});
 	}
 
