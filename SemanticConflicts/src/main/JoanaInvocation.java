@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,7 +56,7 @@ public class JoanaInvocation {
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
 	{	
-		this(projectPath, modMethods, "/bin", "/src", System.getProperty("user.dir")+File.separator+"joana_reports/joana_report.txt");
+		this(projectPath, modMethods, "/bin", "/src", System.getProperty("user.dir")+File.separator+"joana_reports");
 	}
 	
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath, String reportFilePath)
@@ -63,7 +64,7 @@ public class JoanaInvocation {
 		this.classPath = projectPath + binPath;
 		this.srcPath = projectPath + srcPath;
 		this.modMethods = modMethods;
-		this.reportFilePath = reportFilePath;
+		this.reportFilePath = reportFilePath + File.separator+"report.txt";
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
 	}
 
@@ -190,28 +191,37 @@ public class JoanaInvocation {
 
 	public void run() throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
 	{
-		SDGConfig config = setConfig();
-
-		/** build the PDG */
-		program = SDGProgram.createSDGProgram(config, System.out, new NullProgressMonitor());
-
-		/** optional: save PDG to disk */
-		SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream("yourSDGFile.pdg"));
-
-		ana = new IFCAnalysis(program);
-		/** annotate sources and sinks */
-		// for example: fields
-		//ana.addSourceAnnotation(program.getPart("foo.bar.MyClass.secretField"), BuiltinLattices.STD_SECLEVEL_HIGH);
-		//ana.addSinkAnnotation(program.getPart("foo.bar.MyClass.publicField"), BuiltinLattices.STD_SECLEVEL_LOW);
-		createFile(reportFilePath);
-		Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = runAnalysisPerMethod();
-		if(results.size() > 0)
+		if(createEntryPoint() == 0)
 		{
-			printAllMethodsViolations(results);
-			printAllMethodsViolationsByLine(results);
+			String parent = new File(reportFilePath).getParent();
+			new File(parent+File.separator+"entryPoint_err.txt").delete();
+			SDGConfig config = setConfig();
+
+			/** build the PDG */
+			program = SDGProgram.createSDGProgram(config, System.out, new NullProgressMonitor());
+
+			/** optional: save PDG to disk */
+			SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream("yourSDGFile.pdg"));
+
+			ana = new IFCAnalysis(program);
+			/** annotate sources and sinks */
+			// for example: fields
+			//ana.addSourceAnnotation(program.getPart("foo.bar.MyClass.secretField"), BuiltinLattices.STD_SECLEVEL_HIGH);
+			//ana.addSinkAnnotation(program.getPart("foo.bar.MyClass.publicField"), BuiltinLattices.STD_SECLEVEL_LOW);
+			createFile(reportFilePath);
+			Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = runAnalysisPerMethod();
+			if(results.size() > 0)
+			{
+				printAllMethodsViolations(results);
+				printAllMethodsViolationsByLine(results);
+			}else{
+				writeNewLine(reportFilePath, "NO VIOLATION FOUND!");
+			}	
 		}else{
-			writeNewLine(reportFilePath, "NO VIOLATION FOUND!");
-		}		
+			writeNewLine(reportFilePath, "FAILED TO BUILD ENTRY POINT!");
+			new File(reportFilePath).delete();
+		}
+			
 	}
 
 	private void printAllMethodsViolationsByLine(Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results) throws IOException {
@@ -340,7 +350,7 @@ public class JoanaInvocation {
 		return imports;
 	}
 
-	private void createEntryPoint() throws IOException, ClassNotFoundException
+	private int createEntryPoint() throws IOException, ClassNotFoundException
 	{		
 		String newClassPath = srcPath + "/JoanaEntryPoint.java";
 
@@ -370,7 +380,9 @@ public class JoanaInvocation {
 		writeNewLine(newClassPath, "}");
 
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		int result = compiler.run(null, null, null, new String[] {"-sourcepath", srcPath, "-d", classPath, newClassPath});
+		String parent = new File(reportFilePath).getParent();
+		OutputStream err = new FileOutputStream(new File(parent+File.separator+"entryPoint_err.txt"));
+		return compiler.run(null, null, err, new String[] {"-sourcepath", srcPath, "-d", classPath, newClassPath});
 	}
 
 	private void createFile(String newClassPath) throws IOException {
@@ -441,8 +453,7 @@ public class JoanaInvocation {
 		return value;
 	}
 
-	private SDGConfig setConfig() throws IOException, ClassNotFoundException {
-		createEntryPoint();
+	private SDGConfig setConfig() {
 		/** the class path is either a directory or a jar containing all the classes of the program which you want to analyze */
 		//String classPath = projectPath + "/bin";//"/data1/mmohr/git/CVJMultithreading/bin";
 
