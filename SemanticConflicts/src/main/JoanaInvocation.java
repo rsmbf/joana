@@ -347,7 +347,7 @@ public class JoanaInvocation {
 		Set<String> imports = new HashSet<String>();
 		for(String method : modMethods.keySet())
 		{
-			JavaMethodSignature signature = JavaMethodSignature.fromString("void "+method);
+			JavaMethodSignature signature = modMethods.get(method).getMethodSignature();
 			//System.out.println(signature.getDeclaringType());
 			imports.add(signature.getDeclaringType().toHRString());	
 		}
