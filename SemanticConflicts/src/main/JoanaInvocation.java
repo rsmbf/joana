@@ -276,6 +276,7 @@ public class JoanaInvocation {
 		for(String method : modMethods.keySet())
 		{
 			ModifiedMethod modMethod = modMethods.get(method);
+			writeNewLine(reportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
 			if(modMethod.getLeftContribs().size() > 0 && modMethod.getRightContribs().size() > 0)
 			{
 				addSourcesAndSinks(method);
@@ -318,10 +319,11 @@ public class JoanaInvocation {
 				}else{
 					writeNewLine(reportFilePath,"0 SOURCES AND/OR SINKS");
 				}
-				writeNewLine(reportFilePath, "");
 				ana.clearAllAnnotations();
+			}else{
+				writeNewLine(reportFilePath, "LEFT AND/OR RIGHT CONTRIBUTION IS EMPTY");
 			}
-
+			writeNewLine(reportFilePath, "");
 		}
 		return results;
 	}
