@@ -411,36 +411,35 @@ public class JoanaInvocation {
 		ModifiedMethod modMethod = modMethods.get(method);
 		JavaMethodSignature methodSign = modMethod.getMethodSignature();
 		write(path, "			new "+methodSign.getDeclaringType().toHRStringShort() + "(");
-		List<String> constArgs = modMethod.getDefaultConstructorArgs();
-		if(constArgs.size() > 0)
-		{
-			String argsStr = "";
-			for(String constructorArg : constArgs )
-			{
-				argsStr += getTypeDefaultValue(constructorArg) + " , ";
-			}
-			argsStr = argsStr.substring(0,argsStr.length() - 3);
-			write(path, argsStr);
-		}
-		write(path, ")");
+
 		if(!methodSign.getMethodName().equals("<init>"))
-		{
-			write(path, "."+methodSign.getMethodName() +"(");
-			String argsStr = "";				
-			if(methodSign.getArgumentTypes().size() > 1 || 
-					(methodSign.getArgumentTypes().size() == 1 && !methodSign.getArgumentTypes().get(0).toHRString().equals("")))
+		{			
+			List<String> constArgs = modMethod.getDefaultConstructorArgs();
+			if(constArgs.size() > 0)
 			{
-				for(JavaType argType : methodSign.getArgumentTypes())
+				String argsStr = "";
+				for(String constructorArg : constArgs )
 				{
-					argsStr += getTypeDefaultValue(argType.toHRStringShort().split(" ")[0]) +" , ";
+					argsStr += getTypeDefaultValue(constructorArg) + " , ";
 				}
 				argsStr = argsStr.substring(0,argsStr.length() - 3);
 				write(path, argsStr);
 			}
-			writeNewLine(path,");");
-		}else{
-			writeNewLine(path, ";");
+			write(path, ")."+methodSign.getMethodName() +"(");
+			
 		}
+		String argsStr = "";				
+		if(methodSign.getArgumentTypes().size() > 1 || 
+				(methodSign.getArgumentTypes().size() == 1 && !methodSign.getArgumentTypes().get(0).toHRString().equals("")))
+		{
+			for(JavaType argType : methodSign.getArgumentTypes())
+			{
+				argsStr += getTypeDefaultValue(argType.toHRStringShort().split(" ")[0]) +" , ";
+			}
+			argsStr = argsStr.substring(0,argsStr.length() - 3);
+			write(path, argsStr);
+		}
+		writeNewLine(path,");");
 	}
 
 	private String getTypeDefaultValue(String type)
@@ -502,7 +501,7 @@ public class JoanaInvocation {
 		left.add(12);
 		right.add(14);		
 		methods.put("cin.ufpe.br.Teste3.<init>()", new ModifiedMethod("cin.ufpe.br.Teste3.<init>()", new ArrayList<String>(), left, right));
-
+				
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(52);
@@ -520,6 +519,8 @@ public class JoanaInvocation {
 		argsList.add("Teste2");
 		methods.put("cin.ufpe.br.Teste4.m()", new ModifiedMethod("cin.ufpe.br.Teste4.m()", argsList, left, right));
 
+		methods.put("cin.ufpe.br.Teste4.<init>(int, char, cin.ufpe.br.Teste2)", new ModifiedMethod("cin.ufpe.br.Teste4.<init>(int, char, cin.ufpe.br.Teste2)", new ArrayList<String>(), left, right));
+		
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(27);
