@@ -1,6 +1,7 @@
 package main;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,6 +37,7 @@ import edu.kit.joana.ifc.sdg.core.violations.IViolation;
 import edu.kit.joana.ifc.sdg.graph.SDGSerializer;
 import edu.kit.joana.ifc.sdg.mhpoptimization.MHPType;
 import edu.kit.joana.ifc.sdg.util.JavaMethodSignature;
+import edu.kit.joana.ifc.sdg.util.JavaPackage;
 import edu.kit.joana.ifc.sdg.util.JavaType;
 import edu.kit.joana.util.Stubs;
 import edu.kit.joana.wala.core.SDGBuilder.ExceptionAnalysis;
@@ -137,6 +139,7 @@ public class JoanaInvocation {
 	private void addSourcesAndSinks(String methodEvaluated) throws IOException {		
 
 		Collection<SDGClass> classes = program.getClasses();
+		//System.out.println(classes);
 		Iterator<SDGClass> classesIt = classes.iterator();
 		boolean methodFound = false;
 		JavaMethodSignature methodSignature = modMethods.get(methodEvaluated).getMethodSignature();
@@ -146,6 +149,7 @@ public class JoanaInvocation {
 		{
 			SDGClass SdgClass = classesIt.next();
 			//System.out.println(SdgClass.getTypeName().toHRString());
+			//System.out.println(SdgClass.getMethods());
 			if(SdgClass.getTypeName().equals(declaringClassType)){
 				Collection<SDGMethod> methods = SdgClass.getMethods();
 				Iterator<SDGMethod> methIt = methods.iterator();
@@ -192,7 +196,8 @@ public class JoanaInvocation {
 	public void run() throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
 	{
 		createFile(reportFilePath);
-		if(createEntryPoint() == 0)
+		List<String> paths = createEntryPoint();
+		if(compileEntryPoints(paths) == 0)
 		{
 			String parent = new File(reportFilePath).getParent();
 			File entryPointBuild= new File(parent+File.separator+"entryPointBuild_report.txt");
@@ -344,38 +349,87 @@ public class JoanaInvocation {
 		System.out.print(line);
 	}
 
-	public Set<String> getImports()
+	public Map<JavaPackage, List<String>> groupMethodCallsByPackage()
 	{		
-		Set<String> imports = new HashSet<String>();
+		Map<JavaPackage, List<String>> groupedMethods = new HashMap<JavaPackage, List<String>>();
 		for(String method : modMethods.keySet())
 		{
 			JavaMethodSignature signature = modMethods.get(method).getMethodSignature();
-			//System.out.println(signature.getDeclaringType());
-			imports.add(signature.getDeclaringType().toHRString());	
+			JavaPackage type_package = signature.getDeclaringType().getPackage();
+			List<String> pack_methods = groupedMethods.get(type_package);
+			if(pack_methods == null)
+			{
+				pack_methods = new ArrayList<String>();
+			}
+			pack_methods.add(callMethod(method));
+			groupedMethods.put(type_package, pack_methods);
 		}
-		return imports;
+		return groupedMethods;
 	}
 
-	private int createEntryPoint() throws IOException, ClassNotFoundException
+	private List<String> createEntryPoint() throws IOException, ClassNotFoundException
 	{		
 		String newClassPath = srcPath + "/JoanaEntryPoint.java";
 
 		createFile(newClassPath);
 
-		Set<String> imports = getImports();
+		
+		Map<JavaPackage, List<String>> groupedMethods = groupMethodCallsByPackage();
+		List<String[]> entryPointsResults = createPackagesEntryPoints(groupedMethods);
+		List<String> imports = new ArrayList<String>();
+		List<String> methods = new ArrayList<String>();
+		List<String> compilePaths = new ArrayList<String>();
+		for(String[] entryPointResult : entryPointsResults)
+		{
+			String packageName = entryPointResult[0];
+			String className = entryPointResult[1].replace(".java", "");
+			imports.add(packageName + "." + className.replace(".java", ""));
+			methods.add(className + ".main(null);");
+			compilePaths.add(entryPointResult[2]);
+		}
+		compilePaths.add(newClassPath);
+		List<String> methodsDefaultPack = groupedMethods.get(new JavaPackage("(default package)"));
+		if(methodsDefaultPack != null)
+		{
+			methods.addAll(methodsDefaultPack);
+		}
+		
 
+		createClass(null, newClassPath, imports, methods);
 
+		return compilePaths;
+	}
+
+	private int compileEntryPoints(List<String> compilePaths)
+			throws IOException, FileNotFoundException {
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		String parent = new File(reportFilePath).getParent();
+		File entryPointBuild_report = new File(parent+File.separator+"entryPointBuild_report.txt");
+		entryPointBuild_report.createNewFile();
+		OutputStream err = new FileOutputStream(entryPointBuild_report);
+		List<String> compArgs = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", srcPath, "-d", classPath}));
+		compArgs.addAll(compilePaths);
+		return compiler.run(null, null, err, compArgs.toArray(new String[compArgs.size()]));
+	}
+
+	private void createClass(String packageName, String newClassPath, List<String> imports, List<String> methodCalls) throws IOException { 
+		if(packageName != null)
+		{
+			writeNewLine(newClassPath, "package "+packageName+";");
+		}
 		for(String import_str : imports)
 		{
 			writeNewLine(newClassPath, "import "+import_str+";");
 		}
-		
-		writeNewLine(newClassPath, "public class JoanaEntryPoint {");
+		String[] splittedClassPath = newClassPath.split("/");
+		String className = splittedClassPath[splittedClassPath.length - 1].replace(".java", "");
+		writeNewLine(newClassPath, "public class " +className+ " {");
 		writeNewLine(newClassPath, "	public static void main(String[] args) {");
 		writeNewLine(newClassPath, "		try {");
-		for(String method : modMethods.keySet())
+
+		for(String call : methodCalls)
 		{
-			callMethod(newClassPath, method);
+			writeNewLine(newClassPath, "			"+call);
 		}
 		
 		writeNewLine(newClassPath, "		}");
@@ -384,14 +438,25 @@ public class JoanaInvocation {
 		writeNewLine(newClassPath, "		}");	
 		writeNewLine(newClassPath, "	}");
 		writeNewLine(newClassPath, "}");
-
-		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		String parent = new File(reportFilePath).getParent();
-		File entryPointBuild_report = new File(parent+File.separator+"entryPointBuild_report.txt");
-		entryPointBuild_report.createNewFile();
-		OutputStream err = new FileOutputStream(entryPointBuild_report);
-		return compiler.run(null, null, err, new String[] {"-sourcepath", srcPath, "-d", classPath, newClassPath});
 	}
+
+	private List<String[]> createPackagesEntryPoints(
+			Map<JavaPackage, List<String>> groupedMethods) throws IOException {
+		List<String[]> entryPointsPath = new ArrayList<String[]>();
+		for(JavaPackage java_package : groupedMethods.keySet())
+		{
+			String packageName = java_package.getName();
+			if(!packageName.equals("(default package)")){
+				String className = packageName.substring(0,1).toUpperCase() + packageName.substring(1).replace(".", "_") + "_EntryPoint.java";
+				String classPath = srcPath + File.separator + packageName.replace(".", File.separator) + File.separator + className;
+				createFile(classPath);
+				createClass(packageName, classPath, new ArrayList<String>(), groupedMethods.get(java_package));
+				entryPointsPath.add(new String[] {packageName, className, classPath});
+			}			
+		}
+		return entryPointsPath;
+	}
+
 
 	private void createFile(String newClassPath) throws IOException {
 		File file = new File(newClassPath);
@@ -408,12 +473,11 @@ public class JoanaInvocation {
 		}
 	}
 
-	private void callMethod(String path, String method)
-			throws IOException {
+	private String callMethod(String method) {
 		ModifiedMethod modMethod = modMethods.get(method);
+		String call = "";
 		JavaMethodSignature methodSign = modMethod.getMethodSignature();
-		write(path, "			new "+methodSign.getDeclaringType().toHRStringShort() + "(");
-
+		call += "new "+methodSign.getDeclaringType().toHRStringShort() + "(";
 		if(!methodSign.getMethodName().equals("<init>"))
 		{			
 			List<String> constArgs = modMethod.getDefaultConstructorArgs();
@@ -425,9 +489,9 @@ public class JoanaInvocation {
 					argsStr += getTypeDefaultValue(constructorArg) + " , ";
 				}
 				argsStr = argsStr.substring(0,argsStr.length() - 3);
-				write(path, argsStr);
+				call += argsStr;//write(path, argsStr);
 			}
-			write(path, ")."+methodSign.getMethodName() +"(");
+			call += ")."+methodSign.getMethodName() +"(";//write(path, ")."+methodSign.getMethodName() +"(");
 			
 		}
 		String argsStr = "";				
@@ -439,9 +503,10 @@ public class JoanaInvocation {
 				argsStr += getTypeDefaultValue(argType.toHRStringShort().split(" ")[0]) +" , ";
 			}
 			argsStr = argsStr.substring(0,argsStr.length() - 3);
-			write(path, argsStr);
+			call += argsStr;//write(path, argsStr);
 		}
-		writeNewLine(path,");");
+		call += ");";//writeNewLine(path,");");
+		return call;
 	}
 
 	private String getTypeDefaultValue(String type)
@@ -486,7 +551,7 @@ public class JoanaInvocation {
 		config.setExceptionAnalysis(ExceptionAnalysis.INTERPROC);
 		return config;
 	}
-
+	
 	public static void main(String[] args) throws ClassHierarchyException, IOException, UnsoundGraphException, CancelException, ClassNotFoundException {				
 		Map<String, ModifiedMethod> methods = new HashMap<String, ModifiedMethod>();
 		List<Integer> right = new ArrayList<Integer>();
@@ -579,27 +644,45 @@ public class JoanaInvocation {
 		right.remove(0);
 		methods.put("cin.ufpe.br.Teste4.nm3(int)", new ModifiedMethod("cin.ufpe.br.Teste4.nm3(int)", argsList, left, right));
 		 
-		
-		/*
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(6);
 		right.add(9);
-		methods.put("cin.ufpe.br2.Teste5.m()", new ModifiedMethod("cin.ufpe.br2.Teste5.m()", new ArrayList<String>(),contribs));
+		methods.put("cin.ufpe.br2.Teste5.m()", new ModifiedMethod("cin.ufpe.br2.Teste5.m()", new ArrayList<String>(),left, right));
 		
-		contribs = new ArrayList<List<Integer>>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		contribs.add(left);
-		contribs.add(right);
 		left.add(60);
 		right.add(62);
 		right.add(64);
-		methods.put("Test2.main(java.lang.String[])", new ModifiedMethod("Test2.main(java.lang.String[])", new ArrayList<String>(),contribs));
+		methods.put("Test2.main(java.lang.String[])", new ModifiedMethod("Test2.main(java.lang.String[])", new ArrayList<String>(),left, right));
+
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(11);
+		right.add(12);
+		methods.put("cin.ufpe.br2.Teste6.m()", new ModifiedMethod("cin.ufpe.br2.Teste6.m()", new ArrayList<String>(),left, right));
+		
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(17);
+		right.add(18);
+		methods.put("cin.ufpe.br2.Teste6.n()", new ModifiedMethod("cin.ufpe.br2.Teste6.n()", new ArrayList<String>(),left, right));
+		
+		/*
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(17);
+		right.add(18);
+		methods.put("cin.ufpe.br2.Teste7.n()", new ModifiedMethod("cin.ufpe.br2.Teste7.n()", new ArrayList<String>(),left, right));
+		
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(17);
+		right.add(18);
+		methods.put("cin.ufpe.br2.Teste8.n()", new ModifiedMethod("cin.ufpe.br2.Teste8.n()", new ArrayList<String>(),left, right));
 		*/
+		
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
 
