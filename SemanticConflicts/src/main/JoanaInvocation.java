@@ -136,6 +136,36 @@ public class JoanaInvocation {
 		}
 	}
 
+	private static boolean signaturesMatch(JavaMethodSignature methodEvaluated, JavaMethodSignature currentMethod)
+	{
+		boolean match = false;
+		List<JavaType> evaluatedArgTypes = methodEvaluated.getArgumentTypes();
+		List<JavaType> currentArgTypes = currentMethod.getArgumentTypes();
+		if(methodEvaluated.getDeclaringType().equals(currentMethod.getDeclaringType()) 
+				&& methodEvaluated.getMethodName().equals(currentMethod.getMethodName())
+				&& evaluatedArgTypes.size() == currentArgTypes.size())
+		{
+			int i = 0;
+			boolean argsMatch = true;
+			JavaType evaluatedType, currentType;
+			while(argsMatch && i < evaluatedArgTypes.size())
+			{
+				evaluatedType = evaluatedArgTypes.get(i);
+				currentType = currentArgTypes.get(i);
+				if(evaluatedType.toHRString().equals(evaluatedType.toHRStringShort()))
+				{
+					argsMatch = evaluatedType.toHRStringShort().equals(currentType.toHRStringShort());
+				}else{
+					argsMatch = evaluatedType.equals(currentType);
+				}
+				
+				i++;
+			}
+			match = argsMatch;
+		}
+		return match;
+	}
+	
 	private void addSourcesAndSinks(String methodEvaluated) throws IOException {		
 
 		Collection<SDGClass> classes = program.getClasses();
@@ -157,9 +187,9 @@ public class JoanaInvocation {
 				{
 					SDGMethod method = methIt.next();
 					IMethod meth = method.getMethod();
-					String meth_signature = method.getSignature().toHRString();
-					String mod_sign = meth_signature.split(" ",2)[1];
-					methodFound = methodEvaluated.equals(mod_sign);
+
+					JavaMethodSignature meth_signature = method.getSignature();
+					methodFound = signaturesMatch(methodSignature, meth_signature);
 					//System.out.println("Mod sign: "+mod_sign + " , "+methodFound);
 					if(methodFound)
 					{
@@ -560,7 +590,7 @@ public class JoanaInvocation {
 		left.add(51);
 		right.add(53);
 		right.add(55);		
-		methods.put("cin.ufpe.br.Teste3.main(java.lang.String[])",new ModifiedMethod("cin.ufpe.br.Teste3.main(java.lang.String[])", new ArrayList<String>(), left, right));
+		methods.put("cin.ufpe.br.Teste3.main(String[])",new ModifiedMethod("cin.ufpe.br.Teste3.main(String[])", new ArrayList<String>(), left, right));
 
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -586,7 +616,7 @@ public class JoanaInvocation {
 		argsList.add("Teste2");
 		methods.put("cin.ufpe.br.Teste4.m()", new ModifiedMethod("cin.ufpe.br.Teste4.m()", argsList, left, right));
 
-		methods.put("cin.ufpe.br.Teste4.<init>(int, char, cin.ufpe.br.Teste2)", new ModifiedMethod("cin.ufpe.br.Teste4.<init>(int, char, cin.ufpe.br.Teste2)", new ArrayList<String>(), left, right));
+		methods.put("cin.ufpe.br.Teste4.<init>(int, char, Teste2)", new ModifiedMethod("cin.ufpe.br.Teste4.<init>(int, char, Teste2)", new ArrayList<String>(), left, right));
 		
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -655,7 +685,7 @@ public class JoanaInvocation {
 		left.add(60);
 		right.add(62);
 		right.add(64);
-		methods.put("Test2.main(java.lang.String[])", new ModifiedMethod("Test2.main(java.lang.String[])", new ArrayList<String>(),left, right));
+		methods.put("Test2.main(String[])", new ModifiedMethod("Test2.main(String[])", new ArrayList<String>(),left, right));
 
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
