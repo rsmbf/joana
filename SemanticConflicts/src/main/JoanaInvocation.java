@@ -227,7 +227,7 @@ public class JoanaInvocation {
 	{
 		createFile(reportFilePath);
 		List<String> paths = createEntryPoint();
-		if(compileEntryPoints(paths) == 0)
+		if(compilePaths(paths, "entryPointBuild_report.txt") == 0)
 		{
 			String parent = new File(reportFilePath).getParent();
 			File entryPointBuild= new File(parent+File.separator+"entryPointBuild_report.txt");
@@ -430,11 +430,11 @@ public class JoanaInvocation {
 		return compilePaths;
 	}
 
-	private int compileEntryPoints(List<String> compilePaths)
+	private int compilePaths(List<String> compilePaths, String reportFileName)
 			throws IOException, FileNotFoundException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		String parent = new File(reportFilePath).getParent();
-		File entryPointBuild_report = new File(parent+File.separator+"entryPointBuild_report.txt");
+		File entryPointBuild_report = new File(parent+File.separator+reportFileName);
 		entryPointBuild_report.createNewFile();
 		OutputStream err = new FileOutputStream(entryPointBuild_report);
 		List<String> compArgs = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", srcPath, "-d", classPath}));
@@ -715,12 +715,27 @@ public class JoanaInvocation {
 		
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
-
+		
+		
 		/*
 		left.add(186);
 		right.add(193);
 		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ArrayList<String>(), left, right ));
 		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", methods, "/build/classes/main", "/src/main/java");
+		*/
+		
+		/*
+		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64/git";
+		String src = "/src/main/java";
+		String fullSrc = projectPath + src;
+		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, "/build/classes/main", src, "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64/reports");
+		File fil = new File("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64/reports");
+		fil.mkdirs();
+		joana.compilePaths(new ArrayList<String>(
+				Arrays.asList(new String[]{fullSrc + "/rx/internal/operators/Anon_Subscriber.java",
+											fullSrc + "/rx/internal/operators/Anon_Producer.java",
+											fullSrc + "/rx/internal/operators/OperatorOnBackPressureDrop.java"
+		})), "anon_comp_report.txt");
 		*/
 		joana.run();
 	}
