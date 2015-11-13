@@ -141,27 +141,32 @@ public class JoanaInvocation {
 		boolean match = false;
 		List<JavaType> evaluatedArgTypes = methodEvaluated.getArgumentTypes();
 		List<JavaType> currentArgTypes = currentMethod.getArgumentTypes();
+		
 		if(methodEvaluated.getDeclaringType().equals(currentMethod.getDeclaringType()) 
-				&& methodEvaluated.getMethodName().equals(currentMethod.getMethodName())
-				&& evaluatedArgTypes.size() == currentArgTypes.size())
+				&& methodEvaluated.getMethodName().equals(currentMethod.getMethodName()))
 		{
-			int i = 0;
-			boolean argsMatch = true;
-			JavaType evaluatedType, currentType;
-			while(argsMatch && i < evaluatedArgTypes.size())
+			if((evaluatedArgTypes.size() == currentArgTypes.size()) || 
+					(evaluatedArgTypes.size() == 1 && currentArgTypes.size() == 0 
+						&& evaluatedArgTypes.get(0).toHRString().equals("")))
 			{
-				evaluatedType = evaluatedArgTypes.get(i);
-				currentType = currentArgTypes.get(i);
-				if(evaluatedType.toHRString().equals(evaluatedType.toHRStringShort()))
+				int i = 0;
+				boolean argsMatch = true;
+				JavaType evaluatedType, currentType;
+				while(argsMatch && i < currentArgTypes.size())
 				{
-					argsMatch = evaluatedType.toHRStringShort().equals(currentType.toHRStringShort());
-				}else{
-					argsMatch = evaluatedType.equals(currentType);
-				}
+					evaluatedType = evaluatedArgTypes.get(i);
+					currentType = currentArgTypes.get(i);
+					if(evaluatedType.toHRString().equals(evaluatedType.toHRStringShort()))
+					{
+						argsMatch = evaluatedType.toHRStringShort().equals(currentType.toHRStringShort());
+					}else{
+						argsMatch = evaluatedType.equals(currentType);
+					}
 
-				i++;
+					i++;
+				}
+				match = argsMatch;
 			}
-			match = argsMatch;
 		}
 		return match;
 	}
@@ -268,7 +273,7 @@ public class JoanaInvocation {
 				if(results.size() > 0)
 				{
 					writeNewLine(reportFilePath, "VIOLATIONS");
-					printAllViolations(results);
+					writeNewLine(reportFilePath, "TOTAL VIOLATIONS: " + printAllViolations(results));
 					writeNewLine(reportFilePath, "LINE violations");
 					printAllViolationsByLine(results);
 				}else{
@@ -785,13 +790,15 @@ public class JoanaInvocation {
 		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", methods, "/build/classes/main", "/src/main/java");
 		 */
 
-
-		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64/git";
+		String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_fd9b6-4350f";//rev_29060-15e64
+		String projectPath = rev + "/git"; 
 		String src = "/src/main/java";
 		String fullSrc = projectPath + src;
-		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, "/build/classes/main", src, "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64/reports");
-		File fil = new File("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64/reports");
+		String reportsPath = rev + "/reports";
+		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, "/build/classes/main", src, reportsPath);
+		File fil = new File(reportsPath);
 		fil.mkdirs();
+		/*
 		joana.compilePaths(new ArrayList<String>(
 				Arrays.asList(new String[]{fullSrc + "/rx/internal/operators/Anon_Subscriber.java",
 						fullSrc + "/rx/internal/operators/Anon_Producer.java",
@@ -811,8 +818,43 @@ public class JoanaInvocation {
 		left.add(40);
 		left.add(41);
 		methods.put("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ModifiedMethod("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ArrayList<String>(Arrays.asList(new String[]{"Subscriber","AtomicLong", "Action1"})), left, right));
+		*/
+		
+		joana.compilePaths(new ArrayList<String>(Arrays.asList(new String[] {
+				fullSrc + "/rx/Anon_Subscriber.java",
+				fullSrc + "/rx/internal/operators/OperatorMulticast.java"
+		})), "anon_comp_report.txt");
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		right.add(116);
+		left.add(139);
+		left.add(140);
+		left.add(156);
+		methods.put("rx.internal.operators.OperatorMulticast.connect(rx.functions.Action1)", new ModifiedMethod("rx.internal.operators.OperatorMulticast.connect(rx.functions.Action1)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Observable","rx.functions.Func0"})), left, right));
+		
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(12);
+		left.add(13);
+		left.add(14);
+		left.add(15);
+		methods.put("rx.Anon_Subscriber.onNext(java.lang.Object)", new ModifiedMethod("rx.Anon_Subscriber.onNext(java.lang.Object)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right));
+		
+		left = new ArrayList<Integer>();
+		left.add(17);
+		left.add(18);
+		left.add(19);
+		left.add(20);
+		methods.put("rx.Anon_Subscriber.onError(Throwable)", new ModifiedMethod("rx.Anon_Subscriber.onError(Throwable)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right));
+		
+		left = new ArrayList<Integer>();
+		left.add(22);
+		left.add(23);
+		left.add(24);
+		left.add(25);
+		methods.put("rx.Anon_Subscriber.onCompleted()", new ModifiedMethod("rx.Anon_Subscriber.onCompleted()", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right));
 		
 		joana.run(false);
 	}
-
+	
 }
