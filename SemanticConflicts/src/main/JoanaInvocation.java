@@ -56,7 +56,7 @@ public class JoanaInvocation {
 	private Map<String, ModifiedMethod> modMethods;
 	private String classPath;
 	private String srcPath;
-	private String libPath;
+	private String[] libPaths;
 	private String reportFilePath;
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
@@ -64,13 +64,17 @@ public class JoanaInvocation {
 		this(projectPath, modMethods, "/bin", "/src", null, System.getProperty("user.dir")+File.separator+"reports");
 	}
 
-	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath, String libPath, String reportFilePath)
+	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath, String libPaths, String reportFilePath)
 	{
 		this.classPath = projectPath + binPath;
 		this.srcPath = projectPath + srcPath;
-		if(libPath != null)
+		if(libPaths != null)
 		{
-			this.libPath = projectPath + libPath;
+			this.libPaths = libPaths.split(":");
+			for(int i = 0; i < this.libPaths.length; i++)
+			{
+				this.libPaths[i] = projectPath + this.libPaths[i];
+			}
 		}
 		this.modMethods = modMethods;
 		this.reportFilePath = reportFilePath + File.separator+"joana_report.txt";		
@@ -513,10 +517,10 @@ public class JoanaInvocation {
 		entryPointBuild_report.createNewFile();
 		OutputStream err = new FileOutputStream(entryPointBuild_report);
 		List<String> compArgs = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", srcPath, "-d", classPath}));
-		if(libPath != null)
+		if(libPaths != null)
 		{
 			compArgs.add("-cp");
-			compArgs.add(FileUtils.getAllJarFiles(libPath + "/*"));
+			compArgs.add(FileUtils.getAllJarFiles(libPaths));
 		}
 		compArgs.addAll(compilePaths);
 		/*
@@ -823,7 +827,7 @@ public class JoanaInvocation {
 		String fullSrc = projectPath + src;
 		String reportsPath = rev + "/reports";
 		String bin = "/dist/classes";//"/build/classes/main";
-		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, "/lib", reportsPath);
+		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, "/lib/*:/dist/*", reportsPath);
 		
 		
 		/*
