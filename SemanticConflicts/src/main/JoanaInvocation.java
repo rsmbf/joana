@@ -66,7 +66,7 @@ public class JoanaInvocation {
 		this.classPath = projectPath + binPath;
 		this.srcPath = projectPath + srcPath;
 		this.modMethods = modMethods;
-		this.reportFilePath = reportFilePath + File.separator+"joana_report.txt";
+		this.reportFilePath = reportFilePath + File.separator+"joana_report.txt";		
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
 	}
 
@@ -143,7 +143,11 @@ public class JoanaInvocation {
 		List<JavaType> currentArgTypes = currentMethod.getArgumentTypes();
 		
 		if(methodEvaluated.getDeclaringType().equals(currentMethod.getDeclaringType()) 
-				&& methodEvaluated.getMethodName().equals(currentMethod.getMethodName()))
+				&& (methodEvaluated.getMethodName().equals(currentMethod.getMethodName())
+						|| (methodEvaluated.getMethodName().equals(methodEvaluated.getDeclaringType().toHRStringShort())
+							&& currentMethod.getMethodName().equals("<init>")
+						)
+				))
 		{
 			if((evaluatedArgTypes.size() == currentArgTypes.size()) || 
 					(evaluatedArgTypes.size() == 1 && currentArgTypes.size() == 0 
@@ -206,7 +210,7 @@ public class JoanaInvocation {
 						Collection<SDGInstruction> instructions = method.getInstructions();
 						for(SDGInstruction instruction : instructions ){
 							int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
-							System.out.println("LINE "+line_number+": "+instruction);
+							writeNewLine(reportFilePath, "LINE "+line_number+": "+instruction);
 							if(left_cont.contains(line_number))							
 							{
 								//System.out.println("Adding source...");
@@ -571,8 +575,9 @@ public class JoanaInvocation {
 		ModifiedMethod modMethod = modMethods.get(method);
 		String call = "";
 		JavaMethodSignature methodSign = modMethod.getMethodSignature();
-		call += "new "+methodSign.getDeclaringType().toHRStringShort() + "(";
-		if(!methodSign.getMethodName().equals("<init>"))
+		String declaringType = methodSign.getDeclaringType().toHRStringShort();
+		call += "new "+ declaringType +"(";
+		if(!methodSign.getMethodName().equals(declaringType))
 		{			
 			List<String> constArgs = modMethod.getDefaultConstructorArgs();
 			if(constArgs.size() > 0)
@@ -651,7 +656,7 @@ public class JoanaInvocation {
 		List<Integer> right = new ArrayList<Integer>();
 		List<Integer> left = new ArrayList<Integer>();		
 
-		/*
+		
 		left.add(51);
 		right.add(53);
 		right.add(55);		
@@ -662,7 +667,7 @@ public class JoanaInvocation {
 		left.add(10);
 		left.add(12);
 		right.add(14);		
-		methods.put("cin.ufpe.br.Teste3.<init>()", new ModifiedMethod("cin.ufpe.br.Teste3.<init>()", new ArrayList<String>(), left, right));
+		methods.put("cin.ufpe.br.Teste3.Teste3()", new ModifiedMethod("cin.ufpe.br.Teste3.Teste3()", new ArrayList<String>(), left, right));
 
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -681,8 +686,9 @@ public class JoanaInvocation {
 		argsList.add("Teste2");
 		methods.put("cin.ufpe.br.Teste4.m()", new ModifiedMethod("cin.ufpe.br.Teste4.m()", argsList, left, right));
 
-		methods.put("cin.ufpe.br.Teste4.<init>(int, char, Teste2)", new ModifiedMethod("cin.ufpe.br.Teste4.<init>(int, char, Teste2)", new ArrayList<String>(), left, right));
+		methods.put("cin.ufpe.br.Teste4.Teste4(int, char, Teste2)", new ModifiedMethod("cin.ufpe.br.Teste4.Teste4(int, char, Teste2)", new ArrayList<String>(), left, right));
 
+		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(27);
@@ -763,7 +769,7 @@ public class JoanaInvocation {
 		left.add(17);
 		right.add(18);
 		methods.put("cin.ufpe.br2.Teste6.n()", new ModifiedMethod("cin.ufpe.br2.Teste6.n()", new ArrayList<String>(),left, right));
-		 */
+		 
 		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -777,11 +783,11 @@ public class JoanaInvocation {
 		right.add(18);
 		methods.put("cin.ufpe.br2.Teste8.n()", new ModifiedMethod("cin.ufpe.br2.Teste8.n()", new ArrayList<String>(),left, right));
 		 */
-/*
+
 		
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
-	*/	 
+		 
 
 		 /*
 		left.add(186);
@@ -790,14 +796,18 @@ public class JoanaInvocation {
 		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", methods, "/build/classes/main", "/src/main/java");
 		 */
 
-		String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_fd9b6-4350f";//rev_29060-15e64
+		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_fd9b6-4350f";
+		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64";
+		/*
+		String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";
 		String projectPath = rev + "/git"; 
-		String src = "/src/main/java";
+		String src = "/src/java";//"/src/main/java";
 		String fullSrc = projectPath + src;
 		String reportsPath = rev + "/reports";
-		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, "/build/classes/main", src, reportsPath);
-		File fil = new File(reportsPath);
-		fil.mkdirs();
+		String bin = "/dist/classes";//"/build/classes/main";
+		
+		*/
+		
 		/*
 		joana.compilePaths(new ArrayList<String>(
 				Arrays.asList(new String[]{fullSrc + "/rx/internal/operators/Anon_Subscriber.java",
@@ -809,7 +819,8 @@ public class JoanaInvocation {
 		left = new ArrayList<Integer>();
 		right.add(13);
 		methods.put("rx.internal.operators.Anon_Producer.request(long)", new ModifiedMethod("rx.internal.operators.Anon_Producer.request(long)", new ArrayList<String>(Arrays.asList(new String[]{"AtomicLong"})), left, right));
-
+		
+		
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(37);
@@ -819,9 +830,11 @@ public class JoanaInvocation {
 		left.add(41);
 		methods.put("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ModifiedMethod("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ArrayList<String>(Arrays.asList(new String[]{"Subscriber","AtomicLong", "Action1"})), left, right));
 		*/
-		
+		/*
 		joana.compilePaths(new ArrayList<String>(Arrays.asList(new String[] {
 				fullSrc + "/rx/Anon_Subscriber.java",
+				fullSrc + "/rx/Anon_Subscriber_Obs.java",
+				fullSrc + "/rx/observers/Subscribers.java",
 				fullSrc + "/rx/internal/operators/OperatorMulticast.java"
 		})), "anon_comp_report.txt");
 		right = new ArrayList<Integer>();
@@ -853,8 +866,18 @@ public class JoanaInvocation {
 		left.add(24);
 		left.add(25);
 		methods.put("rx.Anon_Subscriber.onCompleted()", new ModifiedMethod("rx.Anon_Subscriber.onCompleted()", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right));
+		*/
+		/*
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(820);
+		left.add(827);
+		right.add(731);
+		methods.put("voldemort.server.VoldemortConfig.VoldemortConfig(Props)", new ModifiedMethod("voldemort.server.VoldemortConfig.VoldemortConfig(Props)",new ArrayList<String>(),left, right));
+		*/
 		
-		joana.run(false);
+		joana.run();
+		//joana.run(false);
 	}
 	
 }
