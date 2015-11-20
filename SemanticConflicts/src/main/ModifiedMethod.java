@@ -9,13 +9,15 @@ public class ModifiedMethod {
 	private List<Integer> leftContribs;
 	private List<Integer> rightContribs;
 	private List<String> defaultConstructorArgs;
+	private List<String> importsList;
 
-	public ModifiedMethod(String signature, List<String> defaultConstructorArgs, List<Integer> leftContribs, List<Integer> rightContribs)
+	public ModifiedMethod(String signature, List<String> defaultConstructorArgs, List<Integer> leftContribs, List<Integer> rightContribs, List<String> classImportsList)
 	{
 		this.signature = JavaMethodSignature.fromString("void "+signature);
 		this.leftContribs = leftContribs;
 		this.rightContribs = rightContribs;
 		this.defaultConstructorArgs = defaultConstructorArgs;
+		this.importsList = classImportsList;
 	}
 
 	public JavaMethodSignature getMethodSignature() {
@@ -36,7 +38,10 @@ public class ModifiedMethod {
 		return defaultConstructorArgs;
 	}
 
-
+	public List<String> getImportsList()
+	{
+		return importsList;
+	}
 
 
 }

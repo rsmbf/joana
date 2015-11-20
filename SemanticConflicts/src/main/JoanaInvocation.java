@@ -458,7 +458,7 @@ public class JoanaInvocation {
 		System.out.print(line);
 	}
 
-	public Map<JavaPackage, List<String>> groupMethodCallsByPackage()
+	public Map<JavaPackage, List<String>> groupMethodsByPackage()
 	{		
 		Map<JavaPackage, List<String>> groupedMethods = new HashMap<JavaPackage, List<String>>();
 		for(String method : modMethods.keySet())
@@ -470,7 +470,7 @@ public class JoanaInvocation {
 			{
 				pack_methods = new ArrayList<String>();
 			}
-			pack_methods.add(callMethod(method));
+			pack_methods.add(method);
 			groupedMethods.put(type_package, pack_methods);
 		}
 		return groupedMethods;
@@ -483,7 +483,7 @@ public class JoanaInvocation {
 		createFile(newClassPath);
 
 
-		Map<JavaPackage, List<String>> groupedMethods = groupMethodCallsByPackage();
+		Map<JavaPackage, List<String>> groupedMethods = groupMethodsByPackage();
 		List<String[]> entryPointsResults = createPackagesEntryPoints(groupedMethods);
 		List<String> imports = new ArrayList<String>();
 		List<String> methods = new ArrayList<String>();
@@ -500,7 +500,11 @@ public class JoanaInvocation {
 		List<String> methodsDefaultPack = groupedMethods.get(new JavaPackage("(default package)"));
 		if(methodsDefaultPack != null)
 		{
-			methods.addAll(methodsDefaultPack);
+			//methods.addAll(methodsDefaultPack);
+			for(String method : methodsDefaultPack)
+			{
+				methods.add(callMethod(method));
+			}
 		}
 
 
@@ -570,7 +574,20 @@ public class JoanaInvocation {
 				String className = packageName.substring(0,1).toUpperCase() + packageName.substring(1).replace(".", "_") + "_EntryPoint.java";
 				String classPath = srcPath + File.separator + packageName.replace(".", File.separator) + File.separator + className;
 				createFile(classPath);
-				createClass(packageName, classPath, new ArrayList<String>(), groupedMethods.get(java_package));
+				Set<String> imports = new HashSet<String>();
+				List<String> packageMethods = groupedMethods.get(java_package);
+				List<String> methodsCalls = new ArrayList<String>();
+				for(String method : packageMethods)
+				{
+					for(String import_str : modMethods.get(method).getImportsList())
+					{
+						imports.add(import_str);
+					}
+					methodsCalls.add(callMethod(method));
+				}
+				List<String> importsList = new ArrayList<String>();
+				importsList.addAll(imports);
+				createClass(packageName, classPath, importsList, methodsCalls);
 				entryPointsPath.add(new String[] {packageName, className, classPath});
 			}			
 		}
@@ -632,7 +649,7 @@ public class JoanaInvocation {
 
 	private String getTypeDefaultValue(String type)
 	{
-		String value = "null";
+		String value = "("+ type + ") null";
 		if(type.equals("byte") || type.equals("short") || type.equals("int") 
 				|| type.equals("long") || type.equals("flot") || type.equals("double")){
 			value = "0";
@@ -895,7 +912,7 @@ public class JoanaInvocation {
 		left.add(820);
 		left.add(827);
 		right.add(731);
-		methods.put("voldemort.server.VoldemortConfig.VoldemortConfig(Props)", new ModifiedMethod("voldemort.server.VoldemortConfig.VoldemortConfig(Props)",new ArrayList<String>(),left, right));
+		methods.put("voldemort.server.VoldemortConfig.VoldemortConfig(Props)", new ModifiedMethod("voldemort.server.VoldemortConfig.VoldemortConfig(Props)",new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"})),left, right, new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"}))));
 		
 		joana.run();
 		//joana.run(false);
