@@ -47,6 +47,8 @@ import gnu.trove.map.TObjectIntMap;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
+import util.FileUtils;
+
 public class JoanaInvocation {
 	private Map<SDGProgramPart, Integer> parts_map;
 	private SDGProgram program;
@@ -54,17 +56,22 @@ public class JoanaInvocation {
 	private Map<String, ModifiedMethod> modMethods;
 	private String classPath;
 	private String srcPath;
+	private String libPath;
 	private String reportFilePath;
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
 	{	
-		this(projectPath, modMethods, "/bin", "/src", System.getProperty("user.dir")+File.separator+"reports");
+		this(projectPath, modMethods, "/bin", "/src", null, System.getProperty("user.dir")+File.separator+"reports");
 	}
 
-	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath, String reportFilePath)
+	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String srcPath, String libPath, String reportFilePath)
 	{
 		this.classPath = projectPath + binPath;
 		this.srcPath = projectPath + srcPath;
+		if(libPath != null)
+		{
+			this.libPath = projectPath + libPath;
+		}
 		this.modMethods = modMethods;
 		this.reportFilePath = reportFilePath + File.separator+"joana_report.txt";		
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
@@ -506,7 +513,18 @@ public class JoanaInvocation {
 		entryPointBuild_report.createNewFile();
 		OutputStream err = new FileOutputStream(entryPointBuild_report);
 		List<String> compArgs = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", srcPath, "-d", classPath}));
+		if(libPath != null)
+		{
+			compArgs.add("-cp");
+			compArgs.add(FileUtils.getAllJarFiles(libPath + "/*"));
+		}
 		compArgs.addAll(compilePaths);
+		/*
+		for(String compArg : compArgs)
+		{
+			System.out.println(compArg);
+		}
+		*/
 		return compiler.run(null, null, err, compArgs.toArray(new String[compArgs.size()]));
 	}
 
@@ -656,7 +674,7 @@ public class JoanaInvocation {
 		List<Integer> right = new ArrayList<Integer>();
 		List<Integer> left = new ArrayList<Integer>();		
 
-		
+		/*
 		left.add(51);
 		right.add(53);
 		right.add(55);		
@@ -784,10 +802,10 @@ public class JoanaInvocation {
 		methods.put("cin.ufpe.br2.Teste8.n()", new ModifiedMethod("cin.ufpe.br2.Teste8.n()", new ArrayList<String>(),left, right));
 		 */
 
-		
+		/*
 		String projectPath = "/Users/Roberto/Documents/UFPE/Msc/Projeto/joana/joana/example/joana.example.tiny-special-tests";	
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
-		 
+		 */
 
 		 /*
 		left.add(186);
@@ -798,15 +816,15 @@ public class JoanaInvocation {
 
 		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_fd9b6-4350f";
 		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64";
-		/*
+		
 		String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";
 		String projectPath = rev + "/git"; 
 		String src = "/src/java";//"/src/main/java";
 		String fullSrc = projectPath + src;
 		String reportsPath = rev + "/reports";
 		String bin = "/dist/classes";//"/build/classes/main";
+		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, "/lib", reportsPath);
 		
-		*/
 		
 		/*
 		joana.compilePaths(new ArrayList<String>(
@@ -867,14 +885,13 @@ public class JoanaInvocation {
 		left.add(25);
 		methods.put("rx.Anon_Subscriber.onCompleted()", new ModifiedMethod("rx.Anon_Subscriber.onCompleted()", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right));
 		*/
-		/*
+		
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(820);
 		left.add(827);
 		right.add(731);
 		methods.put("voldemort.server.VoldemortConfig.VoldemortConfig(Props)", new ModifiedMethod("voldemort.server.VoldemortConfig.VoldemortConfig(Props)",new ArrayList<String>(),left, right));
-		*/
 		
 		joana.run();
 		//joana.run(false);
