@@ -249,8 +249,9 @@ public class JoanaInvocation {
 	public void run(boolean methodLevelAnalysis) throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
 	{
 		FileUtils.createFile(reportFilePath);
-		List<String> paths = new EntryPoint(srcPath, modMethods).createEntryPoint();
-		if(compilePaths(paths, "entryPointBuild_report.txt") == 0)
+		EntryPoint entryPoint = new EntryPoint(srcPath, modMethods);
+		List<String> paths = entryPoint.createEntryPoint();
+		if(entryPoint.compilePaths(paths, "entryPointBuild_report.txt", classPath, libPaths, reportFilePath) == 0)
 		{
 			String parent = new File(reportFilePath).getParent();
 			File entryPointBuild= new File(parent+File.separator+"entryPointBuild_report.txt");
@@ -438,33 +439,6 @@ public class JoanaInvocation {
 			//System.out.println("Adding sink...");
 			ana.addSinkAnnotation(source.getProgramPart(), BuiltinLattices.STD_SECLEVEL_LOW);
 		}
-	}
-
-	
-
-	
-
-	private int compilePaths(List<String> compilePaths, String reportFileName)
-			throws IOException, FileNotFoundException {
-		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		String parent = new File(reportFilePath).getParent();
-		File entryPointBuild_report = new File(parent+File.separator+reportFileName);
-		entryPointBuild_report.createNewFile();
-		OutputStream err = new FileOutputStream(entryPointBuild_report);
-		List<String> compArgs = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", srcPath, "-d", classPath}));
-		if(libPaths != null)
-		{
-			compArgs.add("-cp");
-			compArgs.add(FileUtils.getAllJarFiles(libPaths));
-		}
-		compArgs.addAll(compilePaths);
-		/*
-		for(String compArg : compArgs)
-		{
-			System.out.println(compArg);
-		}
-		*/
-		return compiler.run(null, null, err, compArgs.toArray(new String[compArgs.size()]));
 	}
 
 	private SDGConfig setConfig() {

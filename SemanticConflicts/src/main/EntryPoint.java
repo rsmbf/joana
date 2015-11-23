@@ -1,13 +1,20 @@
 package main;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 
 import util.FileUtils;
 import edu.kit.joana.ifc.sdg.util.JavaMethodSignature;
@@ -188,6 +195,29 @@ public class EntryPoint {
 			value = "false";
 		}
 		return value;
+	}
+	
+	public int compilePaths(List<String> compilePaths, String reportFileName, String classPath, String[] libPaths, String reportFilePath)
+			throws IOException, FileNotFoundException {
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		String parent = new File(reportFilePath).getParent();
+		File entryPointBuild_report = new File(parent+File.separator+reportFileName);
+		entryPointBuild_report.createNewFile();
+		OutputStream err = new FileOutputStream(entryPointBuild_report);
+		List<String> compArgs = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", srcPath, "-d", classPath}));
+		if(libPaths != null)
+		{
+			compArgs.add("-cp");
+			compArgs.add(FileUtils.getAllJarFiles(libPaths));
+		}
+		compArgs.addAll(compilePaths);
+		/*
+		for(String compArg : compArgs)
+		{
+			System.out.println(compArg);
+		}
+		*/
+		return compiler.run(null, null, err, compArgs.toArray(new String[compArgs.size()]));
 	}
 	
 }
