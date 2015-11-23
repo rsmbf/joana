@@ -1,4 +1,4 @@
-package main;
+package util;
 
 import edu.kit.joana.api.sdg.SDGProgram;
 import edu.kit.joana.api.sdg.SDGProgramPart;
@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import util.FileUtils;
 
 public class ViolationsPrinter {
 	private static void printViolations(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart, String reportFilePath) throws IOException
