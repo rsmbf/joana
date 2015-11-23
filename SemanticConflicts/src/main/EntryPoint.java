@@ -26,7 +26,7 @@ public class EntryPoint {
 	{		
 		String newClassPath = srcPath + "/JoanaEntryPoint.java";
 
-		JoanaInvocation.createFile(newClassPath);
+		FileUtils.createFile(newClassPath);
 
 
 		Map<JavaPackage, List<String>> groupedMethods = groupMethodsByPackage();
@@ -105,7 +105,7 @@ public class EntryPoint {
 			if(!packageName.equals("(default package)")){
 				String className = packageName.substring(0,1).toUpperCase() + packageName.substring(1).replace(".", "_") + "_EntryPoint.java";
 				String classPath = srcPath + File.separator + packageName.replace(".", File.separator) + File.separator + className;
-				JoanaInvocation.createFile(classPath);
+				FileUtils.createFile(classPath);
 				Set<String> imports = new HashSet<String>();
 				List<String> packageMethods = groupedMethods.get(java_package);
 				List<String> methodsCalls = new ArrayList<String>();

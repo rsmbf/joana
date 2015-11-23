@@ -248,7 +248,7 @@ public class JoanaInvocation {
 	
 	public void run(boolean methodLevelAnalysis) throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
 	{
-		createFile(reportFilePath);
+		FileUtils.createFile(reportFilePath);
 		List<String> paths = new EntryPoint(srcPath, modMethods).createEntryPoint();
 		if(compilePaths(paths, "entryPointBuild_report.txt") == 0)
 		{
@@ -467,21 +467,6 @@ public class JoanaInvocation {
 		return compiler.run(null, null, err, compArgs.toArray(new String[compArgs.size()]));
 	}
 
-	public static void createFile(String newClassPath) throws IOException {
-		File file = new File(newClassPath);
-		if(file.exists())
-		{
-			file.delete();
-		}
-		File parent = file.getParentFile();
-		if(!parent.exists()){
-			parent.mkdirs();
-		}
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-	}
-	
 	private SDGConfig setConfig() {
 		/** the class path is either a directory or a jar containing all the classes of the program which you want to analyze */
 		//String classPath = projectPath + "/bin";//"/data1/mmohr/git/CVJMultithreading/bin";

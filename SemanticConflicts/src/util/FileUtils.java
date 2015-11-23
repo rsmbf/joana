@@ -46,4 +46,19 @@ public class FileUtils {
 		bw.close();
 		System.out.print(line);
 	}
+
+	public static void createFile(String newClassPath) throws IOException {
+		File file = new File(newClassPath);
+		if(file.exists())
+		{
+			file.delete();
+		}
+		File parent = file.getParentFile();
+		if(!parent.exists()){
+			parent.mkdirs();
+		}
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+	}
 }
