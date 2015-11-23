@@ -30,4 +30,20 @@ public class FileUtils {
 	    }
 	    return sb.toString();
 	}
+
+	public static void writeNewLine(String path, String line) throws IOException
+	{
+		BufferedWriter bw = new BufferedWriter(new FileWriter(path, true));
+		bw.write(line + "\n");
+		bw.close();
+		System.out.println(line);
+	}
+
+	public static void write(String path, String line) throws IOException
+	{
+		BufferedWriter bw = new BufferedWriter(new FileWriter(path, true));
+		bw.write(line);
+		bw.close();
+		System.out.print(line);
+	}
 }
