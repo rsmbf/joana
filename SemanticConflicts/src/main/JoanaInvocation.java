@@ -1,5 +1,6 @@
 package main;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ import edu.kit.joana.util.Stubs;
 import edu.kit.joana.wala.core.SDGBuilder.ExceptionAnalysis;
 import edu.kit.joana.wala.core.SDGBuilder.PointsToPrecision;
 import gnu.trove.map.TObjectIntMap;
-
 import util.FileUtils;
 import util.ViolationsPrinter;
 
@@ -47,7 +47,13 @@ public class JoanaInvocation {
 	private String classPath;
 	private String srcPath;
 	private String[] libPaths;
-	private String reportFilePath;
+	private Map<PointsToPrecision, String> reportFilePaths;
+	private String currentReportFilePath;
+	
+	private static final PointsToPrecision[] precisions = new PointsToPrecision[] {
+		PointsToPrecision.TYPE_BASED, PointsToPrecision.INSTANCE_BASED, PointsToPrecision.OBJECT_SENSITIVE,
+		PointsToPrecision.N1_OBJECT_SENSITIVE, PointsToPrecision.UNLIMITED_OBJECT_SENSITIVE, 
+		PointsToPrecision.N1_CALL_STACK, PointsToPrecision.N2_CALL_STACK, PointsToPrecision.N3_CALL_STACK };
 
 	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods)
 	{	
@@ -66,29 +72,34 @@ public class JoanaInvocation {
 				this.libPaths[i] = projectPath + this.libPaths[i];
 			}
 		}
-		this.modMethods = modMethods;
-		this.reportFilePath = reportFilePath + File.separator+"joana_report.txt";		
+		this.modMethods = modMethods;		
+		reportFilePaths = new HashMap<PointsToPrecision, String>();
+		for(int i = 0; i < precisions.length; i++)
+		{
+			reportFilePaths.put(precisions[i], reportFilePath + File.separator + "joana_"+precisions[i].toString() +"_report.txt" );
+		}
+		currentReportFilePath = reportFilePaths.get(precisions[0]);	
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
 	}
 
 	
 
 	private void printSourcesAndSinks(Collection<IFCAnnotation> sources, Collection<IFCAnnotation> sinks) throws IOException {
-		FileUtils.writeNewLine(reportFilePath, "Sources: "+sources.size());
+		FileUtils.writeNewLine(currentReportFilePath, "Sources: "+sources.size());
 		for(IFCAnnotation source : sources)
 		{
-			FileUtils.write(reportFilePath,"	SOURCE: "+ source.toString());
-			FileUtils.write(reportFilePath,"	- PROGRAM PART: "+source.getProgramPart());
-			FileUtils.write(reportFilePath," - CONTEXT: "+source.getContext());
-			FileUtils.writeNewLine(reportFilePath," - TYPE: "+source.getType());
+			FileUtils.write(currentReportFilePath,"	SOURCE: "+ source.toString());
+			FileUtils.write(currentReportFilePath,"	- PROGRAM PART: "+source.getProgramPart());
+			FileUtils.write(currentReportFilePath," - CONTEXT: "+source.getContext());
+			FileUtils.writeNewLine(currentReportFilePath," - TYPE: "+source.getType());
 		}
-		FileUtils.writeNewLine(reportFilePath,"Sinks: "+sinks.size());
+		FileUtils.writeNewLine(currentReportFilePath,"Sinks: "+sinks.size());
 		for(IFCAnnotation sink : sinks)
 		{
-			FileUtils.write(reportFilePath,"	SINK: "+sink.toString());
-			FileUtils.write(reportFilePath,"	- PROGRAM PART: "+sink.getProgramPart());
-			FileUtils.write(reportFilePath," - CONTEXT: "+sink.getContext());
-			FileUtils.writeNewLine(reportFilePath," - TYPE: "+sink.getType());			
+			FileUtils.write(currentReportFilePath,"	SINK: "+sink.toString());
+			FileUtils.write(currentReportFilePath,"	- PROGRAM PART: "+sink.getProgramPart());
+			FileUtils.write(currentReportFilePath," - CONTEXT: "+sink.getContext());
+			FileUtils.writeNewLine(currentReportFilePath," - TYPE: "+sink.getType());			
 		}
 	}
 
@@ -166,7 +177,7 @@ public class JoanaInvocation {
 						Collection<SDGInstruction> instructions = method.getInstructions();
 						for(SDGInstruction instruction : instructions ){
 							int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
-							FileUtils.writeNewLine(reportFilePath, "LINE "+line_number+": "+instruction);
+							FileUtils.writeNewLine(currentReportFilePath, "LINE "+line_number+": "+instruction);
 							if(left_cont.contains(line_number))							
 							{
 								//System.out.println("Adding source...");
@@ -190,63 +201,81 @@ public class JoanaInvocation {
 	
 	public void run() throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
 	{
-		run(true);
+		run(true, false);
 	}
 	
-	public void run(boolean methodLevelAnalysis) throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
+	public void run(boolean methodLevelAnalysis, boolean allPrecisions) throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
 	{
-		FileUtils.createFile(reportFilePath);
 		EntryPoint entryPoint = new EntryPoint(srcPath, modMethods);
 		List<String> paths = entryPoint.createEntryPoint();
-		if(entryPoint.compilePaths(paths, "entryPointBuild_report.txt", classPath, libPaths, reportFilePath) == 0)
-		{
-			String parent = new File(reportFilePath).getParent();
-			File entryPointBuild= new File(parent+File.separator+"entryPointBuild_report.txt");
+		String reportFolderPath = new File(currentReportFilePath).getParent();
+		String entryPointBuildPath = reportFolderPath + File.separator + "entryPointBuild_report.txt";
+		if(entryPoint.compilePaths(paths, entryPointBuildPath, classPath, libPaths) == 0)
+		{			
+			File entryPointBuild = new File(entryPointBuildPath);
 			if(entryPointBuild.length() == 0)
 			{
 				entryPointBuild.delete();
 			}
 			SDGConfig config = setConfig();
-
-			/** build the PDG */
-			program = SDGProgram.createSDGProgram(config, System.out, new NullProgressMonitor());
-
-			/** optional: save PDG to disk */
-			SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream("yourSDGFile.pdg"));
-
-			ana = new IFCAnalysis(program);
-			/** annotate sources and sinks */
-			// for example: fields
-			//ana.addSourceAnnotation(program.getPart("foo.bar.MyClass.secretField"), BuiltinLattices.STD_SECLEVEL_HIGH);
-			//ana.addSinkAnnotation(program.getPart("foo.bar.MyClass.publicField"), BuiltinLattices.STD_SECLEVEL_LOW);
-			if(methodLevelAnalysis)
+			if(allPrecisions)
 			{
-				Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = runAnalysisPerMethod();
-				if(results.size() > 0)
-				{
-					ViolationsPrinter.printAllMethodsViolations(results, reportFilePath);
-					ViolationsPrinter.printAllMethodsViolationsByLine(results, program, parts_map, reportFilePath);
-				}else{
-					FileUtils.writeNewLine(reportFilePath, "NO VIOLATION FOUND!");
-				}	
+				for(int i = 0; i < precisions.length; i++){
+					currentReportFilePath = reportFilePaths.get(precisions[i]);
+					FileUtils.createFile(currentReportFilePath);
+					parts_map = new HashMap<SDGProgramPart, Integer>();	
+					runForSpecificPrecision(methodLevelAnalysis, config, precisions[i]);
+				}
 			}else{
-				List<TObjectIntMap<IViolation<SDGProgramPart>>> results = runAnalysisForAllMethods();
-				if(results.size() > 0)
-				{
-					FileUtils.writeNewLine(reportFilePath, "VIOLATIONS");
-					FileUtils.writeNewLine(reportFilePath, "TOTAL VIOLATIONS: " + ViolationsPrinter.printAllViolations(results, reportFilePath));
-					FileUtils.writeNewLine(reportFilePath, "LINE violations");
-					ViolationsPrinter.printAllViolationsByLine(results, program, parts_map, reportFilePath);
-				}else{
-					FileUtils.writeNewLine(reportFilePath, "NO VIOLATION FOUND!");
-				}	
+				runForSpecificPrecision(methodLevelAnalysis, config, precisions[0]);
 			}
-			
+						
 		}else{
-			FileUtils.writeNewLine(reportFilePath, "FAILED TO BUILD ENTRY POINT!");
-			new File(reportFilePath).delete();
+			FileUtils.writeNewLine(currentReportFilePath, "FAILED TO BUILD ENTRY POINT!");
+			new File(currentReportFilePath).delete();
 		}
 
+	}
+
+	private void runForSpecificPrecision(boolean methodLevelAnalysis,
+			SDGConfig config,
+			PointsToPrecision precision) throws ClassHierarchyException,IOException, UnsoundGraphException, CancelException,FileNotFoundException {
+		/** precision of the used points-to analysis - INSTANCE_BASED is a good value for simple examples */
+		config.setPointsToPrecision(precision);
+
+		/** build the PDG */
+		program = SDGProgram.createSDGProgram(config, System.out, new NullProgressMonitor());
+
+		/** optional: save PDG to disk */
+		SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream(new File(currentReportFilePath).getParent() + File.separator + precision.toString() + ".pdg"));
+
+		ana = new IFCAnalysis(program);
+		/** annotate sources and sinks */
+		// for example: fields
+		//ana.addSourceAnnotation(program.getPart("foo.bar.MyClass.secretField"), BuiltinLattices.STD_SECLEVEL_HIGH);
+		//ana.addSinkAnnotation(program.getPart("foo.bar.MyClass.publicField"), BuiltinLattices.STD_SECLEVEL_LOW);
+		if(methodLevelAnalysis)
+		{
+			Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = runAnalysisPerMethod();
+			if(results.size() > 0)
+			{
+				ViolationsPrinter.printAllMethodsViolations(results, currentReportFilePath);
+				ViolationsPrinter.printAllMethodsViolationsByLine(results, program, parts_map, currentReportFilePath);
+			}else{
+				FileUtils.writeNewLine(currentReportFilePath, "NO VIOLATION FOUND!");
+			}	
+		}else{
+			List<TObjectIntMap<IViolation<SDGProgramPart>>> results = runAnalysisForAllMethods();
+			if(results.size() > 0)
+			{
+				FileUtils.writeNewLine(currentReportFilePath, "VIOLATIONS");
+				FileUtils.writeNewLine(currentReportFilePath, "TOTAL VIOLATIONS: " + ViolationsPrinter.printAllViolations(results, currentReportFilePath));
+				FileUtils.writeNewLine(currentReportFilePath, "LINE violations");
+				ViolationsPrinter.printAllViolationsByLine(results, program, parts_map, currentReportFilePath);
+			}else{
+				FileUtils.writeNewLine(currentReportFilePath, "NO VIOLATION FOUND!");
+			}	
+		}
 	}
 	
 	
@@ -256,12 +285,12 @@ public class JoanaInvocation {
 		for(String method : modMethods.keySet())
 		{
 			ModifiedMethod modMethod = modMethods.get(method);
-			FileUtils.writeNewLine(reportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
+			FileUtils.writeNewLine(currentReportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
 			if(modMethod.getLeftContribs().size() > 0 || modMethod.getRightContribs().size() > 0){
 				addSourcesAndSinks(method);
 				
 			}else{
-				FileUtils.writeNewLine(reportFilePath, "LEFT AND RIGHT CONTRIBUTIONS ARE EMPTY");
+				FileUtils.writeNewLine(currentReportFilePath, "LEFT AND RIGHT CONTRIBUTIONS ARE EMPTY");
 			}
 		}
 		Collection<IFCAnnotation> sinks = ana.getSinks();
@@ -276,7 +305,7 @@ public class JoanaInvocation {
 		for(String method : modMethods.keySet())
 		{
 			ModifiedMethod modMethod = modMethods.get(method);
-			FileUtils.writeNewLine(reportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
+			FileUtils.writeNewLine(currentReportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
 			if(modMethod.getLeftContribs().size() > 0 && modMethod.getRightContribs().size() > 0)
 			{
 				addSourcesAndSinks(method);
@@ -289,9 +318,9 @@ public class JoanaInvocation {
 					results.put(method, methodResults);
 				}
 			}else{
-				FileUtils.writeNewLine(reportFilePath, "LEFT AND/OR RIGHT CONTRIBUTION IS EMPTY");
+				FileUtils.writeNewLine(currentReportFilePath, "LEFT AND/OR RIGHT CONTRIBUTION IS EMPTY");
 			}
-			FileUtils.writeNewLine(reportFilePath, "");
+			FileUtils.writeNewLine(currentReportFilePath, "");
 		}
 		return results;
 	}
@@ -301,7 +330,7 @@ public class JoanaInvocation {
 		List<TObjectIntMap<IViolation<SDGProgramPart>>> results = new ArrayList<TObjectIntMap<IViolation<SDGProgramPart>>>();
 		if(sources.size() > 0 || sinks.size() > 0)
 		{
-			FileUtils.writeNewLine(reportFilePath,"FIRST ANALYSIS: ");
+			FileUtils.writeNewLine(currentReportFilePath,"FIRST ANALYSIS: ");
 			/** run the analysis */
 			Collection<? extends IViolation<SecurityNode>> result = ana.doIFC();		
 			
@@ -311,7 +340,7 @@ public class JoanaInvocation {
 
 			invertSourceAndSinks(sinks, sources);
 			printSourcesAndSinks(ana.getSources(), ana.getSinks());
-			FileUtils.writeNewLine(reportFilePath, "SECOND ANALYSIS: ");
+			FileUtils.writeNewLine(currentReportFilePath, "SECOND ANALYSIS: ");
 
 			result = ana.doIFC();
 			TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart2 = ana.groupByPPPart(result);	
@@ -320,7 +349,7 @@ public class JoanaInvocation {
 				results.add(resultByProgramPart2);
 			}
 		}else{
-			FileUtils.writeNewLine(reportFilePath,"0 SOURCES AND SINKS");
+			FileUtils.writeNewLine(currentReportFilePath,"0 SOURCES AND SINKS");
 		}
 		ana.clearAllAnnotations();
 		return results;
@@ -360,9 +389,6 @@ public class JoanaInvocation {
 
 		/** additional MHP analysis to prune interference edges (does not matter for programs without multiple threads) */
 		config.setMhpType(MHPType.PRECISE);
-
-		/** precision of the used points-to analysis - INSTANCE_BASED is a good value for simple examples */
-		config.setPointsToPrecision(PointsToPrecision.TYPE_BASED);
 
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
 		config.setExceptionAnalysis(ExceptionAnalysis.INTERPROC);
@@ -513,18 +539,20 @@ public class JoanaInvocation {
 		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ArrayList<String>(), left, right ));
 		JoanaInvocation joana = new JoanaInvocation("/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava", methods, "/build/classes/main", "/src/main/java");
 		 */
-
+		String base_path = args[0]; //"/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/";
 		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_fd9b6-4350f";
 		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64";
 		
-		String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";
-		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/voldemort/revs/rev_24c82_64c90/rev_24c82-64c90";
-		String projectPath = rev + "/git"; 
-		String src = "/src/java";//"/src/main/java";
-		String fullSrc = projectPath + src;
+		String rev = base_path;// + "voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";
+		//String rev = base_path + "voldemort/revs/rev_24c82_649c0/rev_24c82-64c90";
+		//String rev = base_path + "voldemort/revs/rev_e0f18_d44ca/rev_e0f18-d44ca";
+
+		String projectPath = rev;// + "/git"; 
+		String src = "/src";//"/src/java";//"/src/main/java";
+		//String fullSrc = projectPath + src;
 		String reportsPath = rev + "/reports";
-		String bin = "/dist/classes";//"/build/classes/main";
-		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, /*null*/"/lib/*:/dist/*", reportsPath);
+		String bin = "/bin";///dist/classes";//"/build/classes/main";
+		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, null/*"/lib/*:/dist/*"*/, reportsPath);
 		
 		
 		/*
@@ -586,13 +614,15 @@ public class JoanaInvocation {
 		left.add(25);
 		methods.put("rx.Anon_Subscriber.onCompleted()", new ModifiedMethod("rx.Anon_Subscriber.onCompleted()", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right, new ArrayList<String>()));
 		*/
-				
+		/*		
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(820);
 		left.add(827);
 		right.add(731);
 		methods.put("voldemort.server.VoldemortConfig.VoldemortConfig(Props)", new ModifiedMethod("voldemort.server.VoldemortConfig.VoldemortConfig(Props)",new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"})),left, right, new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"}))));	
+		 */
+		
 		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -600,10 +630,33 @@ public class JoanaInvocation {
 		left.add(146);
 		left.add(147);
 		right.add(141);
-		methods.put("voldemort.VoldemortClientShell.VoldemortClientShell(ClientConfig, String, BufferedReader, PrintStream, PrintStream)", new ModifiedMethod("voldemort.VoldemortClientShell.VoldemortClientShell(ClientConfig, String, BufferedReader, PrintStream, PrintStream)",new ArrayList<String>(Arrays.asList(new String[] {})),left, right, new ArrayList<String>(Arrays.asList(new String[] {"voldemort.client.ClientConfig", "java.io.BufferedReader", "java.io.PrintStream"}))));
-		*/
+		methods.put("voldemort.VoldemortClientShell.VoldemortClientShell(ClientConfig, String, BufferedReader, PrintStream, PrintStream)", 
+				new ModifiedMethod("voldemort.VoldemortClientShell.VoldemortClientShell(ClientConfig, String, BufferedReader, PrintStream, "
+						+ "PrintStream)",new ArrayList<String>(Arrays.asList(new String[] {})),left, right, 
+						new ArrayList<String>(Arrays.asList(new String[] {"voldemort.client.ClientConfig", "java.io.BufferedReader", 
+								"java.io.PrintStream"}))));
+		 // */
 		
-		joana.run();
+		/*
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.addAll(new ArrayList<Integer>(Arrays.asList(new Integer[] {301, 302, 303, 304, 356, 374, 376, 377, 378, 
+				379, 381, 382, 383, 637, 639, 640, 641, 643, 644, 645, 646})));
+		right.addAll(new ArrayList<Integer>(Arrays.asList(new Integer[]{126, 127, 128, 129, 534, 535, 536, 537, 538, 
+				539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 579, 580, 581, 582, 583, 584, 585, 586, 
+				587, 588, 589, 590, 591, 592, 593, 594})));
+		methods.put("voldemort.VoldemortAdminTool.main(String[])", new ModifiedMethod("voldemort.VoldemortAdminTool.main(String[])",
+				new ArrayList<String>(), left, right, new ArrayList<String>()));
+		
+		 
+		// */
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(17);
+		right.add(18);
+		methods.put("TestFlow.test()", new ModifiedMethod("TestFlow.test()", new ArrayList<String>(), left, right, new ArrayList<String>()));
+		
+		joana.run(true, true);
 		//joana.run(false);
 	}
 	

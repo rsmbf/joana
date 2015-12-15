@@ -197,12 +197,11 @@ public class EntryPoint {
 		return value;
 	}
 	
-	public int compilePaths(List<String> compilePaths, String reportFileName, String classPath, String[] libPaths, String reportFilePath)
+	public int compilePaths(List<String> compilePaths, String reportFileName, String classPath, String[] libPaths)
 			throws IOException, FileNotFoundException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		String parent = new File(reportFilePath).getParent();
-		File entryPointBuild_report = new File(parent+File.separator+reportFileName);
-		entryPointBuild_report.createNewFile();
+		File entryPointBuild_report = new File(reportFileName);
+		FileUtils.createFile(reportFileName);
 		OutputStream err = new FileOutputStream(entryPointBuild_report);
 		List<String> compArgs = new ArrayList<String>(Arrays.asList(new String[] {"-sourcepath", srcPath, "-d", classPath}));
 		if(libPaths != null)
@@ -218,6 +217,18 @@ public class EntryPoint {
 		}
 		*/
 		return compiler.run(null, null, err, compArgs.toArray(new String[compArgs.size()]));
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/" + "rev_fd9b6-4350f";//"rev_29060-15e64";
+		String projectPath = rev + "/git"; 
+		String src = projectPath + "/src/main/java";
+		EntryPoint entryPoint = new EntryPoint(src, null);
+		System.out.println(entryPoint.compilePaths(new ArrayList<String>(
+				Arrays.asList(new String[]{
+						src + "/rx/functions/Func0Impl.java",
+						src + "/JoanaEntryPoint.java",
+				})), rev + "/reports/entryPointBuild_report.txt", projectPath + "/build/classes/main", null));
 	}
 	
 }
