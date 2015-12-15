@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -243,9 +244,13 @@ public class JoanaInvocation {
 		/** precision of the used points-to analysis - INSTANCE_BASED is a good value for simple examples */
 		config.setPointsToPrecision(precision);
 
+		FileUtils.writeNewLine(currentReportFilePath, "Creating SDG...");
+		
 		/** build the PDG */
-		program = SDGProgram.createSDGProgram(config, System.out, new NullProgressMonitor());
+		program = SDGProgram.createSDGProgram(config, new PrintStream(new FileOutputStream(currentReportFilePath)) , new NullProgressMonitor());
 
+		FileUtils.printFileContent(currentReportFilePath);
+		
 		/** optional: save PDG to disk */
 		SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream(new File(currentReportFilePath).getParent() + File.separator + precision.toString() + ".pdg"));
 

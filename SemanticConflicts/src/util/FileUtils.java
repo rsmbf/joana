@@ -1,7 +1,9 @@
 package util;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -60,5 +62,16 @@ public class FileUtils {
 		if (!file.exists()) {
 			file.createNewFile();
 		}
+	}
+	
+	public static void printFileContent(String path) throws IOException
+	{
+		BufferedReader br = new BufferedReader(new FileReader(path));
+		String line;
+		while((line = br.readLine()) != null)
+		{
+			System.out.println(line);
+		}
+		br.close();
 	}
 }
