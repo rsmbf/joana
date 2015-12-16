@@ -91,18 +91,12 @@ public class JoanaInvocation {
 		FileUtils.writeNewLine(currentReportFilePath, "Sources: "+sources.size());
 		for(IFCAnnotation source : sources)
 		{
-			FileUtils.write(currentReportFilePath,"	SOURCE: "+ source.toString());
-			FileUtils.write(currentReportFilePath,"	- PROGRAM PART: "+source.getProgramPart());
-			FileUtils.write(currentReportFilePath," - CONTEXT: "+source.getContext());
-			FileUtils.writeNewLine(currentReportFilePath," - TYPE: "+source.getType());
+			FileUtils.writeNewLine(currentReportFilePath,"	SOURCE: "+ source.toString());
 		}
 		FileUtils.writeNewLine(currentReportFilePath,"Sinks: "+sinks.size());
 		for(IFCAnnotation sink : sinks)
 		{
-			FileUtils.write(currentReportFilePath,"	SINK: "+sink.toString());
-			FileUtils.write(currentReportFilePath,"	- PROGRAM PART: "+sink.getProgramPart());
-			FileUtils.write(currentReportFilePath," - CONTEXT: "+sink.getContext());
-			FileUtils.writeNewLine(currentReportFilePath," - TYPE: "+sink.getType());			
+			FileUtils.writeNewLine(currentReportFilePath,"	SINK: "+sink.toString());		
 		}
 	}
 
@@ -363,7 +357,7 @@ public class JoanaInvocation {
 		List<TObjectIntMap<IViolation<SDGProgramPart>>> results = new ArrayList<TObjectIntMap<IViolation<SDGProgramPart>>>();
 		if(sources.size() > 0 || sinks.size() > 0)
 		{
-			FileUtils.writeNewLine(currentReportFilePath,"FIRST ANALYSIS: ");
+			FileUtils.writeNewLine(currentReportFilePath,"First analysis");
 			/** run the analysis */
 			Collection<? extends IViolation<SecurityNode>> result = ana.doIFC();		
 			
@@ -373,7 +367,7 @@ public class JoanaInvocation {
 
 			invertSourceAndSinks(sinks, sources);
 			printSourcesAndSinks(ana.getSources(), ana.getSinks());
-			FileUtils.writeNewLine(currentReportFilePath, "SECOND ANALYSIS: ");
+			FileUtils.writeNewLine(currentReportFilePath, "Second analysis");
 
 			result = ana.doIFC();
 			TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart2 = ana.groupByPPPart(result);	
