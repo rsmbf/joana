@@ -25,8 +25,10 @@ public class ViolationsPrinter {
 			SDGProgram program, Map<SDGProgramPart, Integer> parts_map,
 			String reportFilePath) throws IOException
 	{
-		Map<String, Integer> msgs = new HashMap<String, Integer>();
+		Map<String, Integer[]> msgs = new HashMap<String, Integer[]>();
 		String base_msg = "Illegal flow from '";
+		Integer[] values;
+
 		for(Object violation : resultByProgramPart.keys())
 		{
 			String[] msg = violation.toString().split(" to ");
@@ -46,21 +48,26 @@ public class ViolationsPrinter {
 			int to_line = parts_map.get(to);
 			String error_msg = base_msg + from.getOwningMethod().getSignature() + "' (line " + from_line + ") to '" +to.getOwningMethod().getSignature() +"' (line "+to_line+")";
 			int value = resultByProgramPart.get(violation);
+		
 			if(msgs.containsKey(error_msg))
 			{
-				value += msgs.get(error_msg);
+				values = msgs.get(error_msg);	
+				values[0]++;
+				values[1] += value;
+				
+			}else{
+				values = new Integer[]{1, value};			
 			}
-			msgs.put(error_msg, value);
+			
+			msgs.put(error_msg, values);
 		}
 		//System.out.println("Lines Summary");
 		for(String msg : msgs.keySet())
 		{
-			FileUtils.write(reportFilePath, "Key: "+msg);			
-			FileUtils.writeNewLine(reportFilePath, ", Value: "+msgs.get(msg));
+			FileUtils.write(reportFilePath, "Key: "+msg);		
+			FileUtils.write(reportFilePath, ", Violations: "+msgs.get(msg)[0]);
+			FileUtils.writeNewLine(reportFilePath, ", Value: "+msgs.get(msg)[1]);
 		}
-
-		
-		
 	}
 	
 	public static void printAllViolationsByLine(List<TObjectIntMap<IViolation<SDGProgramPart>>> results, 
