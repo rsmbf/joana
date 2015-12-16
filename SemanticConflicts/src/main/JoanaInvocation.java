@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.ibm.wala.classLoader.IMethod;
 import com.ibm.wala.ipa.cha.ClassHierarchyException;
@@ -21,6 +22,7 @@ import com.ibm.wala.util.graph.GraphIntegrity.UnsoundGraphException;
 import edu.kit.joana.api.IFCAnalysis;
 import edu.kit.joana.api.annotations.IFCAnnotation;
 import edu.kit.joana.api.lattice.BuiltinLattices;
+import edu.kit.joana.api.sdg.SDGAttribute;
 import edu.kit.joana.api.sdg.SDGClass;
 import edu.kit.joana.api.sdg.SDGConfig;
 import edu.kit.joana.api.sdg.SDGInstruction;
@@ -178,7 +180,7 @@ public class JoanaInvocation {
 						Collection<SDGInstruction> instructions = method.getInstructions();
 						for(SDGInstruction instruction : instructions ){
 							int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
-							FileUtils.writeNewLine(currentReportFilePath, "LINE "+line_number+": "+instruction);
+							FileUtils.writeNewLine(currentReportFilePath, "    LINE "+line_number+": "+instruction);
 							if(left_cont.contains(line_number))							
 							{
 								//System.out.println("Adding source...");
@@ -226,6 +228,7 @@ public class JoanaInvocation {
 					FileUtils.createFile(currentReportFilePath);
 					parts_map = new HashMap<SDGProgramPart, Integer>();	
 					runForSpecificPrecision(methodLevelAnalysis, config, precisions[i]);
+					System.out.println();
 				}
 			}else{
 				runForSpecificPrecision(methodLevelAnalysis, config, precisions[0]);
@@ -237,6 +240,28 @@ public class JoanaInvocation {
 		}
 
 	}
+	
+	private void printSdgInfo() throws IOException
+	{
+		FileUtils.writeNewLine(currentReportFilePath, "SDG INFO");
+		for(SDGClass sdgClass : program.getClasses())
+		{
+			FileUtils.writeNewLine(currentReportFilePath, sdgClass.getTypeName().toHRString());
+			Set<SDGAttribute> sdgAttributes = sdgClass.getAttributes();
+			FileUtils.writeNewLine(currentReportFilePath, "    Attributes: "+sdgAttributes.size());
+			for(SDGAttribute sdgAttribute : sdgAttributes)
+			{
+				FileUtils.writeNewLine(currentReportFilePath, "        "+sdgAttribute.getType().toString() + " "+sdgAttribute.getName());
+			}
+			
+			Set<SDGMethod> sdgMethods = sdgClass.getMethods();
+			FileUtils.writeNewLine(currentReportFilePath, "    Methods: "+sdgMethods.size());
+			for(SDGMethod sdgMethod : sdgMethods){
+				FileUtils.write(currentReportFilePath,  "        "+sdgMethod.getSignature().toHRString());
+				FileUtils.writeNewLine(currentReportFilePath, " - Instructions: "+sdgMethod.getInstructions().size());
+			}
+		}
+	}
 
 	private void runForSpecificPrecision(boolean methodLevelAnalysis,
 			SDGConfig config,
@@ -244,13 +269,15 @@ public class JoanaInvocation {
 		/** precision of the used points-to analysis - INSTANCE_BASED is a good value for simple examples */
 		config.setPointsToPrecision(precision);
 
-		FileUtils.writeNewLine(currentReportFilePath, "Creating SDG...");
+		System.out.println("Creating SDG...");
 		
 		/** build the PDG */
 		program = SDGProgram.createSDGProgram(config, new PrintStream(new FileOutputStream(currentReportFilePath)) , new NullProgressMonitor());
 
 		FileUtils.printFileContent(currentReportFilePath);
-		
+		FileUtils.writeNewLine(currentReportFilePath, "");
+		printSdgInfo();
+		FileUtils.writeNewLine(currentReportFilePath, "");
 		/** optional: save PDG to disk */
 		SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream(new File(currentReportFilePath).getParent() + File.separator + precision.toString() + ".pdg"));
 
@@ -259,6 +286,7 @@ public class JoanaInvocation {
 		// for example: fields
 		//ana.addSourceAnnotation(program.getPart("foo.bar.MyClass.secretField"), BuiltinLattices.STD_SECLEVEL_HIGH);
 		//ana.addSinkAnnotation(program.getPart("foo.bar.MyClass.publicField"), BuiltinLattices.STD_SECLEVEL_LOW);
+		FileUtils.writeNewLine(currentReportFilePath, "ANALYSIS");
 		if(methodLevelAnalysis)
 		{
 			Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = runAnalysisPerMethod();
