@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.JarFile;
@@ -41,6 +42,7 @@ import com.ibm.wala.ssa.DefaultIRFactory;
 import com.ibm.wala.ssa.SSAInvokeInstruction;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.types.MethodReference;
+import com.ibm.wala.types.TypeName;
 import com.ibm.wala.util.CancelException;
 import com.ibm.wala.util.MonitorUtil.IProgressMonitor;
 import com.ibm.wala.util.collections.Pair;
@@ -241,7 +243,6 @@ public final class SDGBuildPreparation {
 		// Klassenhierarchie berechnen
 		ClassHierarchy cha = ClassHierarchy.make(scope);
 
-
 		out.println("(" + cha.getNumberOfClasses() + " classes) done.");
 		System.out.println("(" + cha.getNumberOfClasses() + " classes) done.");
 
@@ -262,10 +263,52 @@ public final class SDGBuildPreparation {
 
 				// Methode in der Klassenhierarchie suchen
 				final MethodReference mr = StringStuff.makeMethodReference(Language.JAVA, entryMethod);
-
+				
 				IMethod meth = cha.resolveMethod(mr);
 				if (meth == null) {
-					fail("could not resolve " + mr);
+					IClass iClass = cha.lookupClass(mr.getDeclaringClass());				
+					if(iClass == null)
+					{
+						fail("could no resolve "+mr);
+					}
+
+					boolean methodFound = false;
+					Iterator<IMethod> it = iClass.getDeclaredMethods().iterator();
+					while(it.hasNext() && !methodFound)
+					{
+						IMethod currentMethod = it.next(); 
+						
+						int correctionIndex = 0;
+						if(!currentMethod.isStatic())
+						{
+							correctionIndex++;
+						}
+						if(currentMethod.getName().equals(mr.getName()) && 
+								(currentMethod.getNumberOfParameters() - correctionIndex == mr.getNumberOfParameters())){
+							int i = 0;
+							boolean parametersMightMatch = true;
+							while(i < mr.getNumberOfParameters() && parametersMightMatch)
+							{
+								TypeName mrType = mr.getParameterType(i).getName();
+								TypeName currType = currentMethod.getParameterType(i + correctionIndex).getName();
+								parametersMightMatch = mrType.equals(currType) || 
+										(currType.getClassName().equals(mrType.getClassName()) && mrType.getPackage() == null);
+								i++;
+							}
+							TypeName mrReturnType = mr.getReturnType().getName();
+							TypeName currReturnType = currentMethod.getReturnType().getName();
+							methodFound = parametersMightMatch && (mrReturnType.equals(currReturnType) || 
+									(mrReturnType.getPackage() == null && mrReturnType.getClassName().equals(currReturnType.getClassName())));
+						}
+						if(methodFound)
+						{
+							meth = currentMethod;
+						}
+					}
+					
+					if(!methodFound){
+						fail("could not resolve " + mr);
+					}
 				}
 				ms.add(meth);
 			}
