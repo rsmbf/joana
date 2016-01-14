@@ -7,6 +7,8 @@
  */
 package edu.kit.joana.api.sdg;
 
+import java.util.List;
+
 import com.ibm.wala.cfg.exc.intra.MethodState;
 import com.ibm.wala.ipa.callgraph.ContextSelector;
 import com.ibm.wala.ipa.callgraph.pruned.ApplicationLoaderPolicy;
@@ -27,6 +29,7 @@ public class SDGConfig {
 	private String classPath;
 	private String thirdPartyLibsPath;
 	private String entryMethod;
+	private List<String> entryMethods;
 	private Stubs stubsPath;
 	private String exclusions = SDGBuildPreparation.STD_EXCLUSION_REG_EXP;
 	private ExceptionAnalysis exceptionAnalysis;
@@ -61,7 +64,7 @@ public class SDGConfig {
 		this.computeInterferences = computeInterferences;
 		this.mhpType = mhpType;
 	}
-
+	
 	/**
 	 * @return the classPath
 	 */
@@ -88,6 +91,20 @@ public class SDGConfig {
 	 */
 	public void setEntryMethod(String entryMethod) {
 		this.entryMethod = entryMethod;
+	}
+	
+	/**
+	 * @return the entry methods
+	 */
+	public List<String> getEntryMethods() {
+		return entryMethods;
+	}
+
+	/**
+	 * @param entryMethods the entry methods to set
+	 */
+	public void setEntryMethods(List<String> entryMethods) {
+		this.entryMethods = entryMethods;
 	}
 
 	/**

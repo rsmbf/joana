@@ -52,7 +52,7 @@ public class JoanaInvocation {
 	private String[] libPaths;
 	private Map<PointsToPrecision, String> reportFilePaths;
 	private String currentReportFilePath;
-	
+
 	private static final PointsToPrecision[] precisions = new PointsToPrecision[] {
 		PointsToPrecision.TYPE_BASED, PointsToPrecision.INSTANCE_BASED, PointsToPrecision.OBJECT_SENSITIVE,
 		PointsToPrecision.N1_OBJECT_SENSITIVE, PointsToPrecision.UNLIMITED_OBJECT_SENSITIVE, 
@@ -85,7 +85,7 @@ public class JoanaInvocation {
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
 	}
 
-	
+
 
 	private void printSourcesAndSinks(Collection<IFCAnnotation> sources, Collection<IFCAnnotation> sinks) throws IOException {
 		FileUtils.writeNewLine(currentReportFilePath, "Sources: "+sources.size());
@@ -105,17 +105,17 @@ public class JoanaInvocation {
 		boolean match = false;
 		List<JavaType> evaluatedArgTypes = methodEvaluated.getArgumentTypes();
 		List<JavaType> currentArgTypes = currentMethod.getArgumentTypes();
-		
+
 		if(methodEvaluated.getDeclaringType().equals(currentMethod.getDeclaringType()) 
 				&& (methodEvaluated.getMethodName().equals(currentMethod.getMethodName())
 						|| (methodEvaluated.getMethodName().equals(methodEvaluated.getDeclaringType().toHRStringShort())
-							&& currentMethod.getMethodName().equals("<init>")
-						)
-				))
+								&& currentMethod.getMethodName().equals("<init>")
+								)
+						))
 		{
 			if((evaluatedArgTypes.size() == currentArgTypes.size()) || 
 					(evaluatedArgTypes.size() == 1 && currentArgTypes.size() == 0 
-						&& evaluatedArgTypes.get(0).toHRString().equals("")))
+					&& evaluatedArgTypes.get(0).toHRString().equals("")))
 			{
 				int i = 0;
 				boolean argsMatch = true;
@@ -195,46 +195,30 @@ public class JoanaInvocation {
 
 
 	}
-	
+
 	public void run() throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
 	{
 		run(true, false);
 	}
-	
+
 	public void run(boolean methodLevelAnalysis, boolean allPrecisions) throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
 	{
-		EntryPoint entryPoint = new EntryPoint(srcPath, modMethods);
-		List<String> paths = entryPoint.createEntryPoint();
-		String reportFolderPath = new File(currentReportFilePath).getParent();
-		String entryPointBuildPath = reportFolderPath + File.separator + "entryPointBuild_report.txt";
-		if(entryPoint.compilePaths(paths, entryPointBuildPath, classPath, libPaths) == 0)
-		{			
-			File entryPointBuild = new File(entryPointBuildPath);
-			if(entryPointBuild.length() == 0)
-			{
-				entryPointBuild.delete();
+		SDGConfig config = setConfig();
+		if(allPrecisions)
+		{
+			for(int i = 0; i < precisions.length; i++){
+				currentReportFilePath = reportFilePaths.get(precisions[i]);
+				FileUtils.createFile(currentReportFilePath);
+				parts_map = new HashMap<SDGProgramPart, Integer>();	
+				runForSpecificPrecision(methodLevelAnalysis, config, precisions[i]);
+				System.out.println();
 			}
-			SDGConfig config = setConfig();
-			if(allPrecisions)
-			{
-				for(int i = 0; i < precisions.length; i++){
-					currentReportFilePath = reportFilePaths.get(precisions[i]);
-					FileUtils.createFile(currentReportFilePath);
-					parts_map = new HashMap<SDGProgramPart, Integer>();	
-					runForSpecificPrecision(methodLevelAnalysis, config, precisions[i]);
-					System.out.println();
-				}
-			}else{
-				runForSpecificPrecision(methodLevelAnalysis, config, precisions[0]);
-			}
-						
 		}else{
-			FileUtils.writeNewLine(currentReportFilePath, "FAILED TO BUILD ENTRY POINT!");
-			new File(currentReportFilePath).delete();
+			runForSpecificPrecision(methodLevelAnalysis, config, precisions[0]);
 		}
 
 	}
-	
+
 	private void printSdgInfo() throws IOException
 	{
 		FileUtils.writeNewLine(currentReportFilePath, "SDG INFO");
@@ -247,7 +231,7 @@ public class JoanaInvocation {
 			{
 				FileUtils.writeNewLine(currentReportFilePath, "        "+sdgAttribute.getType().toString() + " "+sdgAttribute.getName());
 			}
-			
+
 			Set<SDGMethod> sdgMethods = sdgClass.getMethods();
 			FileUtils.writeNewLine(currentReportFilePath, "    Methods: "+sdgMethods.size());
 			for(SDGMethod sdgMethod : sdgMethods){
@@ -264,11 +248,10 @@ public class JoanaInvocation {
 		config.setPointsToPrecision(precision);
 
 		System.out.println("Creating SDG...");
-		
+
 		/** build the PDG */
 		program = SDGProgram.createSDGProgram(config, new PrintStream(new FileOutputStream(currentReportFilePath)) , new NullProgressMonitor());
 
-		FileUtils.printFileContent(currentReportFilePath);
 		FileUtils.writeNewLine(currentReportFilePath, "");
 		printSdgInfo();
 		FileUtils.writeNewLine(currentReportFilePath, "");
@@ -304,9 +287,9 @@ public class JoanaInvocation {
 			}	
 		}
 	}
-	
-	
-	
+
+
+
 	private List<TObjectIntMap<IViolation<SDGProgramPart>>> runAnalysisForAllMethods()
 			throws IOException {
 		for(String method : modMethods.keySet())
@@ -315,7 +298,7 @@ public class JoanaInvocation {
 			FileUtils.writeNewLine(currentReportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
 			if(modMethod.getLeftContribs().size() > 0 || modMethod.getRightContribs().size() > 0){
 				addSourcesAndSinks(method);
-				
+
 			}else{
 				FileUtils.writeNewLine(currentReportFilePath, "LEFT AND RIGHT CONTRIBUTIONS ARE EMPTY");
 			}
@@ -325,7 +308,7 @@ public class JoanaInvocation {
 		printSourcesAndSinks(sources, sinks);		
 		return runAnalysis(sinks, sources);
 	}
-	
+
 	private Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> runAnalysisPerMethod()
 			throws IOException {
 		Map<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>> results = new HashMap<String, List<TObjectIntMap<IViolation<SDGProgramPart>>>>();
@@ -360,7 +343,7 @@ public class JoanaInvocation {
 			FileUtils.writeNewLine(currentReportFilePath,"First analysis");
 			/** run the analysis */
 			Collection<? extends IViolation<SecurityNode>> result = ana.doIFC();		
-			
+
 			TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart = ana.groupByPPPart(result);			
 
 			/** do something with result */
@@ -405,12 +388,28 @@ public class JoanaInvocation {
 		///Users/Roberto/Documents/UFPE/Msc/Projeto/joana_rcaa/joana/example/joana.example.tiny-special-tests/bin
 		//COMPILAR PROJETO (PELO MENOS A CLASSE ADICIONADA)
 		//javac -sourcepath src src/JoanaEntryPoint.java -d bin		
-		/** the entry method is the main method which starts the program you want to analyze */
-		JavaMethodSignature entryMethod = JavaMethodSignature.mainMethodOfClass("JoanaEntryPoint");
+		/** the entry method is the main method which starts the program you want to analyze */	
 
+		List<String> entryMethods = new ArrayList<String>();
+		for(String method : modMethods.keySet())
+		{
+			JavaMethodSignature methodSignature = JavaMethodSignature.fromString(method);
+			if(methodSignature.getMethodName().equals(methodSignature.getDeclaringType().toHRStringShort())){
+				String signature = methodSignature.getReturnType().toHRString() + " "+methodSignature.getDeclaringType().toHRString() + ".<init>(";
+				for(JavaType arg : methodSignature.getArgumentTypes()){
+					signature += arg.toHRString() + " , " ;
+				}
+				if(methodSignature.getArgumentTypes().size() > 0){
+					signature = signature.substring(0, signature.length() - 3);
+				}
+				signature += ")";		
+				methodSignature = JavaMethodSignature.fromString(signature);
+			}
+			entryMethods.add(methodSignature.toBCString());
+		}
 		/** For multi-threaded programs, it is currently neccessary to use the jdk 1.4 stubs */
-		SDGConfig config = new SDGConfig(classPath, entryMethod.toBCString(), Stubs.JRE_14);
-
+		SDGConfig config = new SDGConfig(classPath, null, Stubs.JRE_14);
+		config.setEntryMethods(entryMethods);
 		/** compute interference edges to model dependencies between threads (set to false if your program does not use threads) */
 		config.setComputeInterferences(false);
 
@@ -540,7 +539,7 @@ public class JoanaInvocation {
 		left.add(17);
 		right.add(18);
 		methods.put("cin.ufpe.br2.Teste6.n()", new ModifiedMethod("cin.ufpe.br2.Teste6.n()", new ArrayList<String>(),left, right));
-		 
+
 		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -560,7 +559,7 @@ public class JoanaInvocation {
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods);
 		 */
 
-		 /*
+		/*
 		left.add(186);
 		right.add(193);
 		methods.put("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ModifiedMethod("rx.plugins.RxJavaPlugins.getSchedulersHook()", new ArrayList<String>(), left, right ));
@@ -569,19 +568,19 @@ public class JoanaInvocation {
 		String base_path = args[0]; //"/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/";
 		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_fd9b6-4350f";
 		//String rev = "/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/RxJava/revs/rev_29060-15e64";
-		
-		String rev = base_path;// + "voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";
+
+		String rev = base_path;// + "voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";//"RxJava/revs/rev_fd9b6-4350f";// + "voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";
 		//String rev = base_path + "voldemort/revs/rev_24c82_649c0/rev_24c82-64c90";
 		//String rev = base_path + "voldemort/revs/rev_e0f18_d44ca/rev_e0f18-d44ca";
 
-		String projectPath = rev;// + "/git"; 
-		String src = "/src";//"/src/java";//"/src/main/java";
+		String projectPath = rev ;//+ "/git"; 
+		String src = "/src";//"/src";//"/src/java";//"/src/main/java";
 		//String fullSrc = projectPath + src;
 		String reportsPath = rev + "/reports";
-		String bin = "/bin";///dist/classes";//"/build/classes/main";
+		String bin = "/bin";//"/bin";//"/dist/classes";//"/build/classes/main";
 		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, null/*"/lib/*:/dist/*"*/, reportsPath);
-		
-		
+
+
 		/*
 		joana.compilePaths(new ArrayList<String>(
 				Arrays.asList(new String[]{fullSrc + "/rx/internal/operators/Anon_Subscriber.java",
@@ -589,12 +588,14 @@ public class JoanaInvocation {
 						fullSrc + "/rx/internal/operators/OperatorOnBackPressureDrop.java"
 				})), "anon_comp_report.txt");
 
+		 */
+		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		right.add(13);
 		methods.put("rx.internal.operators.Anon_Producer.request(long)", new ModifiedMethod("rx.internal.operators.Anon_Producer.request(long)", new ArrayList<String>(Arrays.asList(new String[]{"AtomicLong"})), left, right, new ArrayList<String>()));
-		
-		
+
+
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(37);
@@ -603,7 +604,13 @@ public class JoanaInvocation {
 		left.add(40);
 		left.add(41);
 		methods.put("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ModifiedMethod("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ArrayList<String>(Arrays.asList(new String[]{"Subscriber","AtomicLong", "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
-		*/
+		 */
+		/*
+		left.add(61);
+		left.add(68);
+		right.add(69);
+		methods.put("rx.Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(rx.Subscriber)", new ModifiedMethod("rx.Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(rx.Subscriber)", new ArrayList<String>(Arrays.asList(new String[]{ "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
+		 */
 		/*
 		joana.compilePaths(new ArrayList<String>(Arrays.asList(new String[] {
 				fullSrc + "/rx/Anon_Subscriber.java",
@@ -611,14 +618,17 @@ public class JoanaInvocation {
 				fullSrc + "/rx/observers/Subscribers.java",
 				fullSrc + "/rx/internal/operators/OperatorMulticast.java"
 		})), "anon_comp_report.txt");
+		 */
+		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		right.add(116);
 		left.add(139);
 		left.add(140);
 		left.add(156);
-		methods.put("rx.internal.operators.OperatorMulticast.connect(rx.functions.Action1)", new ModifiedMethod("rx.internal.operators.OperatorMulticast.connect(rx.functions.Action1)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Observable","rx.functions.Func0"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"rx.functions.Action1"}))));
-		
+		methods.put("void rx.internal.operators.OperatorMulticast.connect(rx.functions.Action1)", new ModifiedMethod("void rx.internal.operators.OperatorMulticast.connect(rx.functions.Action1)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Observable","rx.functions.Func0"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"rx.functions.Action1"}))));
+		 */
+		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(12);
@@ -626,30 +636,29 @@ public class JoanaInvocation {
 		left.add(14);
 		left.add(15);
 		methods.put("rx.Anon_Subscriber.onNext(java.lang.Object)", new ModifiedMethod("rx.Anon_Subscriber.onNext(java.lang.Object)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right, new ArrayList<String>()));
-		
+
 		left = new ArrayList<Integer>();
 		left.add(17);
 		left.add(18);
 		left.add(19);
 		left.add(20);
 		methods.put("rx.Anon_Subscriber.onError(Throwable)", new ModifiedMethod("rx.Anon_Subscriber.onError(Throwable)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right,new ArrayList<String>()));
-		
+
 		left = new ArrayList<Integer>();
 		left.add(22);
 		left.add(23);
 		left.add(24);
 		left.add(25);
 		methods.put("rx.Anon_Subscriber.onCompleted()", new ModifiedMethod("rx.Anon_Subscriber.onCompleted()", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right, new ArrayList<String>()));
-		*/
-		/*		
+		 */
+		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(820);
 		left.add(827);
 		right.add(731);
-		methods.put("voldemort.server.VoldemortConfig.VoldemortConfig(Props)", new ModifiedMethod("voldemort.server.VoldemortConfig.VoldemortConfig(Props)",new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"})),left, right, new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"}))));	
+		methods.put("void voldemort.server.VoldemortConfig.VoldemortConfig(voldemort.utils.Props)", new ModifiedMethod("void voldemort.server.VoldemortConfig.VoldemortConfig(voldemort.utils.Props)",new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"})),left, right, new ArrayList<String>(Arrays.asList(new String[] {"voldemort.utils.Props"}))));			
 		 */
-		
 		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -663,7 +672,7 @@ public class JoanaInvocation {
 						new ArrayList<String>(Arrays.asList(new String[] {"voldemort.client.ClientConfig", "java.io.BufferedReader", 
 								"java.io.PrintStream"}))));
 		 // */
-		
+
 		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -674,17 +683,26 @@ public class JoanaInvocation {
 				587, 588, 589, 590, 591, 592, 593, 594})));
 		methods.put("voldemort.VoldemortAdminTool.main(String[])", new ModifiedMethod("voldemort.VoldemortAdminTool.main(String[])",
 				new ArrayList<String>(), left, right, new ArrayList<String>()));
-		
-		 
-		// */
+
+		 */
+		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(17);
 		right.add(18);
 		methods.put("TestFlow.test()", new ModifiedMethod("TestFlow.test()", new ArrayList<String>(), left, right, new ArrayList<String>()));
-		
-		joana.run(true, true);
-		//joana.run(false);
+		 */
+
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		//methods.put("paramsEx.TestParamsExample.main(String[])", new ModifiedMethod("paramsEx.TestParamsExample.main(String[])", left, right));
+		methods.put("void paramsEx.A.m(paramsEx.Param)", new ModifiedMethod("void paramsEx.A.m(paramsEx.Param)", left, right));
+		methods.put("void paramsEx.A.m2(paramsEx.Param)", new ModifiedMethod("void paramsEx.A.m2(paramsEx.Param)", left, right));
+		methods.put("void paramsEx.A.m3(paramsEx.Param)", new ModifiedMethod("void paramsEx.A.m3(paramsEx.Param)", left, right));
+
+		//joana.run(true, true);
+		//joana.run(false, false);
+		joana.run();
 	}
-	
+
 }

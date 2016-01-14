@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.JarFile;
@@ -75,13 +76,13 @@ public final class SDGBuildPreparation {
 	}
 
 	public final static String STD_EXCLUSION_REG_EXP =
-		"sun\\/awt\\/.*\n"
-		+ "sun\\/swing\\/.*\n"
-		+ "com\\/sun\\/.*\n"
-		+ "sun\\/.*\n"
-		+ "apple\\/awt\\/.*\n"
-		+ "com\\/apple\\/.*\n"
-		+ "org\\/omg\\/.*\n";
+			"sun\\/awt\\/.*\n"
+					+ "sun\\/swing\\/.*\n"
+					+ "com\\/sun\\/.*\n"
+					+ "sun\\/.*\n"
+					+ "apple\\/awt\\/.*\n"
+					+ "com\\/apple\\/.*\n"
+					+ "org\\/omg\\/.*\n";
 
 	// these classes are modeled without specific fields
 	public final static String[] IMMUTABLE_STUBS = {
@@ -121,7 +122,7 @@ public final class SDGBuildPreparation {
 
 	public static ClassHierarchy computeClassHierarchy(PrintStream out, Config cfg) throws IOException, ClassHierarchyException {
 		AnalysisScope scope = setUpAnalysisScope(out, cfg);
-	    // Klassenhierarchie berechnen
+		// Klassenhierarchie berechnen
 		return ClassHierarchy.make(scope);
 	}
 
@@ -195,18 +196,18 @@ public final class SDGBuildPreparation {
 		}
 
 		// Nimmt unnoetige Klassen raus
-		
+
 		SetOfClasses exclusions =
 				new FileOfClasses(new ByteArrayInputStream(IOFactory.createUTF8Bytes(cfg.exclusions)));
 		scope.setExclusions(exclusions);
 
-	    ClassLoaderReference loader = scope.getLoader(AnalysisScope.APPLICATION);
-	    AnalysisScopeReader.addClassPathToScope(cfg.classpath, scope, loader);
-	    if (cfg.thirdPartyLibPath != null) {
-	    	ClassLoaderReference extLoader = scope.getLoader(AnalysisScope.EXTENSION);
-	    	AnalysisScopeReader.addClassPathToScope(cfg.thirdPartyLibPath, scope, extLoader);
-	    }
-	    return scope;
+		ClassLoaderReference loader = scope.getLoader(AnalysisScope.APPLICATION);
+		AnalysisScopeReader.addClassPathToScope(cfg.classpath, scope, loader);
+		if (cfg.thirdPartyLibPath != null) {
+			ClassLoaderReference extLoader = scope.getLoader(AnalysisScope.EXTENSION);
+			AnalysisScopeReader.addClassPathToScope(cfg.thirdPartyLibPath, scope, extLoader);
+		}
+		return scope;
 	}
 
 	public static SDG compute(PrintStream out, Config cfg) throws ClassHierarchyException, IOException, UnsoundGraphException, CancelException {
@@ -221,44 +222,72 @@ public final class SDGBuildPreparation {
 	private static Pair<Long, SDGBuilder.SDGBuilderConfig> prepareBuild(PrintStream out, Config cfg, boolean computeInterference, IProgressMonitor progress) throws IOException, ClassHierarchyException {
 		if (!checkOrCreateOutputDir(cfg.outputDir)) {
 			out.println("Could not access/create diretory '" + cfg.outputDir +"'");
+			System.out.println("Could not access/create diretory '" + cfg.outputDir +"'");
 			return null;
 		}
 		final long startTime = System.currentTimeMillis();
 
 		out.print("Setting up analysis scope... ");
+		System.out.print("Setting up analysis scope... ");
 
 		AnalysisScope scope = setUpAnalysisScope(out, cfg);
 
-	    out.println("done.");
+		out.println("done.");
+		System.out.println("done.");
 
-	    out.print("Creating class hierarchy... ");
+		out.print("Creating class hierarchy... ");
+		System.out.print("Creating class hierarchy...");
 
-	    // Klassenhierarchie berechnen
+		// Klassenhierarchie berechnen
 		ClassHierarchy cha = ClassHierarchy.make(scope);
 
 
-	    out.println("(" + cha.getNumberOfClasses() + " classes) done.");
+		out.println("(" + cha.getNumberOfClasses() + " classes) done.");
+		System.out.println("(" + cha.getNumberOfClasses() + " classes) done.");
 
-	    if (cfg.extern != null) {
-	    	cfg.extern.setClassHierarchy(cha);
-	    }
-
-	    out.print("Setting up entrypoint " + cfg.entryMethod + "... ");
-
-
-	    // Methode in der Klassenhierarchie suchen
-		final MethodReference mr = StringStuff.makeMethodReference(Language.JAVA, cfg.entryMethod);
-		
-		IMethod m = cha.resolveMethod(mr);
-		if (m == null) {
-			fail("could not resolve " + mr);
+		if (cfg.extern != null) {
+			cfg.extern.setClassHierarchy(cha);
 		}
+		IMethod m = null;
+		List<IMethod> ms = null;
+		if(cfg.entryMethods != null && cfg.entryMethods.size() > 0)
+		{
+			out.print("Setting up entrypoints... ");
+			System.out.print("Setting up entrypoints... ");
+			ms = new ArrayList<IMethod>();
+			for(String entryMethod : cfg.entryMethods)
+			{
+				out.print("Setting up entrypoint " + entryMethod + "... ");
+				System.out.print("Setting up entrypoint " + entryMethod + "... ");
 
+				// Methode in der Klassenhierarchie suchen
+				final MethodReference mr = StringStuff.makeMethodReference(Language.JAVA, entryMethod);
+
+				IMethod meth = cha.resolveMethod(mr);
+				if (meth == null) {
+					fail("could not resolve " + mr);
+				}
+				ms.add(meth);
+			}
+		}else if(cfg.entryMethod != null){
+			out.print("Setting up entrypoint " + cfg.entryMethod + "... ");
+			System.out.print("Setting up entrypoint " + cfg.entryMethod + "... ");
+
+			// Methode in der Klassenhierarchie suchen
+			final MethodReference mr = StringStuff.makeMethodReference(Language.JAVA, cfg.entryMethod);
+			m = cha.resolveMethod(mr);
+			if (m == null) {
+				fail("could not resolve " + mr);
+			}
+			
+		}
 		out.println("done.");
+		System.out.println("done.");
 
 		AnalysisCache cache = new AnalysisCache(new DefaultIRFactory());
 
 		out.print("Building system dependence graph... ");
+		System.out.print("Building system dependence graph... ");
 
 		ExternalCallCheck chk;
 		if (cfg.extern == null) {
@@ -296,6 +325,7 @@ public final class SDGBuildPreparation {
 		scfg.cache = cache;
 		scfg.cha = cha;
 		scfg.entry = m;
+		scfg.entries = ms;
 		scfg.ext = chk;
 		scfg.immutableNoOut = IMMUTABLE_NO_OUT;
 		scfg.immutableStubs = IMMUTABLE_STUBS;
@@ -322,11 +352,13 @@ public final class SDGBuildPreparation {
 
 	private static void postpareBuild(long startTime, PrintStream out) {
 		out.println("\ndone.");
+		System.out.println("\ndone.");
 		final long endTime = System.currentTimeMillis();
-
-		out.println("Time needed: " + (endTime - startTime) + "ms - Memory: "
+		String info = "Time needed: " + (endTime - startTime) + "ms - Memory: "
 				+ ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024))
-				+ "M used.");
+				+ "M used.";
+		out.println(info);
+		System.out.println(info);
 	}
 
 	public static SDG compute(PrintStream out, Config cfg, boolean computeInterference, IProgressMonitor progress) throws IOException, ClassHierarchyException, UnsoundGraphException, CancelException {
@@ -335,7 +367,7 @@ public final class SDGBuildPreparation {
 		SDGBuilder.SDGBuilderConfig scfg = p.snd;
 		final SDG sdg = SDGBuilder.build(scfg, progress);
 		postpareBuild(startTime, out);
-//		SDGVerifier.verify(sdg, false, true);
+		//		SDGVerifier.verify(sdg, false, true);
 
 		return sdg;
 	}
@@ -346,7 +378,7 @@ public final class SDGBuildPreparation {
 		SDGBuilder.SDGBuilderConfig scfg = p.snd;
 		final Pair<SDG, SDGBuilder> ret = SDGBuilder.buildAndKeepBuilder(scfg, progress);
 		postpareBuild(startTime, out);
-//		SDGVerifier.verify(sdg, false, true);
+		//		SDGVerifier.verify(sdg, false, true);
 
 		return ret;
 	}
@@ -379,6 +411,7 @@ public final class SDGBuildPreparation {
 	public static class Config {
 		public String name;
 		public String entryMethod;
+		public List<String> entryMethods;
 		public String classpath;
 		public String thirdPartyLibPath;
 		public String exclusions;

@@ -293,9 +293,11 @@ public class SDGProgram {
 		return SDGBuildPreparation.createBuilder(IOFactory.createUTF8PrintStream(new ByteArrayOutputStream()), makeBuildPreparationConfig(config), config.computeInterferences(), NullProgressMonitor.INSTANCE);
 	}
 	private static SDGBuildPreparation.Config makeBuildPreparationConfig(SDGConfig config) {
-		JavaMethodSignature mainMethod = JavaMethodSignature.fromString(config.getEntryMethod());// JavaMethodSignature.mainMethodOfClass(config.getMainClass());
-		SDGBuildPreparation.Config cfg = new SDGBuildPreparation.Config(mainMethod.toBCString(), mainMethod.toBCString(), config.getClassPath(),
+		JavaMethodSignature mainMethod = config.getEntryMethod() != null ? JavaMethodSignature.fromString(config.getEntryMethod()) : null;// JavaMethodSignature.mainMethodOfClass(config.getMainClass());
+		String mainMethodBc = mainMethod != null ? mainMethod.toBCString() : null; 
+		SDGBuildPreparation.Config cfg = new SDGBuildPreparation.Config(mainMethodBc, mainMethodBc, config.getClassPath(),
 				config.getFieldPropagation());
+		cfg.entryMethods = config.getEntryMethods();
 		cfg.thirdPartyLibPath = config.getThirdPartyLibsPath();
 		cfg.exceptions = config.getExceptionAnalysis();
 		cfg.defaultExceptionMethodState = config.getDefaultExceptionMethodState();
