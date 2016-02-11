@@ -330,8 +330,22 @@ public class JoanaInvocation {
 		{
 			ModifiedMethod modMethod = methodsWithSrcOrSink.get(method);
 			FileUtils.writeNewLine(currentReportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
-			if(modMethod.getLeftContribs().size() > 0 || modMethod.getRightContribs().size() > 0){
-				addSourcesAndSinks(method, methodsWithSrcOrSink);
+			if(modMethod.getLeftContribs().size() > 0 || modMethod.getRightContribs().size() > 0 || modMethod.getAnomModMethods() != null){
+				if(modMethod.getLeftContribs().size() > 0 || modMethod.getRightContribs().size() > 0){
+					addSourcesAndSinks(method, methodsWithSrcOrSink);
+				}
+				if(modMethod.getAnomModMethods() != null)
+				{
+					Map<String, ModifiedMethod> anomMethods = modMethod.getAnomModMethods();
+					for(String anomMethod : anomMethods.keySet())
+					{
+						ModifiedMethod anomModMethod = anomMethods.get(anomMethod);
+						if(anomModMethod.getLeftContribs().size() > 0 || anomModMethod.getRightContribs().size() > 0 )
+						{
+							addSourcesAndSinks(anomMethod, anomMethods);
+						}
+					}
+				}
 
 			}else{
 				FileUtils.writeNewLine(currentReportFilePath, "LEFT AND RIGHT CONTRIBUTIONS ARE EMPTY");
@@ -350,9 +364,24 @@ public class JoanaInvocation {
 		{
 			ModifiedMethod modMethod = methodsWithSrcOrSink.get(method);
 			FileUtils.writeNewLine(currentReportFilePath, "Method: "+modMethod.getMethodSignature().toHRString());
-			if(modMethod.getLeftContribs().size() > 0 && modMethod.getRightContribs().size() > 0)
+			if((modMethod.getLeftContribs().size() > 0 && modMethod.getRightContribs().size() > 0) || modMethod.getAnomModMethods() != null)
 			{
-				addSourcesAndSinks(method, methodsWithSrcOrSink);
+				if(modMethod.getLeftContribs().size() > 0 || modMethod.getRightContribs().size() > 0 )
+				{
+					addSourcesAndSinks(method, methodsWithSrcOrSink);
+				}
+				if(modMethod.getAnomModMethods() != null)
+				{
+					Map<String, ModifiedMethod> anomMethods = modMethod.getAnomModMethods();
+					for(String anomMethod : anomMethods.keySet())
+					{
+						ModifiedMethod anomModMethod = anomMethods.get(anomMethod);
+						if(anomModMethod.getLeftContribs().size() > 0 || anomModMethod.getRightContribs().size() > 0 )
+						{
+							addSourcesAndSinks(anomMethod, anomMethods);
+						}
+					}
+				}
 				Collection<IFCAnnotation> sinks = ana.getSinks();
 				Collection<IFCAnnotation> sources = ana.getSources();
 				printSourcesAndSinks(sources, sinks);
@@ -517,7 +546,25 @@ public class JoanaInvocation {
 		left.add(68);
 		right.add(69);
 		*/
-		methods.put("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ModifiedMethod("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ArrayList<String>(Arrays.asList(new String[]{ "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
+		Map<String, ModifiedMethod> anomModMethods = new HashMap<String, ModifiedMethod>();
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(37);
+		left.add(38);
+		left.add(39);
+		left.add(40);
+		left.add(41);
+		/*methodsWithSrcOrSink*/anomModMethods.put("void rx.internal.operators.Anon_Subscriber.onNext(Object)", new ModifiedMethod("void rx.internal.operators.Anon_Subscriber.onNext(Object)", new ArrayList<String>(Arrays.asList(new String[]{"Subscriber","AtomicLong", "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
+		
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		right.add(13);
+		
+		/*methodsWithSrcOrSink*/anomModMethods.put("void rx.internal.operators.Anon_Producer.request(long)", new ModifiedMethod("void rx.internal.operators.Anon_Producer.request(long)", new ArrayList<String>(Arrays.asList(new String[]{"AtomicLong"})), left, right, new ArrayList<String>()));
+		
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		methods.put("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ModifiedMethod("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ArrayList<String>(Arrays.asList(new String[]{ "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"})), anomModMethods));
 		
 		/*
 		joana.compilePaths(new ArrayList<String>(Arrays.asList(new String[] {
@@ -637,26 +684,13 @@ public class JoanaInvocation {
 		right.add(112);
 		methods.put("void com.google.refine.importers.SeparatorBasedImporter.parseOneFile(com.google.refine.model.Project,com.google.refine.ProjectMetadata,com.google.refine.importing.ImportingJob,String,java.io.Reader,int,org.json.JSONObject,java.util.List)", new ModifiedMethod("void com.google.refine.importers.SeparatorBasedImporter.parseOneFile(com.google.refine.model.Project,com.google.refine.ProjectMetadata,com.google.refine.importing.ImportingJob,String,java.io.Reader,int,org.json.JSONObject,java.util.List)",left, right));
 		*/
-		Map<String, ModifiedMethod> methodsWithSrcOrSink = new HashMap<String, ModifiedMethod>();
-		right = new ArrayList<Integer>();
-		left = new ArrayList<Integer>();
-		left.add(37);
-		left.add(38);
-		left.add(39);
-		left.add(40);
-		left.add(41);
-		methodsWithSrcOrSink.put("void rx.internal.operators.Anon_Subscriber.onNext(Object)", new ModifiedMethod("void rx.internal.operators.Anon_Subscriber.onNext(Object)", new ArrayList<String>(Arrays.asList(new String[]{"Subscriber","AtomicLong", "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
+		//Map<String, Map<String, ModifiedMethod>> methodsWithSrcOrSink = new HashMap<String, Map<String, ModifiedMethod>>();
 		
-		right = new ArrayList<Integer>();
-		left = new ArrayList<Integer>();
-		right.add(13);
-		
-		methodsWithSrcOrSink.put("void rx.internal.operators.Anon_Producer.request(long)", new ModifiedMethod("void rx.internal.operators.Anon_Producer.request(long)", new ArrayList<String>(Arrays.asList(new String[]{"AtomicLong"})), left, right, new ArrayList<String>()));
-		
+		//methodsWithSrcOrSink.put("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", anomModMethods);
 		//joana.run(false, false, methodsWithSrcOrSink);
 		//joana.run(true, true, Integer.parseInt(args[1]));
-		//joana.run(true, false, false, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
-		joana.run(false, true, false, methodsWithSrcOrSink, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
+		joana.run(true, false, false, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
+		//joana.run(false, true, false, methodsWithSrcOrSink, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
 		//joana.run(true, true);
 	}
 
