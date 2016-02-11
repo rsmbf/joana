@@ -455,6 +455,8 @@ public class JoanaInvocation {
 
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
 		config.setExceptionAnalysis(ExceptionAnalysis.INTERPROC);
+		config.setThirdPartyLibsPath(libPaths != null ? String.join(":", libPaths) : null);
+
 		return config;
 	}
 
@@ -464,20 +466,24 @@ public class JoanaInvocation {
 		List<Integer> left = new ArrayList<Integer>();		
 
 		String base_path = args[0]; //*/"/Users/Roberto/Documents/UFPE/Msc/Projeto/projects/";
-		String rev = base_path + "RxJava/revs/rev_fd9b6-4350f";
-		//String rev = base_path + "RxJava/revs/rev_29060-15e64";
+		//String rev = base_path + "RxJava/revs/rev_fd9b6-4350f";
+		String rev = base_path + "RxJava/revs/rev_29060-15e64";
+		//String rev = base_path + "RxJava/revs/rev_e30a3-cdb74";
 
 		//String rev = base_path + "voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";// + "voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";//"RxJava/revs/rev_fd9b6-4350f";// + "voldemort/revs/rev_df73c_dc509/rev_df73c-dc509";
 		//String rev = base_path + "voldemort/revs/rev_24c82_649c0/rev_24c82-64c90";
 		//String rev = base_path;// + "voldemort/revs/rev_e0f18_d44ca/rev_e0f18-d44ca";
+		
 		//String rev = base_path;
+		
+		//String rev = base_path + "OpenRefine/revs/rev_f8376-f87b8";
+		
 		String projectPath = rev + "/git"; 
-		String src = "/src";//"/src";//"/src/java";//"/src/main/java";
+		String src = "/src/main/java";//"/src";//"/src/java";//"/src/main/java";
 		//String fullSrc = projectPath + src;
 		String reportsPath = rev + "/reports";
-		String bin = "/build/classes";//"/bin";//"/dist/classes";//"/build/classes/main";
-		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, /*null*//*/**/"/lib/*:/dist/*", reportsPath);
-
+		String bin = "/build/classes/main";//"/bin";//"/dist/classes";//"/build/classes/main";
+		JoanaInvocation joana = new JoanaInvocation(projectPath, methods, bin, src, null/*"/main/webapp/WEB-INF/lib/json-20100208.jar"*//*"/lib/*:/dist"*/, reportsPath);
 
 		/*
 		joana.compilePaths(new ArrayList<String>(
@@ -487,13 +493,13 @@ public class JoanaInvocation {
 				})), "anon_comp_report.txt");
 
 		 */
+		///*
+		//right = new ArrayList<Integer>();
+		//left = new ArrayList<Integer>();
+		//right.add(13);
+		//methods.put("void rx.internal.operators.Anon_Producer.request(long)", new ModifiedMethod("void rx.internal.operators.Anon_Producer.request(long)", new ArrayList<String>(Arrays.asList(new String[]{"AtomicLong"})), left, right, new ArrayList<String>()));
+
 		/*
-		right = new ArrayList<Integer>();
-		left = new ArrayList<Integer>();
-		right.add(13);
-		methods.put("rx.internal.operators.Anon_Producer.request(long)", new ModifiedMethod("rx.internal.operators.Anon_Producer.request(long)", new ArrayList<String>(Arrays.asList(new String[]{"AtomicLong"})), left, right, new ArrayList<String>()));
-
-
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		left.add(37);
@@ -502,13 +508,16 @@ public class JoanaInvocation {
 		left.add(40);
 		left.add(41);
 		methods.put("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ModifiedMethod("rx.internal.operators.Anon_Subscriber.onNext(Object)", new ArrayList<String>(Arrays.asList(new String[]{"Subscriber","AtomicLong", "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
-		 */
-		
-		
-		//left.add(61);
-		//left.add(68);
-		//right.add(69);
-		//methods.put("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ModifiedMethod("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ArrayList<String>(Arrays.asList(new String[]{ "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
+		// */
+		methods.put("void rx.internal.operators.Anon_Subscriber.onNext(Object)", new ModifiedMethod("void rx.internal.operators.Anon_Subscriber.onNext(Object)", new ArrayList<String>(Arrays.asList(new String[]{"Subscriber","AtomicLong", "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));		
+		/*
+		right = new ArrayList<Integer>();
+		left = new ArrayList<Integer>();
+		left.add(61);
+		left.add(68);
+		right.add(69);
+		*/
+		methods.put("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ModifiedMethod("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", new ArrayList<String>(Arrays.asList(new String[]{ "Action1"})), left, right, new ArrayList<String>(Arrays.asList(new String[] {"java.util.concurrent.atomic.AtomicLong","rx.Observable.Operator","rx.Producer","rx.Subscriber", "rx.functions.Action1"}))));
 		
 		/*
 		joana.compilePaths(new ArrayList<String>(Arrays.asList(new String[] {
@@ -518,7 +527,7 @@ public class JoanaInvocation {
 				fullSrc + "/rx/internal/operators/OperatorMulticast.java"
 		})), "anon_comp_report.txt");
 		 */
-		
+		/*
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
 		right.add(116);
@@ -534,8 +543,8 @@ public class JoanaInvocation {
 		left.add(13);
 		left.add(14);
 		left.add(15);
-		methods.put("void rx.internal.operators.Anon_Subscriber.onNext(java.lang.Object)", new ModifiedMethod("void rx.internal.operators.Anon_Subscriber.onNext(java.lang.Object)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right, new ArrayList<String>()));
 		*/
+		//methods.put("void rx.internal.operators.Anon_Subscriber.onNext(java.lang.Object)", new ModifiedMethod("void rx.internal.operators.Anon_Subscriber.onNext(java.lang.Object)", new ArrayList<String>(Arrays.asList(new String[]{"rx.Subscriber"})), left, right, new ArrayList<String>()));
 /*
 		left = new ArrayList<Integer>();
 		left.add(17);
@@ -596,8 +605,8 @@ public class JoanaInvocation {
 		
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
-		left.add(59);
-		right.add(60);
+		//left.add(59);
+		//right.add(60);
 		//methods.put("void MyMap.main(java.lang.String[])", new ModifiedMethod("void MyMap.main(java.lang.String[])", left, right));
 		//methods.put("void Props.main(java.lang.String[])", new ModifiedMethod("void Props.main(java.lang.String[])", left, right));
 		//methods.put("paramsEx.TestParamsExample.main(String[])", new ModifiedMethod("paramsEx.TestParamsExample.main(String[])", left, right));
@@ -617,6 +626,17 @@ public class JoanaInvocation {
 		//right.add(17);
 		//right.add(23);
 		//methods.put("void Fig2_1.main(java.lang.String[])", new ModifiedMethod("void Fig2_1.main(java.lang.String[])", left, right));
+		//left.add(821);
+		//right.add(842);
+		//methods.put("void rx.internal.operators.OperatorConcatTest.testIssue2890NoStackoverflow()", new ModifiedMethod("void rx.internal.operators.OperatorConcatTest.testIssue2890NoStackoverflow()", left, right));
+		//
+		/*
+		left.add(109);
+		right.add(106);
+		right.add(111);
+		right.add(112);
+		methods.put("void com.google.refine.importers.SeparatorBasedImporter.parseOneFile(com.google.refine.model.Project,com.google.refine.ProjectMetadata,com.google.refine.importing.ImportingJob,String,java.io.Reader,int,org.json.JSONObject,java.util.List)", new ModifiedMethod("void com.google.refine.importers.SeparatorBasedImporter.parseOneFile(com.google.refine.model.Project,com.google.refine.ProjectMetadata,com.google.refine.importing.ImportingJob,String,java.io.Reader,int,org.json.JSONObject,java.util.List)",left, right));
+		*/
 		Map<String, ModifiedMethod> methodsWithSrcOrSink = new HashMap<String, ModifiedMethod>();
 		right = new ArrayList<Integer>();
 		left = new ArrayList<Integer>();
@@ -632,9 +652,11 @@ public class JoanaInvocation {
 		right.add(13);
 		
 		methodsWithSrcOrSink.put("void rx.internal.operators.Anon_Producer.request(long)", new ModifiedMethod("void rx.internal.operators.Anon_Producer.request(long)", new ArrayList<String>(Arrays.asList(new String[]{"AtomicLong"})), left, right, new ArrayList<String>()));
+		
 		//joana.run(false, false, methodsWithSrcOrSink);
 		//joana.run(true, true, Integer.parseInt(args[1]));
-		joana.run(true, false, false, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
+		//joana.run(true, false, false, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
+		joana.run(false, true, false, methodsWithSrcOrSink, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
 		//joana.run(true, true);
 	}
 
