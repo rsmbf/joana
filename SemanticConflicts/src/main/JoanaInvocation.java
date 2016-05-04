@@ -320,8 +320,7 @@ public class JoanaInvocation {
 						violations.add(rightToLeft);
 					}
 					results.put(method, violations);
-				}
-				if(methodsWithViosByAnnotation.get(method).get("LEFT->OTHERS") != null
+				}else if(methodsWithViosByAnnotation.get(method).get("LEFT->OTHERS") != null
 						&& methodsWithViosByAnnotation.get(method).get("RIGHT->OTHERS") != null)
 				{
 					Map<Integer,LineInterferencesPoints> interferencesByLine = BothAffect.getInterferencesByLine(parts_map, 
@@ -346,14 +345,15 @@ public class JoanaInvocation {
 				ViolationsPrinter.printAllMethodsViolationsByLine(results, program, parts_map, currentReportFilePath);
 			}else{
 				FileUtils.writeNewLine(currentReportFilePath, "NO FLOW FROM LEFT TO RIGHT OR RIGHT TO LEFT!");
+				System.out.println();
+				if(bothAffectResults.size() > 0)
+				{
+					ViolationsPrinter.printAllMethodsWithBothAffect(bothAffectResults,currentReportFilePath);
+				}else{
+					FileUtils.writeNewLine(currentReportFilePath, "NO FLOW FROM LEFT AND RIGHT TO A THIRD POINT!");
+				}
 			}
-			System.out.println();
-			if(bothAffectResults.size() > 0)
-			{
-				ViolationsPrinter.printAllMethodsWithBothAffect(bothAffectResults,currentReportFilePath);
-			}else{
-				FileUtils.writeNewLine(currentReportFilePath, "NO FLOW FROM LEFT AND RIGHT TO A THIRD POINT!");
-			}
+			
 		}else{
 			Map<String, ViolationResult> viosByAnnotation = runAnalysisForAllMethods(methodsWithSrcOrSink);
 			ViolationResult leftToRight = viosByAnnotation.get("LEFT->RIGHT");
@@ -484,33 +484,37 @@ public class JoanaInvocation {
 			Collection<? extends IViolation<SecurityNode>> result_1_1_b = ana.doIFC();
 			//TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart2 = ana.groupByPPPart(result);	
 			
-			FileUtils.writeNewLine(currentReportFilePath, "1.2.a analysis");
-			addSourcesAndSinks_1_2(leftInstructions);
-			printSourcesAndSinks(ana.getSources(), ana.getSinks());
-			Collection<? extends IViolation<SecurityNode>> result_1_2_a = ana.doIFC();
+			if(result_1_1_a.isEmpty() && result_1_1_b.isEmpty())
+			{
+				FileUtils.writeNewLine(currentReportFilePath, "1.2.a analysis");
+				addSourcesAndSinks_1_2(leftInstructions);
+				printSourcesAndSinks(ana.getSources(), ana.getSinks());
+				Collection<? extends IViolation<SecurityNode>> result_1_2_a = ana.doIFC();
+				
+				FileUtils.writeNewLine(currentReportFilePath, "1.2.b analysis");
+				addSourcesAndSinks_1_2(rightInstructions);
+				printSourcesAndSinks(ana.getSources(), ana.getSinks());
+				Collection<? extends IViolation<SecurityNode>> result_1_2_b = ana.doIFC();
+				if(!result_1_2_a.isEmpty())
+				{
+					resultsByAnnotation.put("LEFT->OTHERS", new ViolationResult(result_1_2_a, ana.groupByPPPart(result_1_2_a)));
+				}
+				if(!result_1_2_b.isEmpty())
+				{
+					resultsByAnnotation.put("RIGHT->OTHERS", new ViolationResult(result_1_2_b, ana.groupByPPPart(result_1_2_b)));
+				}
+			}else{
+				if(!result_1_1_a.isEmpty()){
+					//results_1_1.add(new ViolationResult(result_1_1_a, ana.groupByPPPart(result_1_1_a)));
+					resultsByAnnotation.put("LEFT->RIGHT", new ViolationResult(result_1_1_a, ana.groupByPPPart(result_1_1_a)));
+				}
+				if(!result_1_1_b.isEmpty())
+				{
+					//results_1_1.add(new ViolationResult(result_1_1_b, ana.groupByPPPart(result_1_1_b)));
+					resultsByAnnotation.put("RIGHT->LEFT", new ViolationResult(result_1_1_b, ana.groupByPPPart(result_1_1_b)));
+				}
+			}
 			
-			FileUtils.writeNewLine(currentReportFilePath, "1.2.b analysis");
-			addSourcesAndSinks_1_2(rightInstructions);
-			printSourcesAndSinks(ana.getSources(), ana.getSinks());
-			Collection<? extends IViolation<SecurityNode>> result_1_2_b = ana.doIFC();
-
-			if(!result_1_1_a.isEmpty()){
-				//results_1_1.add(new ViolationResult(result_1_1_a, ana.groupByPPPart(result_1_1_a)));
-				resultsByAnnotation.put("LEFT->RIGHT", new ViolationResult(result_1_1_a, ana.groupByPPPart(result_1_1_a)));
-			}
-			if(!result_1_1_b.isEmpty())
-			{
-				//results_1_1.add(new ViolationResult(result_1_1_b, ana.groupByPPPart(result_1_1_b)));
-				resultsByAnnotation.put("RIGHT->LEFT", new ViolationResult(result_1_1_b, ana.groupByPPPart(result_1_1_b)));
-			}
-			if(!result_1_2_a.isEmpty())
-			{
-				resultsByAnnotation.put("LEFT->OTHERS", new ViolationResult(result_1_2_a, ana.groupByPPPart(result_1_2_a)));
-			}
-			if(!result_1_2_b.isEmpty())
-			{
-				resultsByAnnotation.put("RIGHT->OTHERS", new ViolationResult(result_1_2_b, ana.groupByPPPart(result_1_2_b)));
-			}
 		}else{
 			FileUtils.writeNewLine(currentReportFilePath,"0 SOURCES AND/OR SINKS");
 		}
@@ -582,7 +586,7 @@ public class JoanaInvocation {
 		config.setMhpType(MHPType.PRECISE);
 
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
-		config.setExceptionAnalysis(/*/ExceptionAnalysis.IGNORE_ALL/**/ExceptionAnalysis.INTERPROC/**/);
+		config.setExceptionAnalysis(/**/ExceptionAnalysis.IGNORE_ALL/*/ExceptionAnalysis.INTERPROC/**/);
 		config.setThirdPartyLibsPath(libPaths != null ? String.join(":", libPaths) : null);
 
 		return config;
