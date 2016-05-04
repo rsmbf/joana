@@ -233,12 +233,17 @@ public class JoanaInvocation {
 		{
 			configs.put("violationPathes", "false");
 		}
+		if(!configs.containsKey("ignoreExceptions"))
+		{
+			configs.put("ignoreExceptions", "false");
+		}
 		boolean methodLevelAnalysis = configs.get("methodLevelAnalysis").equals("true");
 		boolean allPrecisions = configs.get("allPrecisions").equals("true");
 		boolean violationPathes = configs.get("violationPathes").equals("true");
+		boolean ignoreExceptions = configs.get("ignoreExceptions").equals("true");
 		int initialPrecision = Integer.parseInt(configs.get("initialPrecision"));
 		
-		SDGConfig config = setConfig();
+		SDGConfig config = setConfig(ignoreExceptions);
 		if(allPrecisions)
 		{
 			for(int i = initialPrecision; i < precisions.length; i++){
@@ -557,7 +562,7 @@ public class JoanaInvocation {
 		}
 	}
 
-	private SDGConfig setConfig() {
+	private SDGConfig setConfig(boolean ignoreExceptions) {
 		/** the class path is either a directory or a jar containing all the classes of the program which you want to analyze */
 		//String classPath = projectPath + "/bin";//"/data1/mmohr/git/CVJMultithreading/bin";
 
@@ -593,7 +598,7 @@ public class JoanaInvocation {
 		config.setMhpType(MHPType.PRECISE);
 
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
-		config.setExceptionAnalysis(/*ExceptionAnalysis.IGNORE_ALL*/ExceptionAnalysis.INTERPROC/**/);
+		config.setExceptionAnalysis(ignoreExceptions ? ExceptionAnalysis.IGNORE_ALL : ExceptionAnalysis.INTERPROC);
 		config.setThirdPartyLibsPath(libPaths != null ? String.join(":", libPaths) : null);
 
 		return config;
