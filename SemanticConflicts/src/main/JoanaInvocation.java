@@ -205,32 +205,39 @@ public class JoanaInvocation {
 
 	public void run() throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
 	{
-		run(true, false);
+		Map<String, String> configs = new HashMap<String, String>();
+		run(configs);
 	}
-
-	public void run(int initialPrecision) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException{
-		run(true, false, false, modMethods, initialPrecision);
-	}
-
-	public void run(boolean methodLevelAnalysis, boolean allPrecisions, boolean violationPathes, int initialPrecision) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException{
-		run(methodLevelAnalysis, allPrecisions, violationPathes, modMethods,  initialPrecision);
-	}
-
-	public void run(Map<String, ModifiedMethod> methodsWithSrcOrSink) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
+	
+	public void run(Map<String, String> configs) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
 	{
-		run(true, false, false, methodsWithSrcOrSink, 0);
+		run(configs, modMethods);
 	}
 
-	public void run(boolean methodLevelAnalysis, boolean allPrecisions, boolean violationPathes) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
+	public void run(Map<String, String> configs, Map<String, ModifiedMethod> methodsWithSrcOrSink) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
 	{
-		run(methodLevelAnalysis, allPrecisions, violationPathes, modMethods, 0);
-	}
-
-	public void run(boolean methodLevelAnalysis, boolean allPrecisions) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException{
-		run(methodLevelAnalysis, allPrecisions, false);
-	}
-	public void run(boolean methodLevelAnalysis, boolean allPrecisions, boolean violationPathes, Map<String, ModifiedMethod> methodsWithSrcOrSink, int initialPrecision) throws ClassNotFoundException, IOException, ClassHierarchyException, UnsoundGraphException, CancelException
-	{
+		if(!configs.containsKey("methodLevelAnalysis"))
+		{
+			configs.put("methodLevelAnalysis", "true");
+		}
+		if(!configs.containsKey("allPrecisions"))
+		{
+			configs.put("allPrecisions", "false");
+		}
+		if(!configs.containsKey("initialPrecision"))
+		{
+			int initial = configs.get("allPrecisions").equals("true") ? 0 : 1;
+			configs.put("initialPrecision", initial + "");
+		}	
+		if(!configs.containsKey("violationPathes"))
+		{
+			configs.put("violationPathes", "false");
+		}
+		boolean methodLevelAnalysis = configs.get("methodLevelAnalysis").equals("true");
+		boolean allPrecisions = configs.get("allPrecisions").equals("true");
+		boolean violationPathes = configs.get("violationPathes").equals("true");
+		int initialPrecision = Integer.parseInt(configs.get("initialPrecision"));
+		
 		SDGConfig config = setConfig();
 		if(allPrecisions)
 		{
@@ -586,7 +593,7 @@ public class JoanaInvocation {
 		config.setMhpType(MHPType.PRECISE);
 
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
-		config.setExceptionAnalysis(/**/ExceptionAnalysis.IGNORE_ALL/*/ExceptionAnalysis.INTERPROC/**/);
+		config.setExceptionAnalysis(/*ExceptionAnalysis.IGNORE_ALL*/ExceptionAnalysis.INTERPROC/**/);
 		config.setThirdPartyLibsPath(libPaths != null ? String.join(":", libPaths) : null);
 
 		return config;
@@ -866,7 +873,7 @@ public class JoanaInvocation {
 		//methodsWithSrcOrSink.put("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", anomModMethods);
 		//joana.run(false, false, methodsWithSrcOrSink);
 		//joana.run(true, true, Integer.parseInt(args[1]));
-		joana.run(true, false, false, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
+		joana.run();
 		//joana.run(false, true, false, methodsWithSrcOrSink, args != null && args.length >= 2 ? Integer.parseInt(args[1]) : 0);
 		//joana.run(true, true);
 	}
