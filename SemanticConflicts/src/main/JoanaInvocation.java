@@ -87,7 +87,7 @@ public class JoanaInvocation {
 			reportFilePaths[j] = new HashMap<PointsToPrecision, String>();
 			for(int i = 0; i < precisions.length; i++)
 			{
-				reportFilePaths[j].put(precisions[i], reportFilePath + File.separator + "joana_"+precisions[i].toString()+ exceps[j] +".txt" );
+				reportFilePaths[j].put(precisions[i], reportFilePath + File.separator + precisions[i].toString()+ exceps[j] +".txt" );
 			}	
 		}
 
