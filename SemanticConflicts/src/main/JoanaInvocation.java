@@ -50,7 +50,7 @@ public class JoanaInvocation {
 	private String classPath;
 	private String srcPath;
 	private String[] libPaths;
-	private Map<PointsToPrecision, String> reportFilePaths;
+	private Map<PointsToPrecision, String> reportFilePaths[];
 	private String currentReportFilePath;
 	private List<SDGInstruction> leftInstructions, rightInstructions, otherInstructions;
 
@@ -73,16 +73,25 @@ public class JoanaInvocation {
 			this.libPaths = libPaths.split(":");
 			for(int i = 0; i < this.libPaths.length; i++)
 			{
-				this.libPaths[i] = projectPath + this.libPaths[i];
+				if(!this.libPaths[i].contains(projectPath))
+				{
+					this.libPaths[i] = projectPath + this.libPaths[i];
+				}
+
 			}
 		}
 		this.modMethods = modMethods;		
-		reportFilePaths = new HashMap<PointsToPrecision, String>();
-		for(int i = 0; i < precisions.length; i++)
-		{
-			reportFilePaths.put(precisions[i], reportFilePath + File.separator + "joana_"+precisions[i].toString() +"_report.txt" );
+		reportFilePaths = new Map[2];
+		String[] exceps = new String[]{"_excep", "_noExcep"};
+		for(int j = 0; j < reportFilePaths.length; j++){
+			reportFilePaths[j] = new HashMap<PointsToPrecision, String>();
+			for(int i = 0; i < precisions.length; i++)
+			{
+				reportFilePaths[j].put(precisions[i], reportFilePath + File.separator + "joana_"+precisions[i].toString()+ exceps[j] +".txt" );
+			}	
 		}
-		currentReportFilePath = reportFilePaths.get(precisions[0]);	
+
+		currentReportFilePath = reportFilePaths[0].get(precisions[0]);	
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
 		leftInstructions = new ArrayList<SDGInstruction>();
 		rightInstructions = new ArrayList<SDGInstruction>();
@@ -169,13 +178,14 @@ public class JoanaInvocation {
 					methodFound = signaturesMatch(methodSignature, meth_signature);
 					//System.out.println("Mod sign: "+mod_sign + " , "+methodFound);
 					if(methodFound)
-					{
+					{					
 						ModifiedMethod modMethod = methodsWithSrcOrSink.get(methodEvaluated);
 						List<Integer> left_cont = modMethod.getLeftContribs();
 						//System.out.println(left_cont);
 						List<Integer> right_cont = modMethod.getRightContribs();
 						//System.out.println(right_cont);
 						Collection<SDGInstruction> instructions = method.getInstructions();
+						System.out.println("Instructions: "+instructions.size());
 						for(SDGInstruction instruction : instructions ){
 							int line_number = meth.getLineNumber(instruction.getBytecodeIndex());
 							FileUtils.writeNewLine(currentReportFilePath, "    LINE "+line_number+": "+instruction);
@@ -208,7 +218,7 @@ public class JoanaInvocation {
 		Map<String, String> configs = new HashMap<String, String>();
 		run(configs);
 	}
-	
+
 	public void run(Map<String, String> configs) throws ClassNotFoundException, ClassHierarchyException, IOException, UnsoundGraphException, CancelException
 	{
 		run(configs, modMethods);
@@ -237,26 +247,26 @@ public class JoanaInvocation {
 		{
 			configs.put("ignoreExceptions", "false");
 		}
-		boolean methodLevelAnalysis = configs.get("methodLevelAnalysis").equals("true");
+
 		boolean allPrecisions = configs.get("allPrecisions").equals("true");
 		boolean violationPathes = configs.get("violationPathes").equals("true");
 		boolean ignoreExceptions = configs.get("ignoreExceptions").equals("true");
 		int initialPrecision = Integer.parseInt(configs.get("initialPrecision"));
-		
+		int ignoreExceptionsInt = ignoreExceptions ? 1 : 0;
 		SDGConfig config = setConfig(ignoreExceptions);
 		if(allPrecisions)
 		{
 			for(int i = initialPrecision; i < precisions.length; i++){
-				currentReportFilePath = reportFilePaths.get(precisions[i]);
+				currentReportFilePath = reportFilePaths[ignoreExceptionsInt].get(precisions[i]);
 				FileUtils.createFile(currentReportFilePath);
 				parts_map = new HashMap<SDGProgramPart, Integer>();	
-				runForSpecificPrecision(methodLevelAnalysis, violationPathes, config, precisions[i], methodsWithSrcOrSink);
+				runForSpecificPrecision(configs, violationPathes, config, precisions[i], methodsWithSrcOrSink);
 				System.out.println();
 			}
 		}else{
-			currentReportFilePath = reportFilePaths.get(precisions[initialPrecision]);
+			currentReportFilePath = reportFilePaths[ignoreExceptionsInt].get(precisions[initialPrecision]);
 			FileUtils.createFile(currentReportFilePath);
-			runForSpecificPrecision(methodLevelAnalysis, violationPathes, config, precisions[initialPrecision], methodsWithSrcOrSink);
+			runForSpecificPrecision(configs, violationPathes, config, precisions[initialPrecision], methodsWithSrcOrSink);
 		}
 
 	}
@@ -282,15 +292,18 @@ public class JoanaInvocation {
 				IMethod method = sdgMethod.getMethod();
 				for(SDGInstruction inst : sdgMethod.getInstructions())
 				{
-					System.out.println("            LINE "+method.getLineNumber(inst.getBytecodeIndex())+": "+inst);
+					FileUtils.writeNewLine(currentReportFilePath, "            LINE "+method.getLineNumber(inst.getBytecodeIndex())+": "+inst);
+					//System.out.println("            LINE "+method.getLineNumber(inst.getBytecodeIndex())+": "+inst);
 				}
 			}
 		}
 	}
 
-	private void runForSpecificPrecision(boolean methodLevelAnalysis, boolean violationPathes,
+	private void runForSpecificPrecision(Map<String, String> configs, boolean violationPathes,
 			SDGConfig config,
 			PointsToPrecision precision, Map<String, ModifiedMethod> methodsWithSrcOrSink) throws ClassHierarchyException,IOException, UnsoundGraphException, CancelException,FileNotFoundException {
+		boolean methodLevelAnalysis = configs.get("methodLevelAnalysis").equals("true");
+		boolean ignoreExceptions = configs.get("ignoreExceptions").equals("true");
 		/** precision of the used points-to analysis - INSTANCE_BASED is a good value for simple examples */
 		config.setPointsToPrecision(precision);
 
@@ -303,7 +316,14 @@ public class JoanaInvocation {
 		printSdgInfo();
 		FileUtils.writeNewLine(currentReportFilePath, "");
 		/** optional: save PDG to disk */
-		SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream(new File(currentReportFilePath).getParent() + File.separator + precision.toString() + ".pdg"));
+		String pdgFileName = new File(currentReportFilePath).getParent() + File.separator + precision.toString();
+		String excep = "_excep";
+		if(ignoreExceptions)
+		{
+			excep = "_noExcep";
+		}
+		pdgFileName += excep + ".pdg";
+		SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream(pdgFileName));
 
 		ana = new IFCAnalysis(program);
 		/** annotate sources and sinks */
@@ -317,7 +337,7 @@ public class JoanaInvocation {
 			Map<String, List<ViolationResult>> results = new HashMap<String, List<ViolationResult>>();
 			Map<String, Map<Integer, LineInterferencesPoints>> bothAffectResults = new HashMap<String, Map<Integer, LineInterferencesPoints>>();
 			for(String method : methodsWithViosByAnnotation.keySet()){
-				
+
 				ViolationResult leftToRight = methodsWithViosByAnnotation.get(method).get("LEFT->RIGHT");
 				ViolationResult rightToLeft = methodsWithViosByAnnotation.get(method).get("RIGHT->LEFT");
 
@@ -343,8 +363,8 @@ public class JoanaInvocation {
 						bothAffectResults.put(method, interferencesByLine);			
 					}
 				}
-				
-					
+
+
 			}
 			if(results.size() > 0)
 			{
@@ -365,7 +385,7 @@ public class JoanaInvocation {
 					FileUtils.writeNewLine(currentReportFilePath, "NO FLOW FROM LEFT AND RIGHT TO A THIRD POINT!");
 				}
 			}
-			
+
 		}else{
 			Map<String, ViolationResult> viosByAnnotation = runAnalysisForAllMethods(methodsWithSrcOrSink);
 			ViolationResult leftToRight = viosByAnnotation.get("LEFT->RIGHT");
@@ -495,14 +515,14 @@ public class JoanaInvocation {
 			printSourcesAndSinks(ana.getSources(), ana.getSinks());
 			Collection<? extends IViolation<SecurityNode>> result_1_1_b = ana.doIFC();
 			//TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart2 = ana.groupByPPPart(result);	
-			
+
 			if(result_1_1_a.isEmpty() && result_1_1_b.isEmpty())
 			{
 				FileUtils.writeNewLine(currentReportFilePath, "1.2.a analysis");
 				addSourcesAndSinks_1_2(leftInstructions);
 				printSourcesAndSinks(ana.getSources(), ana.getSinks());
 				Collection<? extends IViolation<SecurityNode>> result_1_2_a = ana.doIFC();
-				
+
 				FileUtils.writeNewLine(currentReportFilePath, "1.2.b analysis");
 				addSourcesAndSinks_1_2(rightInstructions);
 				printSourcesAndSinks(ana.getSources(), ana.getSinks());
@@ -526,7 +546,7 @@ public class JoanaInvocation {
 					resultsByAnnotation.put("RIGHT->LEFT", new ViolationResult(result_1_1_b, ana.groupByPPPart(result_1_1_b)));
 				}
 			}
-			
+
 		}else{
 			FileUtils.writeNewLine(currentReportFilePath,"0 SOURCES AND/OR SINKS");
 		}
@@ -599,7 +619,7 @@ public class JoanaInvocation {
 
 		/** exception analysis is used to detect exceptional control-flow which cannot happen */
 		config.setExceptionAnalysis(ignoreExceptions ? ExceptionAnalysis.IGNORE_ALL : ExceptionAnalysis.INTERPROC);
-		config.setThirdPartyLibsPath(libPaths != null ? String.join(":", libPaths) : null);
+		config.setThirdPartyLibsPath(libPaths != null ? String.join(System.getProperty("path.separator"), libPaths) : null);
 
 		return config;
 	}
@@ -767,9 +787,9 @@ public class JoanaInvocation {
 
 		// */
 		///*
-		
-		
-		
+
+
+
 		left.add(18);
 		right.add(17);
 		right.add(19);
@@ -853,7 +873,7 @@ public class JoanaInvocation {
 		left.add(20);
 		right.add(21);
 		methods.put("void one.two.MurtaExample2.main(java.lang.String[])", new ModifiedMethod("void one.two.MurtaExample2.main(java.lang.String[])", left, right));
-		*/
+		 */
 		/*
 		left = new ArrayList<Integer>();
 		right = new ArrayList<Integer>();
@@ -861,7 +881,7 @@ public class JoanaInvocation {
 		left.add(7);
 		right.add(8);
 		methods.put("void one.two.MurtaExample3.main(java.lang.String[])", new ModifiedMethod("void one.two.MurtaExample3.main(java.lang.String[])", left, right));
-		*/
+		 */
 		/*
 		left = new ArrayList<Integer>();
 		right = new ArrayList<Integer>();		
@@ -874,7 +894,7 @@ public class JoanaInvocation {
 		//left.add(6);
 		//right.add(8);
 		//methods.put("void two.cOne.bothWrite.BothWriteMerged.main(java.lang.String[])", new ModifiedMethod("void two.cOne.bothWrite.BothWriteMerged.main(java.lang.String[])", left, right));
-		*/
+		 */
 		//methodsWithSrcOrSink.put("Subscriber rx.internal.operators.OperatorOnBackpressureDrop.call(Subscriber)", anomModMethods);
 		//joana.run(false, false, methodsWithSrcOrSink);
 		//joana.run(true, true, Integer.parseInt(args[1]));
