@@ -234,6 +234,10 @@ public class JoanaInvocation {
 		{
 			configs.put("allPrecisions", "false");
 		}
+		if(!configs.containsKey("allExceptions"))
+		{
+			configs.put("allExceptions", "false");
+		}
 		if(!configs.containsKey("initialPrecision"))
 		{
 			int initial = configs.get("allPrecisions").equals("true") ? 0 : 1;
@@ -248,12 +252,38 @@ public class JoanaInvocation {
 			configs.put("ignoreExceptions", "false");
 		}
 
+		boolean allExceptions = configs.get("allExceptions").equals("true");
 		boolean allPrecisions = configs.get("allPrecisions").equals("true");
-		boolean violationPathes = configs.get("violationPathes").equals("true");
-		boolean ignoreExceptions = configs.get("ignoreExceptions").equals("true");
+		boolean violationPathes = configs.get("violationPathes").equals("true");		
 		int initialPrecision = Integer.parseInt(configs.get("initialPrecision"));
-		int ignoreExceptionsInt = ignoreExceptions ? 1 : 0;
-		SDGConfig config = setConfig(ignoreExceptions);
+		
+		if(allExceptions)
+		{
+			for(int exceptionsInt = 0; exceptionsInt < reportFilePaths.length; exceptionsInt++)
+			{				
+				boolean ignoreExceptions = exceptionsInt == 1;
+				SDGConfig config = setConfig(ignoreExceptions);
+				configs.put("ignoreExceptions", ignoreExceptions + "");
+				runForEachPrecision(configs, methodsWithSrcOrSink, allPrecisions,
+						violationPathes, initialPrecision, exceptionsInt, config);
+			}
+		}else{
+			boolean ignoreExceptions = configs.get("ignoreExceptions").equals("true");
+			SDGConfig config = setConfig(ignoreExceptions);
+			int ignoreExceptionsInt = ignoreExceptions ? 1 : 0;
+			runForEachPrecision(configs, methodsWithSrcOrSink, allPrecisions,
+					violationPathes, initialPrecision, ignoreExceptionsInt, config);
+		}
+		
+
+	}
+
+	private void runForEachPrecision(Map<String, String> configs,
+			Map<String, ModifiedMethod> methodsWithSrcOrSink,
+			boolean allPrecisions, boolean violationPathes,
+			int initialPrecision, int ignoreExceptionsInt, SDGConfig config)
+			throws IOException, ClassHierarchyException, UnsoundGraphException,
+			CancelException, FileNotFoundException {
 		if(allPrecisions)
 		{
 			for(int i = initialPrecision; i < precisions.length; i++){
@@ -268,7 +298,6 @@ public class JoanaInvocation {
 			FileUtils.createFile(currentReportFilePath);
 			runForSpecificPrecision(configs, violationPathes, config, precisions[initialPrecision], methodsWithSrcOrSink);
 		}
-
 	}
 
 	private void printSdgInfo() throws IOException
