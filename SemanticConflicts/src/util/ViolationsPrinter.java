@@ -40,20 +40,23 @@ import main.ViolationPathCollector;
 import main.ViolationResult;
 
 public class ViolationsPrinter {
-	private static void printViolations(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart, String reportFilePath) throws IOException
+	private static int printViolations(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart, String reportFilePath) throws IOException
 	{
+		int total = 0;
 		for(Object key : resultByProgramPart.keys())
 		{			
 			FileUtils.write(reportFilePath,"Key: "+key);
-			FileUtils.writeNewLine(reportFilePath,", Value: "+resultByProgramPart.get(key));
+			int current = resultByProgramPart.get(key);
+			total += current;
+			FileUtils.writeNewLine(reportFilePath,", Value: "+current);
 		}
+		return total;
 	}
 
 	private static void printViolationsByLine(TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart, 
 			SDGProgram program, Map<SDGProgramPart, Integer> parts_map,
-			String reportFilePath) throws IOException
+			String reportFilePath, Map<String, Integer[]> msgs) throws IOException
 			{
-		Map<String, Integer[]> msgs = new HashMap<String, Integer[]>();
 		String base_msg = "Illegal flow from '";
 		Integer[] values;
 		SDGProgramPart from_part, to_part, from, to;
@@ -65,7 +68,7 @@ public class ViolationsPrinter {
 			{
 				IIllegalFlow flow = (IIllegalFlow) violation;
 				from_part = (SDGProgramPart) flow.getSource();
-				
+
 				if(from_part instanceof SDGCallPart)
 				{
 					from = ((SDGCallPart) from_part).getOwningCall();
@@ -79,7 +82,7 @@ public class ViolationsPrinter {
 				}else{
 					to = to_part;
 				}
-				 
+
 				from_line = from.getOwningMethod().getMethod().getLineNumber(((SDGInstruction) from).getBytecodeIndex());
 				to_line = to.getOwningMethod().getMethod().getLineNumber(((SDGInstruction) to).getBytecodeIndex());
 
@@ -121,65 +124,79 @@ public class ViolationsPrinter {
 
 
 		//System.out.println("Lines Summary");
-		for(String msg : msgs.keySet())
-		{
-			FileUtils.write(reportFilePath, "Key: "+msg);		
-			FileUtils.write(reportFilePath, ", Violations: "+msgs.get(msg)[0]);
-			FileUtils.writeNewLine(reportFilePath, ", Value: "+msgs.get(msg)[1]);
-		}
+		
 			}
 
 	public static void printAllViolationsByLine(List<ViolationResult> results, 
 			SDGProgram program, Map<SDGProgramPart, Integer> parts_map,
-			String reportFilePath) throws IOException
+			String reportFilePath, Map<String, Integer[]> msgs) throws IOException
 			{
 		ViolationResult result;
 		for(int i = 0; i < results.size(); i++)
 		{
 			result = results.get(i);
-			printViolationsByLine(result.getResultByProgramPart(), program, parts_map, reportFilePath);			
+			printViolationsByLine(result.getResultByProgramPart(), program, parts_map, reportFilePath, msgs);			
 		}
+		
 			}
 
-	public static int printAllViolations(List<ViolationResult> list, String reportFilePath)
+	public static int[] printAllViolations(List<ViolationResult> list, String reportFilePath)
 			throws IOException {
 		int violations = 0;
+		int total = 0;
 		TObjectIntMap<IViolation<SDGProgramPart>> resultsByPart;
 
 		for(int i = 0; i < list.size(); i++)
 		{
 			resultsByPart = list.get(i).getResultByProgramPart();	
 			if(!resultsByPart.isEmpty()){
-				printViolations(resultsByPart, reportFilePath);
+				total += printViolations(resultsByPart, reportFilePath);
 				violations += resultsByPart.size();
 			}
 		}
-		return violations;
+		return new int[]{violations, total};
 	}
 
 	public static void printAllMethodsViolations(
 			Map<String, List<ViolationResult>> results, String reportFilePath) throws IOException {		
 
 		int violations = 0;
+		int total = 0;
 		FileUtils.writeNewLine(reportFilePath, "VIOLATIONS BETWEEN LEFT AND RIGHT");
 		for(String method : results.keySet())
 		{
-			violations += printAllViolations(results.get(method), reportFilePath);
+			int[] vios = printAllViolations(results.get(method), reportFilePath);
+			violations += vios[0];
+			total += vios[1];
 		}
-		FileUtils.writeNewLine(reportFilePath, "TOTAL VIOLATIONS: "+violations);
+		FileUtils.writeNewLine(reportFilePath, "INSTRUCTION VIOLATIONS: "+violations);
+		FileUtils.writeNewLine(reportFilePath, "TOTAL VIOLATIONS: "+total);
 
 	}
-
+	
 	public static void printAllMethodsViolationsByLine(Map<String, List<ViolationResult>> results, 
 			SDGProgram program, Map<SDGProgramPart, Integer> parts_map,
 			String reportFilePath) throws IOException {
 		FileUtils.writeNewLine(reportFilePath, "LINE violations between left and right");
+		Map<String, Integer[]> msgs = new HashMap<String, Integer[]>();
 		for(String method : results.keySet())
 		{			
-			printAllViolationsByLine(results.get(method), program, parts_map, reportFilePath);
+			printAllViolationsByLine(results.get(method), program, parts_map, reportFilePath, msgs);
 		}
+		printTotalLineViolations(msgs, reportFilePath);
 	}
 	
+	public static void printTotalLineViolations(Map<String, Integer[]> msgs, String reportFilePath) throws IOException
+	{
+		for(String msg : msgs.keySet())
+		{
+			FileUtils.write(reportFilePath, "Key: "+msg);		
+			FileUtils.write(reportFilePath, ", Violations: "+msgs.get(msg)[0]);
+			FileUtils.writeNewLine(reportFilePath, ", Value: "+msgs.get(msg)[1]);
+		}
+		FileUtils.writeNewLine(reportFilePath, "Total Line Violations: "+msgs.keySet().size());
+	}
+
 	public static void printAllViolationsPaths(List<ViolationResult> results, SDG sdg, String reportFilePath) throws IOException
 	{
 		int v = 1;
@@ -192,11 +209,11 @@ public class ViolationsPrinter {
 			while(it.hasNext())
 			{
 				IViolation<SecurityNode> vio = it.next();
-				
+
 				if(vio instanceof ClassifiedViolation)
 				{
 					classifVios.add((ClassifiedViolation) vio);
-					
+
 					/*
 					ClassifiedViolation classifVio = new edu.kit.joana.ifc.sdg.core.violations.paths.PathGenerator(sdg).computeAllPaths((ClassifiedViolation) vio);
 					ViolationPathes pathes = classifVio.getViolationPathes();
@@ -222,7 +239,7 @@ public class ViolationsPrinter {
 					linePaths.add(head);
 					v++;
 					int p = 1;
-					
+
 					for(ViolationPath vioPath : pathes.getPathesListCopy())
 					{
 						LinkedList<SecurityNode> pathList = vioPath.getPathList();
@@ -243,19 +260,19 @@ public class ViolationsPrinter {
 							{
 								path.add(line);
 							}
-							
+
 							FileUtils.writeNewLine(reportFilePath, "           ("+ node.getBytecodeName()+":"+node.getBytecodeIndex()+") " +node.getLabel() + " {" + node.getOperation() +"} ["+node.getSource()+":LINES "+node.getSr()+"-"+node.getEr()+"] -> ");
 						}
 						if(pathList.size() > 0)
 						{
 							node = pathList.get(pathList.size() - 1);
 							line = "           ["+node.getSource()+":LINES "+node.getSr()+"-"+node.getEr() +"]";
-							
+
 							if(pathList.size() == 1 || !path.get(path.size() - 1).equals(line + " ->"))
 							{
 								path.add(line);
 							}
-							
+
 							FileUtils.writeNewLine(reportFilePath, "           ("+ node.getBytecodeName()+":"+node.getBytecodeIndex()+") " +node.getLabel() + " {" + node.getOperation() +"} ["+node.getSource()+":LINES "+node.getSr()+"-"+node.getEr()+"]");
 						}
 						linePaths.add(path);						
@@ -274,23 +291,23 @@ public class ViolationsPrinter {
 				System.out.println("Vios: "+classifVio.getViolationPathes());
 				System.out.println();
 			}
-			*/
+			 */
 			for(ClassifiedViolation classifVio : ViolationChop.getInstance().addChop(classifVios, sdg)){				
 				ViolationPathes pathes = classifVio.getViolationPathes();
 				//Collection<Chop> aux = classifVio.getChops();
 				FileUtils.writeNewLine(reportFilePath,"Path Violation "+v 
 						+ " - Info Source: "
-							+ classifVio.getSource().getLabel() 
-							+" {"+ classifVio.getSource().getOperation() + "} "
-							+ "["+classifVio.getSource().getSource()
-							+":LINES "+classifVio.getSource().getSr()+"-"+classifVio.getSource().getEr()
+						+ classifVio.getSource().getLabel() 
+						+" {"+ classifVio.getSource().getOperation() + "} "
+						+ "["+classifVio.getSource().getSource()
+						+":LINES "+classifVio.getSource().getSr()+"-"+classifVio.getSource().getEr()
 						+"], Leak: "+classifVio.getSink().getLabel() 
-							+ " {"+classifVio.getSink().getOperation()
-							+"} "
-							+ "["+classifVio.getSink().getSource()+
-							":LINES "+classifVio.getSink().getSr()+"-"+classifVio.getSink().getEr()+"]"
-				);
-				
+						+ " {"+classifVio.getSink().getOperation()
+						+"} "
+						+ "["+classifVio.getSink().getSource()+
+						":LINES "+classifVio.getSink().getSr()+"-"+classifVio.getSink().getEr()+"]"
+						);
+
 				v++;
 				int p = 1;
 				for(ViolationPath vioPath : pathes.getPathesListCopy())
@@ -306,8 +323,8 @@ public class ViolationsPrinter {
 						printPath(reportFilePath, invNodes, ",");
 						printOrderedEdges(sdg, invNodes, classifVio.getSource(), classifVio.getSink(), reportFilePath);
 					}
-					
-					
+
+
 				}				
 			}
 			//*/
@@ -330,7 +347,7 @@ public class ViolationsPrinter {
 				{
 					System.out.print(relatedNodesEdges.get(i).getKind().name() + "/");
 				}
-				
+
 				System.out.println(relatedNodesEdges.get(relatedNodesEdges.size() - 1).getKind().name()+
 						"-> "+relatedNodesEdges.get(0).getTarget());
 			}
@@ -351,7 +368,7 @@ public class ViolationsPrinter {
 	private static void printPath(String reportFilePath, Collection<SecurityNode> pathList, String sep) throws IOException {
 		SecurityNode node;
 		Iterator<SecurityNode> it = pathList.iterator();
-		
+
 		//for(int i = 0; i < pathList.size() - 1;i++)
 		String lineContent = null;
 		if(it.hasNext())
@@ -374,7 +391,7 @@ public class ViolationsPrinter {
 			FileUtils.writeNewLine(reportFilePath, 
 					lineContent.substring(0, lineContent.lastIndexOf(sep)));
 		}
-		
+
 		/*
 		if(pathList.size() > 0)
 		{
@@ -383,9 +400,9 @@ public class ViolationsPrinter {
 					+node.getLabel() + " {" + node.getOperation() +"} ["+node.getSource()+":LINES "+node.getSr()+"-"+node.getEr()
 					+"]");
 		}
-		*/
+		 */
 	}
-	
+
 	private static void printViolationsLinePaths(
 			List<List<List<String>>> allViosLinePaths, String reportFilePath) throws IOException {
 		FileUtils.writeNewLine(reportFilePath, "");
@@ -434,7 +451,7 @@ public class ViolationsPrinter {
 				}
 			}
 		}
-		
-		
+
+
 	}
 }

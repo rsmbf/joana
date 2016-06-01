@@ -440,7 +440,9 @@ public class JoanaInvocation {
 				FileUtils.writeNewLine(currentReportFilePath, "VIOLATIONS");
 				FileUtils.writeNewLine(currentReportFilePath, "TOTAL VIOLATIONS: " + ViolationsPrinter.printAllViolations(results, currentReportFilePath));
 				FileUtils.writeNewLine(currentReportFilePath, "LINE violations");
-				ViolationsPrinter.printAllViolationsByLine(results, program, parts_map, currentReportFilePath);
+				Map<String, Integer[]> msgs = new HashMap<String, Integer[]>();
+				ViolationsPrinter.printAllViolationsByLine(results, program, parts_map, currentReportFilePath, msgs);
+				ViolationsPrinter.printTotalLineViolations(msgs, currentReportFilePath);
 			}else{
 				FileUtils.writeNewLine(currentReportFilePath, "NO FLOW FROM LEFT TO RIGHT OR RIGHT TO LEFT!");
 			}	
