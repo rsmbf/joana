@@ -55,6 +55,7 @@ public class JoanaInvocation {
 	private String reportFolderPath;
 	private String sdgsFolderPath;
 	private Map<String, Map<SdgConfigValues, ExecutionResult>> execResults;
+	private boolean saveSdgs;
 
 	private static final PointsToPrecision[] precisions = new PointsToPrecision[] {
 		PointsToPrecision.TYPE_BASED, PointsToPrecision.INSTANCE_BASED, PointsToPrecision.OBJECT_SENSITIVE,
@@ -76,8 +77,13 @@ public class JoanaInvocation {
 		this(projectPath, modMethods, "", libPaths, reportFolderPath, sdgsFolderPath);
 	}
 
-	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String libPaths, String reportFolderPath, String sdgsFolderPath)
+	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String libPaths, String reportFolderPath, String sdgsFolderPath) {
+		this(projectPath, modMethods, binPath, libPaths, reportFolderPath, sdgsFolderPath, false);
+	}
+	
+	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String libPaths, String reportFolderPath, String sdgsFolderPath, boolean saveSdgs)
 	{
+		this.saveSdgs = saveSdgs;
 		this.classPath = projectPath + binPath;
 		//this.srcPath = projectPath + srcPath;
 		if(libPaths != null)
@@ -102,8 +108,6 @@ public class JoanaInvocation {
 		this.sdgsFolderPath = sdgsFolderPath;
 		execResults = new HashMap<String, Map<SdgConfigValues, ExecutionResult>>();
 	}
-
-
 
 	private void printSourcesAndSinks(Collection<IFCAnnotation> sources, Collection<IFCAnnotation> sinks, String reportFilePath) throws IOException {
 		FileUtils.writeNewLine(reportFilePath, "Sources: "+sources.size());
@@ -401,15 +405,18 @@ public class JoanaInvocation {
 				printSdgInfo(confValues);
 				FileUtils.writeNewLine(reportFilePath, "");
 				/** optional: save PDG to disk */
-				String pdgFileName = sdgsFolderPath + File.separator + precision.toString();
-				String excep = "_excep";
-				if(ignoreExceptions)
+				if(saveSdgs)
 				{
-					excep = "_noExcep";
+					String pdgFileName = sdgsFolderPath + File.separator + precision.toString();
+					String excep = "_excep";
+					if(ignoreExceptions)
+					{
+						excep = "_noExcep";
+					}
+					pdgFileName += excep + ".pdg";
+					FileUtils.mkdirs(new File(pdgFileName));
+					SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream(pdgFileName));
 				}
-				pdgFileName += excep + ".pdg";
-				FileUtils.mkdirs(new File(pdgFileName));
-				SDGSerializer.toPDGFormat(program.getSDG(), new FileOutputStream(pdgFileName));
 
 				ana = new IFCAnalysis(program);
 				confValues.setIFCAnalysis(ana);
