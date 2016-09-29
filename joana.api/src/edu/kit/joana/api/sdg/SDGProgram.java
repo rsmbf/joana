@@ -158,8 +158,13 @@ public class SDGProgram {
 	private final Map<SDGProgramPart, Collection<Annotation>> annotations = new HashMap<SDGProgramPart, Collection<Annotation>>();
 	private final AnnotationTypeBasedNodeCollector coll;
 	// MODIFICATION alterei aqui pra pode pegar a hierarquia de classes WALA
-	public static SDGBuilder sdgBuilder;
-
+	private SDGBuilder sdgBuilder;
+	public SDGBuilder getSDGBuilder(){return sdgBuilder;}
+	public SDGProgram(SDG sdg, SDGBuilder builder)
+	{
+		this(sdg); 
+		this.sdgBuilder = builder; 
+	}
 	private static Logger debug = Log.getLogger(Log.L_API_DEBUG);
 
 	public SDGProgram(SDG sdg) {
@@ -234,7 +239,6 @@ public class SDGProgram {
 		final SDG sdg = p.fst;
 		final SDGBuilder builder = p.snd;
 		// MODIFICATION alterei aqui pra pode pegar a hierarquia de classes WALA
-		sdgBuilder = builder;
 
 		if (config.computeInterferences()) {
 			PruneInterferences.preprocessAndPruneCSDG(sdg, config.getMhpType());
@@ -257,7 +261,7 @@ public class SDGProgram {
 			SDGSerializer.toPDGFormat(sdg, sdgFileOut);
 			sdgFileOut.flush();
 		}
-		SDGProgram ret = new SDGProgram(sdg);
+		SDGProgram ret = new SDGProgram(sdg, builder);//new SDGProgram(sdg);
 		// TODO: Iterate only over classes present in the call graph
 		for (IClass c : builder.getClassHierarchy()) {
 			final String walaClassName = c.getName().toString();
