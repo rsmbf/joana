@@ -50,6 +50,7 @@ import com.ibm.wala.util.config.AnalysisScopeReader;
 import com.ibm.wala.util.config.FileOfClasses;
 import com.ibm.wala.util.config.SetOfClasses;
 import com.ibm.wala.util.graph.GraphIntegrity.UnsoundGraphException;
+import com.ibm.wala.util.strings.Atom;
 import com.ibm.wala.util.strings.StringStuff;
 
 import edu.kit.joana.ifc.sdg.graph.SDG;
@@ -245,7 +246,11 @@ public final class SDGBuildPreparation {
 
 		out.println("(" + cha.getNumberOfClasses() + " classes) done.");
 		System.out.println("(" + cha.getNumberOfClasses() + " classes) done.");
-
+		/*Iterator it2 = cha.iterator();
+		while(it2.hasNext())
+		{
+			System.out.println(it2.next());
+		}*/
 		if (cfg.extern != null) {
 			cfg.extern.setClassHierarchy(cha);
 		}
@@ -266,9 +271,16 @@ public final class SDGBuildPreparation {
 				
 				IMethod meth = cha.resolveMethod(mr);
 				if (meth == null) {
+					System.out.println("MR: "+mr.getDeclaringClass());
 					IClass iClass = cha.lookupClass(mr.getDeclaringClass());				
 					if(iClass == null)
 					{
+						
+						/*Iterator it = cha.iterator();
+						while(it.hasNext())
+						{
+							System.out.println(it.next());
+						}*/
 						fail("could no resolve "+mr);
 					}
 
@@ -277,35 +289,85 @@ public final class SDGBuildPreparation {
 					while(it.hasNext() && !methodFound)
 					{
 						IMethod currentMethod = it.next(); 
-						
-						int correctionIndex = 0;
+						System.out.println(currentMethod);
+						int thisCorrectionIndex = 0;
 						if(!currentMethod.isStatic())
 						{
-							correctionIndex++;
+							thisCorrectionIndex++;
+						}
+						int noParamsCorrectionIndex = 0;
+						boolean noParams = (currentMethod.getNumberOfParameters() == 0 + thisCorrectionIndex) && mr.getNumberOfParameters() == 1;
+						if(noParams)
+						{
+							noParamsCorrectionIndex++;
 						}
 						if(currentMethod.getName().equals(mr.getName()) && 
-								(currentMethod.getNumberOfParameters() - correctionIndex == mr.getNumberOfParameters())){
+								(currentMethod.getNumberOfParameters() - thisCorrectionIndex == mr.getNumberOfParameters() - noParamsCorrectionIndex)){
 							int i = 0;
 							boolean parametersMightMatch = true;
-							while(i < mr.getNumberOfParameters() && parametersMightMatch)
+							if(!noParams)
 							{
-								TypeName mrType = mr.getParameterType(i).getName();
-								TypeName currType = currentMethod.getParameterType(i + correctionIndex).getName();
-								parametersMightMatch = mrType.equals(currType) || 
-										(currType.getClassName().equals(mrType.getClassName()) && mrType.getPackage() == null);
-								i++;
+								while(i < mr.getNumberOfParameters() && parametersMightMatch)
+								{
+									TypeName mrType = mr.getParameterType(i).getName();
+									TypeName currType = currentMethod.getParameterType(i + thisCorrectionIndex).getName();
+									Atom mrTypePack = mrType.getPackage();
+									Atom mrTypeClassName = mrType.getClassName();
+									Atom currTypeClassName = currType.getClassName();
+									Atom currTypePack = currType.getPackage();
+									//String currTypePackStr = currType.getPackage().toString();
+									
+									boolean parPackagesMightMatch = mrTypePack == null || mrTypePack.equals(currTypePack) 
+									    || mrTypePack.toString().contains(currTypePack.toString()) 
+									    || Character.isUpperCase(mrTypePack.toString().charAt(0));
+									parametersMightMatch = mrType.equals(currType) || 
+											(parPackagesMightMatch && currTypeClassName.equals(mrTypeClassName))
+											/*((mrTypePack == null && (currTypeClassName.equals(mrTypeClassName))) 
+													/*|| (mrTypePack != null && currTypeClassName.equals(mrTypeClassName) )* /)*/;
+									if(!parametersMightMatch && parPackagesMightMatch/*&& mrType.getPackage() != null*/)
+									{
+										String currTypeClassNameStr = currTypeClassName.toString();
+										if(currTypeClassNameStr.contains("$"))
+										{
+											int lastIndex = currTypeClassNameStr.lastIndexOf("$");	
+											String outterClass = currTypeClassNameStr.substring(0, lastIndex);
+											String fullOutterClass = currTypePack.toString() + "/" + outterClass;
+											parametersMightMatch = currTypeClassNameStr.substring(lastIndex + 1).equals(mrTypeClassName.toString()) && 
+											    (mrTypePack == null || outterClass.equals(mrTypePack.toString()) || fullOutterClass.equals(mrTypePack.toString()));
+										}
+									}
+									i++;
+								}
 							}
+
 							TypeName mrReturnType = mr.getReturnType().getName();
 							TypeName currReturnType = currentMethod.getReturnType().getName();
+							Atom mrReturnTypePack = mrReturnType.getPackage();
+							boolean retPacksMightMatch = mrReturnTypePack == null || mrReturnTypePack.equals(currReturnType.getPackage())
+									 || mrReturnTypePack.toString().contains(currReturnType.toString()) 
+				                      || Character.isUpperCase(mrReturnTypePack.toString().charAt(0));
 							methodFound = parametersMightMatch && (mrReturnType.equals(currReturnType) || 
-									(mrReturnType.getPackage() == null && mrReturnType.getClassName().equals(currReturnType.getClassName())));
+									(retPacksMightMatch && mrReturnType.getClassName().equals(currReturnType.getClassName())));
+							if(!methodFound && parametersMightMatch && retPacksMightMatch/*mrReturnType.getPackage() != null*/)
+							{
+								String currRetTypeClassNameStr = currReturnType.getClassName().toString();
+								if(currRetTypeClassNameStr.contains("$"))
+								{
+									int lastIndex = currRetTypeClassNameStr.lastIndexOf("$");			
+									String outterReturn = currRetTypeClassNameStr.substring(0, lastIndex);
+									String fullOutterReturn = currReturnType.getPackage().toString() + "/" + outterReturn;
+									methodFound = currRetTypeClassNameStr.substring(lastIndex + 1).equals(mrReturnType.getClassName().toString().trim()) && 
+											(mrReturnTypePack == null || outterReturn.equals(mrReturnTypePack.toString()) || fullOutterReturn.equals(mrReturnTypePack.toString()));
+								}
+							}
 						}
+						
 						if(methodFound)
 						{
 							meth = currentMethod;
 						}
 					}
-					
+
 					if(!methodFound){
 						fail("could not resolve " + mr);
 					}
@@ -322,7 +384,7 @@ public final class SDGBuildPreparation {
 			if (m == null) {
 				fail("could not resolve " + mr);
 			}
-			
+
 		}
 		out.println("done.");
 		System.out.println("done.");
@@ -393,15 +455,18 @@ public final class SDGBuildPreparation {
 		return Pair.make(startTime, scfg);
 	}
 
-	private static void postpareBuild(long startTime, PrintStream out) {
+	private static long[] postpareBuild(long startTime, PrintStream out) {
 		out.println("\ndone.");
 		System.out.println("\ndone.");
 		final long endTime = System.currentTimeMillis();
-		String info = "Time needed: " + (endTime - startTime) + "ms - Memory: "
-				+ ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024))
+		final long time = (endTime - startTime);
+		long memory = ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
+		String info = "Time needed: " + time + "ms - Memory: "
+				+ memory
 				+ "M used.";
 		out.println(info);
 		System.out.println(info);
+		return new long[]{time, memory};
 	}
 
 	public static SDG compute(PrintStream out, Config cfg, boolean computeInterference, IProgressMonitor progress) throws IOException, ClassHierarchyException, UnsoundGraphException, CancelException {
@@ -414,13 +479,17 @@ public final class SDGBuildPreparation {
 
 		return sdg;
 	}
-
+	private static long[] timeAndMemory;
+	public static long[] getTimeAndMemory()
+	{
+	  return timeAndMemory;
+	}
 	public static Pair<SDG, SDGBuilder> computeAndKeepBuilder(PrintStream out, Config cfg, boolean computeInterference, IProgressMonitor progress) throws UnsoundGraphException, CancelException, IOException, ClassHierarchyException {
 		Pair<Long, SDGBuilder.SDGBuilderConfig> p = prepareBuild(out, cfg, computeInterference, progress);
 		long startTime = p.fst;
 		SDGBuilder.SDGBuilderConfig scfg = p.snd;
 		final Pair<SDG, SDGBuilder> ret = SDGBuilder.buildAndKeepBuilder(scfg, progress);
-		postpareBuild(startTime, out);
+		timeAndMemory = postpareBuild(startTime, out);
 		//		SDGVerifier.verify(sdg, false, true);
 
 		return ret;
