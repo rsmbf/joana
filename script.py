@@ -1,12 +1,44 @@
-def runSubProcess(cmd, report_file):
+def readRealtimeProcOutput(proc):
+	print "Entering readRealTimeProcOutput"
 	import sys
-	#print cmd
-	proc = PopenBash(cmd)
 	for c in iter(lambda: proc.stdout.read(1), ''):
 		sys.stdout.write(c)
 		sys.stdout.flush()
-	proc.communicate()[0]
-	print "Java Return Code: " +str(proc.returncode)
+	print "Leaving readRealTimeProcOutput"
+
+def runSubProcess(cmd, report_file):
+	import time
+	import threading
+	import os
+	import signal
+
+	#print cmd
+	proc = PopenBash(cmd)
+
+	t = threading.Thread(target=readRealtimeProcOutput, args = [proc])
+	t.daemon = True
+	t.start()
+	start_time = time.time()
+	timeout = 86400 #seconds of a day
+	sleep_time = 5 #5 seconds
+	seconds_passed = time.time() - start_time
+	while proc.poll() is None and seconds_passed < timeout: 
+		time.sleep(sleep_time) 
+		seconds_passed = time.time() - start_time
+		if(seconds_passed > 250):
+			sleep_time = seconds_passed / 50
+		#print seconds_passed
+	if(seconds_passed >= timeout):
+		print "Timeout"
+		#print "Identified timeout after: " + str(time.time() - start_time) 
+		os.killpg(proc.pid, signal.SIGINT)	
+		t.join()
+		proc.stdout.close()
+		returnCode = -1
+	else:
+		returnCode = proc.returncode
+	#proc.communicate()[0]
+	print "Java Return Code: " +str(returnCode)
 
 #def runSubProcess(cmd, report_file):
 #	import subprocess
@@ -23,7 +55,8 @@ def runSubProcess(cmd, report_file):
 
 def PopenBash(cmd):
 	import subprocess
-	return subprocess.Popen(["/bin/bash","-c", cmd], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+	import os
+	return subprocess.Popen(["/bin/bash","-c", cmd], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
 
 def runBuild(buildCmd, report_file):
 	import sys
@@ -300,6 +333,8 @@ def main():
 
 #main()
 runJoanaForSpecificRevs()
+
+
 
 
 
