@@ -22,18 +22,23 @@ def runSubProcess(cmd, report_file):
 	timeout = 86400 #seconds of a day
 	sleep_time = 5 #5 seconds
 	seconds_passed = time.time() - start_time
-	while proc.poll() is None and seconds_passed < timeout: 
-		time.sleep(sleep_time) 
+	remaining_time = timeout - seconds_passed
+	while proc.poll() is None and remaining_time > 0: # Monitor process
+		time.sleep(sleep_time) # Wait a little
 		seconds_passed = time.time() - start_time
+		remaining_time = timeout - seconds_passed
 		if(seconds_passed > 250):
-			sleep_time = seconds_passed / 50
+			sleep_time = min(seconds_passed / 50, remaining_time)
 		#print seconds_passed
-	if(seconds_passed >= timeout):
-		print "Timeout"
+	if(remaining_time <= 0):
+		print "Timeout..."
 		#print "Identified timeout after: " + str(time.time() - start_time) 
 		os.killpg(proc.pid, signal.SIGINT)	
 		t.join()
 		proc.stdout.close()
+		with open(report_file, 'a') as f:
+			writeNewLine(f, "")
+			writeNewLine(f, "TIMEOUT...")
 		returnCode = -1
 	else:
 		returnCode = proc.returncode
@@ -183,7 +188,7 @@ def run_joana(REV_GIT_PATH, REV_REPORTS_PATH, REV_SDGS_PATH, revContribs, heapSt
 				open(sysout_path, "w").close()
 			else:
 				makeFiledirs(sysout_path)
-			runSubProcess(cmd + " > "+sysout_path, "")
+			runSubProcess(cmd + " > "+sysout_path, sysout_path)
 			sys.stdout.flush()
 
 def getRevContribs(contribs, rev):
