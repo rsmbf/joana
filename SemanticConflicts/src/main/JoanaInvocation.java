@@ -76,14 +76,10 @@ public class JoanaInvocation {
 	{
 		this(projectPath, modMethods, "", libPaths, reportFolderPath, sdgsFolderPath);
 	}
-
-	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String libPaths, String reportFolderPath, String sdgsFolderPath) {
-		this(projectPath, modMethods, binPath, libPaths, reportFolderPath, sdgsFolderPath, false);
-	}
 	
-	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String libPaths, String reportFolderPath, String sdgsFolderPath, boolean saveSdgs)
+	public JoanaInvocation(String projectPath, Map<String, ModifiedMethod> modMethods, String binPath, String libPaths, String reportFolderPath, String sdgsFolderPath)
 	{
-		this.saveSdgs = saveSdgs;
+		this.saveSdgs = sdgsFolderPath != null && !sdgsFolderPath.equals("");
 		this.classPath = projectPath + binPath;
 		//this.srcPath = projectPath + srcPath;
 		if(libPaths != null)
