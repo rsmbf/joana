@@ -249,7 +249,7 @@ def runJoanaForSpecificRevs():
 		revContribs = getRevContribs(project_contribs, inner_rev)
 		#print revContribs
 		REV_REPORTS_PATH = PROJECT_REPORTS_PATH + "/" + rev
-		REV_SDGS_PATH = PROJECT_SDGS_PATH + "/" + rev
+		REV_SDGS_PATH = ""#PROJECT_SDGS_PATH + "/" + rev
 		libStr = ""
 		if(len(revLineSplitted) >= 3):
 			libStr = revLineSplitted[2]
@@ -333,7 +333,7 @@ def main():
 			   				writeNewLine(buildSummaryMerge, rev + "; "+buildResM)			   		
 			   				print "Build Result merge: "+str(builtM)
 			   			if built and shouldRunJoana:
-				   			REV_SDGS_PATH = PROJECT_SDGS_PATH + "/" + rev
+				   			REV_SDGS_PATH = ""#PROJECT_SDGS_PATH + "/" + rev
 				   			#run_joana(REV_GIT_PATH, REV_REPORTS_PATH, REV_SDGS_PATH, revContribs, heapStr, "")
 
 #main()
