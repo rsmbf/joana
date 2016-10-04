@@ -66,10 +66,12 @@ def PopenBash(cmd):
 def runBuild(buildCmd, report_file):
 	import sys
 	print "Running build..."
-	proc = PopenBash(buildCmd)
-	#lines = ""
 	makeFiledirs(report_file)
 	with open(report_file, 'w') as f:
+		writeNewLine(f, "Build command used: "+buildCmd)
+	proc = PopenBash(buildCmd)
+	#lines = ""
+	with open(report_file, 'a') as f:
 		for c in iter(lambda: proc.stdout.read(1), ''):
 			f.write(c)
 			#lines += c
@@ -137,14 +139,14 @@ def build(REV_GIT_PATH, REV_REPORTS_PATH, filePref):
 	if((not built) and hasAnt):
 		print "Run Ant build..."
 		#built = runBuild("ant build -buildfile "+ REV_GIT_PATH + "/build.xml", REV_REPORTS_PATH + "/build_ant.txt")
-		built = runBuild("ant build.jar -buildfile "+ REV_GIT_PATH + "/build.xml", REV_REPORTS_PATH + "/" + filePref + "build_ant.txt")
+		built = runBuild("ant -buildfile "+ REV_GIT_PATH + "/build.xml", REV_REPORTS_PATH + "/" + filePref + "build_ant.txt")
 		lastBuildRun = "Ant"
 		#buildLines = runBuild("ant build -buildfile "+ REV_GIT_PATH + "/build.xml", REV_REPORTS_PATH + "/build_ant.txt") 
 		#built = checkBuildResult(buildLines)
 
 	if((not built) and hasMvn):
 		print "Run Maven build..."
-		built = runBuild("mvn compile package -DskipTests=true -f "+ REV_GIT_PATH + "/pom.xml", REV_REPORTS_PATH + "/" + filePref + "build_mvn.txt")
+		built = runBuild("mvn compile -f "+ REV_GIT_PATH + "/pom.xml", REV_REPORTS_PATH + "/" + filePref + "build_mvn.txt")
 		lastBuildRun = "Maven"
 		#buildLines = runBuild("mvn compile -f "+ REV_GIT_PATH + "/pom.xml", REV_REPORTS_PATH + "/build_mvn.txt") 
 		#built = checkBuildResult(buildLines)	
@@ -338,10 +340,3 @@ def main():
 
 #main()
 runJoanaForSpecificRevs()
-
-
-
-
-
-
-
