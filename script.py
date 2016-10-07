@@ -232,17 +232,17 @@ def runJoanaForSpecificRevs():
 	SDGS_PATH = CA_PATH + "/sdgs"
 	revList = readLines(CA_PATH + "/revList")
 	for revLine in revList:
-		revLineSplitted = revLine.split(", ")
-		project = revLineSplitted[0]
+		revLineSplitted = revLine.split(",")
+		project = revLineSplitted[0].strip()
 		PROJECT_REPORTS_PATH = REPORTS_PATH + "/" + project
 		PROJECT_SDGS_PATH = SDGS_PATH + "/" + project
 		PROJECT_PATH = DOWNLOAD_PATH + "/" +project
 		revBaseStr = "rev"
-		revStr = revLineSplitted[1]
+		revStr = revLineSplitted[1].strip()
 		rev = revBaseStr + "_" + revStr
 		splittedRev = revStr.split("_")
-		left = splittedRev[0]
-		right = splittedRev[1]
+		left = splittedRev[0].strip()
+		right = splittedRev[1].strip()
 		inner_rev = revBaseStr + "_" + left + "-" + right
 		ES_MC_PATH = PROJECT_PATH + "/editsamemc_revisions"
 		REV_GIT_PATH = ES_MC_PATH + "/" + rev + "/" + inner_rev + "/git"
@@ -254,7 +254,7 @@ def runJoanaForSpecificRevs():
 		REV_SDGS_PATH = ""#PROJECT_SDGS_PATH + "/" + rev
 		libStr = ""
 		if(len(revLineSplitted) >= 3):
-			libStr = revLineSplitted[2]
+			libStr = revLineSplitted[2].strip()
 		run_joana(REV_GIT_PATH, REV_REPORTS_PATH, REV_SDGS_PATH, revContribs, heapStr, libStr)
 
 def main():
