@@ -224,8 +224,8 @@ public class AnalysisScopeReader {
         String path = paths.nextToken();
         if (path.endsWith(".jar")) {
           JarFile jar = new JarFile(path);
-          scope.addToScope(loader, jar);
-          try {
+          scope.addToScope(loader, jar);     
+          /* try {
             if (jar.getManifest() != null) {
               String cp = jar.getManifest().getMainAttributes().getValue("Class-Path");
               if (cp != null) {
@@ -236,7 +236,7 @@ public class AnalysisScopeReader {
             }
           } catch (RuntimeException e) {
             System.err.println("warning: trouble processing class path of " + path);
-          }
+          }*/
         } else {
           File f = new File(path);
           if (f.isDirectory()) {
