@@ -643,7 +643,7 @@ generateDataSummaryPlots <- function(evalRevDf, evalMethodDf, builtRevDf, totalR
   generateMethodsPerProjectBoxplot(evalMethodsPerProject)
 }
 
-printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevDf, totalRevsDf, editSameMcRevsDf){
+printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevDf, totalRevsDf, editSameMcRevsDf, revFiltDf, methodFiltDf){
   mkdirs(rDir)
   summaryFil <- paste(rDir, "summary.txt", sep="/")
   if(!file.exists(summaryFil))
@@ -661,7 +661,9 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
   successBuiltRevDf <- splittedBuiltRevDf[['TRUE']]
   buildSuccessProjects <- length(unique(successBuiltRevDf$Project))
   sdgCreatedDf <- getSdgCreatedDf(revDf)
+  filtSdgCreatedDf <- getSdgCreatedDf(revFiltDf)
   sdgSuccessCreatedDf <- split(sdgCreatedDf, sdgCreatedDf$Created)[['TRUE']]
+  filtSdgSuccessCreatedDf <- split(filtSdgCreatedDf, filtSdgCreatedDf$Created)[['TRUE']]
   sdgCreatedProjs <- length(unique(sdgSuccessCreatedDf$Project))
   buildRunRevs <- nrow(builtRevDf)
   buildSuccessRevs <- getNRow(successBuiltRevDf)
@@ -736,16 +738,19 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
     }
   }
   numConfigs <- length(precisions) * length(exceptions)
+  numFiltConfigs <- length(phase2Precisions) * length(phase2Exceptions)
   numMethods <- nrow(methodDf) / numConfigs
   allNotNaDf <- data.frame(Project=character(),Rev=character(),Method=character(),stringsAsFactors=FALSE)
+  filtNotNaDf <- data.frame(Project=character(),Rev=character(),Method=character(),stringsAsFactors=FALSE)
   someNotNaDf <-data.frame(Project=character(),Rev=character(),Method=character(),stringsAsFactors=FALSE)
   numNonNaLineVios <- 0
   numAllNonNaLineVios <- 0
+  numFiltNonNaLineVios <- 0
   for(i in getPositiveRange(numMethods))
   {
-      offset <- (16 * (i - 1))
+      offset <- (numConfigs * (i - 1))
       start <- 1 + offset
-      end <- start + 15
+      end <- start + numConfigs - 1
       if(!(all(is.na(methodDf$LineVios[start:end])))){
         numNonNaLineVios <- numNonNaLineVios + 1
         someNotNaDf[numNonNaLineVios,] <- methodDf[start, 1:3]
@@ -755,17 +760,31 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
         numAllNonNaLineVios <- numAllNonNaLineVios + 1
         allNotNaDf[numAllNonNaLineVios,] <- methodDf[start,1:3]
       }  
+      offset2 <- (numFiltConfigs * (i - 1))
+      start2 <- 1 + offset2
+      end2 <- start2 + numFiltConfigs - 1
+      if(all(!is.na(methodFiltDf$LineVios[start2:end2])))
+      {
+        numFiltNonNaLineVios <- numFiltNonNaLineVios + 1
+        filtNotNaDf[numFiltNonNaLineVios,] <- methodFiltDf[start2,1:3]
+      } 
   }
 
   #print(someNotNaDf)
   #print(allNotNaDf)
   mergeRunRevs <- sum(projsWithMerge$Revs)
-  sdgSuccessCreations <- data.frame(Project=character(), Rev=character(),Creations=numeric(), stringsAsFactors=FALSE)
-  if(!is.null(sdgSuccessCreatedDf))
+  sdgSucCreationsForAll <- function(sdgSuccessCreatedDf, numOfConfigs)
   {
-    sdgSuccessCreations <- setNames(aggregate(sdgSuccessCreatedDf$Created, by = list(sdgSuccessCreatedDf$Project, sdgSuccessCreatedDf$Rev), FUN=length), c("Project", "Rev", "Creations"))
+    sdgSuccessCreations <- data.frame(Project=character(), Rev=character(),Creations=numeric(), stringsAsFactors=FALSE)
+    if(!is.null(sdgSuccessCreatedDf))
+    {
+      sdgSuccessCreations <- setNames(aggregate(sdgSuccessCreatedDf$Created, by = list(sdgSuccessCreatedDf$Project, sdgSuccessCreatedDf$Rev), FUN=length), c("Project", "Rev", "Creations"))
+    }
+    return(getNRow(sdgSuccessCreations[sdgSuccessCreations$Creations == numOfConfigs,]))
   }
-  revsWithSdgCreatedForAll <- getNRow(sdgSuccessCreations[sdgSuccessCreations$Creations == 16,])
+  
+  revsWithSdgCreatedForAll <- sdgSucCreationsForAll(sdgSuccessCreatedDf, numConfigs)
+  revsWithSdgCreatedForAllFilt <- sdgSucCreationsForAll(filtSdgSuccessCreatedDf, numFiltConfigs)
   print(unique(allNotNaDf[c("Project", "Rev")]))
   lines <- c(
     paste("Total Projects:",total_projects),
@@ -784,6 +803,7 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
     paste("Projects built with different build systems:",projsWithMoreThanOneBuildUsed),
     paste("Projects with Sdg Created for at least one config:", sdgCreatedProjs),
     paste("Project with LineVios calculated for at least one config:",length(unique(someNotNaDf$Project))),
+    paste("Project with LineVios calculated for all phase 2 configs:",length(unique(filtNotNaDf$Project))),
     paste("Project with LineVios calculated for all configs:",length(unique(allNotNaDf$Project))),
     paste("Revs with merge executed:", mergeRunRevs),
     paste("Revs with non java conflicts only:", sum(projsWithMerge$ConflictsNonJava)),
@@ -802,16 +822,19 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
     paste("Revs successfully built with Maven:", getNRow(builtWithMvn)),
     paste("Revs evaluated by Joana:", evalRevs),
     paste("Revs with Sdg Created for at least one config: ", numSdgCreatedRevs),
+    paste("Revs with Sdg Created for all phase 2 configs: ", revsWithSdgCreatedForAllFilt),
     paste("Revs with Sdg Created for all configs: ", revsWithSdgCreatedForAll),
     paste("Revs containing methods with source and sink:", numRevSrcAndSink),
     paste("Revs not containing methods with source and sink:", numRevWithoutSrcAndSink),
     paste("Revs with Line Vios calculated for at least one config:",getNRow(unique(someNotNaDf[c("Project", "Rev")]))),
+    paste("Revs with Line Vios calculated for all phase 2 configs:",getNRow(unique(filtNotNaDf[c("Project", "Rev")]))),
     paste("Revs with Line Vios calculated for all configs:",getNRow(unique(allNotNaDf[c("Project", "Rev")]))),
     paste("Methods evaluated by Joana:", evalMethods),
     paste("Methods with source and sink:", numMethodSrcAndSink),
     paste("Methods without source or sink:",numMethodWithoutSrcAndSink),
     paste("Methods without source or sink with lines contribution from left and right:",methodsWithBoth),
     paste("Methods with LineVios calculated for at least one config:", numNonNaLineVios),
+    paste("Methods with LineVios calculated for all phase 2 configs:", numFiltNonNaLineVios),
     paste("Methods with LineVios calculated for all configs:", numAllNonNaLineVios)
   )
   for(line in lines)
@@ -1103,6 +1126,7 @@ if(skipPhase1)
     print("No Revs evaluated!")
   }
 }
+
 if(skipPhase2)
 {
   print("Skipping phase 2!")
@@ -1117,6 +1141,11 @@ if(skipPhase2)
 }
 if(nrow(evalRevDf) > 0)
 {
-  generateDataSummaryPlots(evalRevDf, evalMethDf, builtRevDf, totalRevsDf)  
+  generateDataSummaryPlots(evalRevDf, evalMethDf, builtRevDf, totalRevsDf) 
+  if(!exists("filtRevDf"))
+  {
+    filtRevDf <- NULL
+    filtMethDf <- NULL
+  }
+  printDataSummary(revDf, methodDf, evalRevDf, evalMethDf, builtRevDf, totalRevsDf, editSameMcRevsDf, filtRevDf, filtMethDf)
 }
-printDataSummary(revDf, methodDf, evalRevDf, evalMethDf, builtRevDf, totalRevsDf, editSameMcRevsDf)
