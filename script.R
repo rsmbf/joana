@@ -5,9 +5,9 @@ plots <- paste(rDir, "/plots",sep="")
 result_data <- paste(server_reports, "/ResultData", sep="")
 reports <- paste(server_reports, "/reports", sep="")
 projects <- scan(file = paste(server_reports, "/projectsList", sep=""), what = "character")
-precisions <- c("TYPE_BASED", "INSTANCE_BASED","OBJECT_SENSITIVE", "N1_OBJECT_SENSITIVE", 
+precisions <- c("TYPE_BASED", "INSTANCE_BASED","N1_OBJECT_SENSITIVE", "OBJECT_SENSITIVE", 
                 "UNLIMITED_OBJECT_SENSITIVE", "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
-phase2Precisions <- c("TYPE_BASED", "INSTANCE_BASED","OBJECT_SENSITIVE", "N1_OBJECT_SENSITIVE", 
+phase2Precisions <- c("TYPE_BASED", "INSTANCE_BASED","N1_OBJECT_SENSITIVE", "OBJECT_SENSITIVE", 
 "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
 exceptions <- c("Yes", "No")
 phase2Exceptions <- c("No")
