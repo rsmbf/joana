@@ -10,9 +10,12 @@ precisions <- c("TYPE_BASED", "INSTANCE_BASED","OBJECT_SENSITIVE", "N1_OBJECT_SE
 phase2Precisions <- c("TYPE_BASED", "INSTANCE_BASED","OBJECT_SENSITIVE", "N1_OBJECT_SENSITIVE", 
 "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
 exceptions <- c("Yes", "No")
-phase2Exceptions <- c("Yes")
+phase2Exceptions <- c("No")
+labelsList <- list(CGNodes=c("CG Nodes"), CGEdges=c("CG Edges"), 
+                   SDGNodes=c("SDG Nodes"), SDGEdges=c("SDG Edges"),
+                   LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"))
 total_projects <- length(projects)
-skipPhase1 <- FALSE
+skipPhase1 <- TRUE
 skipPhase2 <- FALSE
 
 getPrettyPrecision <- function(prec){
@@ -307,7 +310,7 @@ generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList, 
   #namesList <- c("TYPE_BASED", "INSTANCE_BAS", "OBJ_SENSITIVE", "N1_OBJ_SENS", 
   #               "UNL_OBJ_SENS", "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
   sdgCreatedDf <- getSdgCreatedDf(revDf)
-  sdgCreatedByProjDf <- getSdgCreatedByProj(sdgCreatedDf)
+  sdgCreatedByProjDf <- getSdgCreatedByProj(sdgCreatedDf, desiredExceptions, desiredPrecisions)
   sdgSucCreatedDf <- split(sdgCreatedDf, sdgCreatedDf$Created)[['TRUE']]
   splittedSdgCreatedProjByExcep <- split(sdgCreatedByProjDf, sdgCreatedByProjDf$Exception)
   splittedSdgCreateByExcep <- split(sdgSucCreatedDf, sdgSucCreatedDf$Exception)
@@ -356,7 +359,7 @@ generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList, 
       methodDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, c("Project", "Rev", "Method"), methodDfException, length(desiredPrecisions))
       generateGroupedPrecisionsBarplot(methodDfExceptionFilt, "Precision", desiredPrecisions, "Methods", toEvaluate, excepFileName, namesList, exception, phase=phase)
       methPrecisionsFactor <- factor(methodDfExceptionFilt$Precision, desiredPrecisions)
-      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName)  
+      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, phase=phase)  
       generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,30), phase)  
       generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,25), phase)  
       generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,20), phase)  
@@ -401,9 +404,6 @@ generateExceptionPlots <- function(methodDf, revDf, toEvaluateList, labelsList)
 toEvaluateList <- c("CGNodes", "CGEdges", "SDGNodes", "SDGEdges", "LineVios")
 generateExecutionPlots <- function(methodDf, revDf)
 {
-  labelsList <- list(CGNodes=c("CG Nodes"), CGEdges=c("CG Edges"), 
-                     SDGNodes=c("SDG Nodes"), SDGEdges=c("SDG Edges"),
-                     LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"))
   if(nrow(revDf) > 0){
     generatePrecisionPlots(methodDf, revDf, toEvaluateList, labelsList)
     generateExceptionPlots(methodDf, revDf, toEvaluateList, labelsList)
@@ -494,7 +494,7 @@ getSdgCreatedDf <- function(revDf)
   return(df)
 }
 
-getSdgCreatedByProj <- function(df)
+getSdgCreatedByProj <- function(df, exceptions=exceptions, precisions=precisions)
 {
   projDf <- data.frame(Project=character(), Precision=character(), Exception=character(), Rate=numeric(), stringsAsFactors=FALSE)
   splittedDfByProj <- split(df, df$Project)
@@ -1108,6 +1108,12 @@ if(skipPhase2)
   print("Skipping phase 2!")
 }else{
   print("Phase 2...")
+  if(nrow(revDf) > 0)
+  {
+    filtRevDf <- filterDesiredConfigs(phase2Exceptions, phase2Precisions, revDf)
+    filtMethDf <- filterDesiredConfigs(phase2Exceptions, phase2Precisions, methodDf)
+    generatePrecisionPlots(filtMethDf, filtRevDf, toEvaluateList,labelsList, phase2Exceptions, phase2Precisions, "2") 
+  }
 }
 if(nrow(evalRevDf) > 0)
 {
