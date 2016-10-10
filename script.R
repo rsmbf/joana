@@ -7,8 +7,13 @@ reports <- paste(server_reports, "/reports", sep="")
 projects <- scan(file = paste(server_reports, "/projectsList", sep=""), what = "character")
 precisions <- c("TYPE_BASED", "INSTANCE_BASED","OBJECT_SENSITIVE", "N1_OBJECT_SENSITIVE", 
                 "UNLIMITED_OBJECT_SENSITIVE", "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
+phase2Precisions <- c("TYPE_BASED", "INSTANCE_BASED","OBJECT_SENSITIVE", "N1_OBJECT_SENSITIVE", 
+"N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
 exceptions <- c("Yes", "No")
+phase2Exceptions <- c("Yes")
 total_projects <- length(projects)
+skipPhase1 <- FALSE
+skipPhase2 <- FALSE
 
 getPrettyPrecision <- function(prec){
   prettyNames=c("TYPE_BASED"="Type_Based", "INSTANCE_BASED" = "Instance_Based","OBJECT_SENSITIVE" = "Object_Sensitive", 
@@ -99,6 +104,20 @@ getPositiveRange <- function(size)
   return(range)
 }
 
+filterDesiredConfigs <- function(desiredExceptions, desiredPrecisions, frame)
+{
+  filtFrame <- data.frame(frame[0,], stringsAsFactors=FALSE)
+  filtRows <- 0
+  for(row in getPositiveRange(getNRow(frame))){
+    if(frame[row,'Precision'] %in% desiredPrecisions && frame[row,'Exception'] %in% desiredExceptions)
+    {
+      filtRows <- filtRows + 1
+      filtFrame[filtRows,] <- frame[row,]
+    }
+  }
+  return(filtFrame)
+}
+
 filterConfigsWithoutNa <- function(toEvaluate, critList, frame, numElems)
 {
   redFrame <- data.frame(frame[critList])
@@ -152,10 +171,10 @@ calculateStatistics <- function(group)
   return(list('mean'=mean, 'median'=median, 'sd'=sd))
 }
 
-generatePrecisionsBarplot <- function(list, plotType, toEvaluate, excepFileName, namesList, exception)
+generatePrecisionsBarplot <- function(list, plotType, toEvaluate, excepFileName, namesList, exception, phase="1")
 {
   excepsTitlePart <- c(Yes="with", No="without")
-  dir <- paste(plots, "/barplots/precisions/",toEvaluate, "/", sep="")
+  dir <- paste(plots, "/phase", phase, "/barplots/precisions/",toEvaluate, "/", sep="")
   mkdirs(dir)
   jpeg(paste(dir, plotType, "_PrecisionsPlot_", toEvaluate, "_", excepFileName,".jpg", sep = ""))
   par(mar = c(10,5.2,2,0.7) + 0.1,las=2)
@@ -166,11 +185,11 @@ generatePrecisionsBarplot <- function(list, plotType, toEvaluate, excepFileName,
   dev.off()
 }
 
-generateGroupedPrecisionsBarplot <- function(frame, colType, elemList, plotType, toEvaluate, excepFileName, namesList, exception)
+generateGroupedPrecisionsBarplot <- function(frame, colType, elemList, plotType, toEvaluate, excepFileName, namesList, exception, phase = "1")
 {
   excepsTitlePart <- c(Yes="with", No="without")
   m <- createMatrix(frame, colType, elemList)
-  dir <- paste(plots, "/barplots/precisions/",toEvaluate, "/", sep="")
+  dir <- paste(plots, "/phase", phase, "/barplots/precisions/",toEvaluate, "/", sep="")
   mkdirs(dir)
   jpeg(paste(dir, plotType, "_PrecisionsPlot_", toEvaluate, "_", excepFileName,".jpg", sep = ""))
   par(mar = c(10,5.2,2,0.7) + 0.1,las=2)
@@ -182,10 +201,10 @@ generateGroupedPrecisionsBarplot <- function(frame, colType, elemList, plotType,
   dev.off()
 }
 
-generateExceptionsBarplot <- function(frame, colType, elemList, plotType, toEvaluate, prec)
+generateExceptionsBarplot <- function(frame, colType, elemList, plotType, toEvaluate, prec, phase="1")
 {
   m <- createMatrix(frame, colType, elemList)
-  dir <- paste(plots, "/barplots/exceptions/", toEvaluate, "/", sep="")
+  dir <- paste(plots, "/phase", phase, "/barplots/exceptions/", toEvaluate, "/", sep="")
   mkdirs(dir)
   jpeg(paste(dir, plotType, "_ExceptionsPlot_", toEvaluate, "_", prec,".jpg", sep = ""))
   par(mar=c(5,5,5,1))
@@ -195,12 +214,12 @@ generateExceptionsBarplot <- function(frame, colType, elemList, plotType, toEval
   dev.off()
 }
 
-generatePrecisionsBoxplot <- function(namesList, labelsList, plotType, exception, toEvaluate, form, excepFileName, yLim=c())
+generatePrecisionsBoxplot <- function(namesList, labelsList, plotType, exception, toEvaluate, form, excepFileName, yLim=c(), phase="1")
 {
   excepsTitlePart <- c(Yes="with", No="without")
   baseExcepsTitle <- c("for SDGs", "exceptions", paste("(",plotType,")",sep=""))
   logscales <- c("CGNodes"="y", "CGEdges"="y", "SDGNodes"="y", "SDGEdges"="y", "LineVios"="", "SdgCreated"="")
-  dir <- paste(plots, "/boxplots/precisions/", toEvaluate, "/", sep="")
+  dir <- paste(plots, "/phase", phase,"/boxplots/precisions/", toEvaluate, "/", sep="")
   mkdirs(dir)
   comp <- ""
   if(!is.null(yLim))
@@ -218,10 +237,10 @@ generatePrecisionsBoxplot <- function(namesList, labelsList, plotType, exception
   dev.off()
 }
 
-generateExceptionsBoxplot <- function(labelsList, plotType, precision, toEvaluate, form, yLim=c())
+generateExceptionsBoxplot <- function(labelsList, plotType, precision, toEvaluate, form, yLim=c(), phase="1")
 {
   logscales <- c("CGNodes"="y", "CGEdges"="y", "SDGNodes"="y", "SDGEdges"="y", "LineVios"="")
-  dir <- paste(plots, "/boxplots/exceptions/", toEvaluate, "/", sep="")
+  dir <- paste(plots, "/phase", phase, "/boxplots/exceptions/", toEvaluate, "/", sep="")
   mkdirs(dir)
   yLimComp <- ""
   if(!is.null(yLim))
@@ -265,20 +284,35 @@ createMatrix <- function(frame, colType, elemList)
   return(m)
 }
 
-generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList)
+generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList, desiredExceptions=exceptions, desiredPrecisions=precisions, phase="1")
 {
   revDfSplittedByExceptions <- split(revDf, revDf$Exception)
   methodDfSplittedByExceptions <- split(methodDf, methodDf$Exception)
-  excepsFileName <- c(Yes="excep",No="noExcep")
-  namesList <- c("TYPE_BASED", "INSTANCE_BAS", "OBJ_SENSITIVE", "N1_OBJ_SENS", 
-                 "UNL_OBJ_SENS", "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
+  excepsFileName <- c(Yes="excep",No="noExcep")  
+  getNamesList <- function(precs)
+  {
+    precsMappings <- c("TYPE_BASED" = "TYPE_BASED", "INSTANCE_BASED" = "INSTANCE_BAS",
+                       "OBJECT_SENSITIVE" = "OBJ_SENSITIVE", "N1_OBJECT_SENSITIVE" = "N1_OBJ_SENS", 
+                       "UNLIMITED_OBJECT_SENSITIVE" =  "UNL_OBJ_SENS", "N1_CALL_STACK" = "N1_CALL_STACK",
+                       "N2_CALL_STACK" = "N2_CALL_STACK", "N3_CALL_STACK" = "N3_CALL_STACK")
+    finalList <- c()
+    i <- 0
+    for(prec in precs){
+      i <- i + 1
+      finalList[i] <- precsMappings[prec]
+    }
+    return(finalList)
+  }
+  namesList <- getNamesList(desiredPrecisions)
+  #namesList <- c("TYPE_BASED", "INSTANCE_BAS", "OBJ_SENSITIVE", "N1_OBJ_SENS", 
+  #               "UNL_OBJ_SENS", "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
   sdgCreatedDf <- getSdgCreatedDf(revDf)
   sdgCreatedByProjDf <- getSdgCreatedByProj(sdgCreatedDf)
   sdgSucCreatedDf <- split(sdgCreatedDf, sdgCreatedDf$Created)[['TRUE']]
   splittedSdgCreatedProjByExcep <- split(sdgCreatedByProjDf, sdgCreatedByProjDf$Exception)
   splittedSdgCreateByExcep <- split(sdgSucCreatedDf, sdgSucCreatedDf$Exception)
   revsHeader <- c("Project", "Rev")
-  for(exception in exceptions)
+  for(exception in desiredExceptions)
   {
     excepFileName <- excepsFileName[[exception]]
     
@@ -286,31 +320,31 @@ generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList)
     if(!is.null(sdgCreatedProjDfExcep))
     {
       generatePrecisionsBoxplot(namesList,labelsList, "Projs", exception, "SdgCreated", 
-                                sdgCreatedProjDfExcep$Rate ~ factor(sdgCreatedProjDfExcep$Precision, precisions), excepFileName)
+                                sdgCreatedProjDfExcep$Rate ~ factor(sdgCreatedProjDfExcep$Precision, desiredPrecisions), excepFileName, phase=phase)
     }
     sdgCreatedDfExcep <- splittedSdgCreateByExcep[[exception]]
     if(!is.null(sdgCreatedDfExcep)){
-      creationsDf <- setNames(aggregate(sdgCreatedDfExcep$Created ~ factor(sdgCreatedDfExcep$Precision, precisions), FUN=length), c("Precision", "SdgCreations"))  
-      generatePrecisionsBarplot(creationsDf$SdgCreations,"Revs", "SdgCreations", excepFileName, namesList, exception)
+      creationsDf <- setNames(aggregate(sdgCreatedDfExcep$Created ~ factor(sdgCreatedDfExcep$Precision, desiredPrecisions), FUN=length), c("Precision", "SdgCreations"))  
+      generatePrecisionsBarplot(creationsDf$SdgCreations,"Revs", "SdgCreations", excepFileName, namesList, exception, phase=phase)
     }
     revDfException <- revDfSplittedByExceptions[[exception]]
     if(!is.null(revDfException))
     {
       toEvaluate <- "HasIfc"
-      revDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, revsHeader, revDfException, length(precisions))
-      generateGroupedPrecisionsBarplot(revDfExceptionFilt, "Precision", precisions,"Revs", toEvaluate, excepFileName, namesList, exception)
-      revPrecisionsFactor <- factor(revDfExceptionFilt$Precision, precisions)  
+      revDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, revsHeader, revDfException, length(desiredPrecisions))
+      generateGroupedPrecisionsBarplot(revDfExceptionFilt, "Precision", desiredPrecisions,"Revs", toEvaluate, excepFileName, namesList, exception, phase=phase)
+      revPrecisionsFactor <- factor(revDfExceptionFilt$Precision, desiredPrecisions)  
       for(toEvaluate in toEvaluateList)
       {
-        revDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, revsHeader, revDfException, length(precisions))
-        revPrecisionsFactor <- factor(revDfExceptionFilt$Precision, precisions)
-        generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName)
+        revDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, revsHeader, revDfException, length(desiredPrecisions))
+        revPrecisionsFactor <- factor(revDfExceptionFilt$Precision, desiredPrecisions)
+        generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, phase=phase)
         if(toEvaluate == "LineVios")
         {
-          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,30))
-          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,25))
-          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,20))
-          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,15))
+          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,30), phase)
+          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,25), phase)
+          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,20), phase)
+          generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, revDfExceptionFilt[[toEvaluate]] ~ revPrecisionsFactor, excepFileName, c(0,15), phase)
         }
       }     
     }
@@ -319,14 +353,14 @@ generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList)
     if(!is.null(methodDfException))
     {
       toEvaluate <- "HasIfc"
-      methodDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, c("Project", "Rev", "Method"), methodDfException, length(precisions))
-      generateGroupedPrecisionsBarplot(methodDfExceptionFilt, "Precision", precisions, "Methods", toEvaluate, excepFileName, namesList, exception)
-      methPrecisionsFactor <- factor(methodDfExceptionFilt$Precision, precisions)
+      methodDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, c("Project", "Rev", "Method"), methodDfException, length(desiredPrecisions))
+      generateGroupedPrecisionsBarplot(methodDfExceptionFilt, "Precision", desiredPrecisions, "Methods", toEvaluate, excepFileName, namesList, exception, phase=phase)
+      methPrecisionsFactor <- factor(methodDfExceptionFilt$Precision, desiredPrecisions)
       generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName)  
-      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,30))  
-      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,25))  
-      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,20))  
-      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,15))  
+      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,30), phase)  
+      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,25), phase)  
+      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,20), phase)  
+      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,15), phase)  
     }
   }
 }
@@ -424,7 +458,7 @@ createPrecByPrecTable <- function(precisions){
 
 generateSummaryBoxplot <- function(values, name, ylabel, title)
 {
-  dir <- paste(plots, "/boxplots/summary/", sep="")
+  dir <- paste(plots, "/summary/boxplots/", sep="")
   mkdirs(dir)
   jpeg(paste(dir, name,".jpg", sep = ""))
   par(mar = c(2,5,5,1.5), cex.lab=1.5, cex.axis=1.5)
@@ -434,7 +468,7 @@ generateSummaryBoxplot <- function(values, name, ylabel, title)
 
 generateMethodsPerProjectBoxplot <- function(evalMethodsPerProject)
 {
-  dir <- paste(plots, "/boxplots/summary/", sep="")
+  dir <- paste(plots, "/summary/boxplots/", sep="")
   mkdirs(dir)
   jpeg(paste(dir, "Methods_Per_Project",".jpg", sep = ""))
   par(mar = c(5,5,5,1.5), cex.lab=1.5, cex.axis=1.5)
@@ -497,12 +531,12 @@ getSdgCreatedByProj <- function(df)
   return(projDf)
 }
 
-getFilteredConfigsWithoutNa <- function(df, uniqueCrit, toEvaluateList)
+getFilteredConfigsWithoutNa <- function(df, uniqueCrit, toEvaluateList, numberOfConfigs = 16)
 {
   filteredDfsList <- c()
   for(toEvaluate in toEvaluateList)
   {
-    filteredDfsList[[toEvaluate]] <- filterConfigsWithoutNa(toEvaluate, uniqueCrit, df, 16)
+    filteredDfsList[[toEvaluate]] <- filterConfigsWithoutNa(toEvaluate, uniqueCrit, df, numberOfConfigs)
   }
   return(filteredDfsList)
 }
@@ -1054,14 +1088,29 @@ for(p in getPositiveRange(length(projects))){
     }
   }
 }
-if(nrow(revDf) > 0){
-  generateExecutionPlots(methodDf, revDf)
-  generateDataSummaryPlots(evalRevDf, evalMethDf, builtRevDf, totalRevsDf)
-  filteredRevDfsList <- getFilteredConfigsWithoutNa(revDf, c("Project", "Rev"), toEvaluateList)
-  filteredMethodDfsList <- getFilteredConfigsWithoutNa(methodDf, c("Project", "Rev", "Method"), c("LineVios"))
-  statisticTests <- doStatisticTests(filteredRevDfsList, filteredMethodDfsList)
-  stats <- calculateAllStatistics(filteredRevDfsList, filteredMethodDfsList)
+if(skipPhase1)
+{
+  print("Skipping phase 1!")
 }else{
-  print("No Revs evaluated!")
+  print("Phase 1...")
+  if(nrow(revDf) > 0){
+    generateExecutionPlots(methodDf, revDf)    
+    filteredRevDfsList <- getFilteredConfigsWithoutNa(revDf, c("Project", "Rev"), toEvaluateList)
+    filteredMethodDfsList <- getFilteredConfigsWithoutNa(methodDf, c("Project", "Rev", "Method"), c("LineVios"))
+    statisticTests <- doStatisticTests(filteredRevDfsList, filteredMethodDfsList)
+    stats <- calculateAllStatistics(filteredRevDfsList, filteredMethodDfsList)
+  }else{
+    print("No Revs evaluated!")
+  }
+}
+if(skipPhase2)
+{
+  print("Skipping phase 2!")
+}else{
+  print("Phase 2...")
+}
+if(nrow(evalRevDf) > 0)
+{
+  generateDataSummaryPlots(evalRevDf, evalMethDf, builtRevDf, totalRevsDf)  
 }
 printDataSummary(revDf, methodDf, evalRevDf, evalMethDf, builtRevDf, totalRevsDf, editSameMcRevsDf)
