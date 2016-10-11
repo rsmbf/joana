@@ -11,6 +11,7 @@ phase2Precisions <- c("TYPE_BASED", "INSTANCE_BASED","N1_OBJECT_SENSITIVE", "OBJ
                       "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
 exceptions <- c("Yes", "No")
 phase2Exceptions <- c("No")
+phase2Configs <- length(phase2Precisions) * length(phase2Exceptions)
 labelsList <- list(CGNodes=c("CG Nodes"), CGEdges=c("CG Edges"), 
                    SDGNodes=c("SDG Nodes"), SDGEdges=c("SDG Edges"),
                    LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"))
@@ -121,7 +122,7 @@ filterDesiredConfigs <- function(desiredExceptions, desiredPrecisions, frame)
   return(filtFrame)
 }
 
-filterConfigsWithoutNa <- function(toEvaluate, critList, frame, numElems)
+filterConfigsWithoutNa <- function(toEvaluateList, critList, frame, numElems)
 {
   redFrame <- data.frame(frame[critList])
   elems <- getNRow(unique(redFrame))
@@ -132,7 +133,7 @@ filterConfigsWithoutNa <- function(toEvaluate, critList, frame, numElems)
     sum <- numElems - 1
     end <- start + sum
     rows <- frame[start:end,]
-    reducedList <- rows[[toEvaluate]]
+    reducedList <- rows[unlist(toEvaluateList)]
     if(all(!is.na(reducedList)))
     {
       filtEnd <- rowNum + sum
@@ -401,7 +402,7 @@ generateExceptionPlots <- function(methodDf, revDf, toEvaluateList, labelsList)
     generateExceptionsBoxplot(labelsList, "Methods", precision, "LineVios", methodDfPrecisionFilt$LineVios ~ factor(methodDfPrecisionFilt$Exception, exceptions),c(0,15))
   }
 }
-toEvaluateList <- c("CGNodes", "CGEdges", "SDGNodes", "SDGEdges", "LineVios")
+toEvaluateList <- list("CGNodes", "CGEdges", "SDGNodes", "SDGEdges", "LineVios")
 generateExecutionPlots <- function(methodDf, revDf)
 {
   if(nrow(revDf) > 0){
@@ -456,25 +457,25 @@ createPrecByPrecTable <- function(precisions){
   return(m)
 }
 
-generateSummaryBoxplot <- function(values, name, ylabel, title)
+generateSummaryBoxplot <- function(values, name, ylabel, title, base="", comp="")
 {
-  dir <- paste(plots, "/summary/boxplots/", sep="")
+  dir <- paste(plots, base, "/summary/boxplots/", sep="")
   mkdirs(dir)
-  jpeg(paste(dir, name,".jpg", sep = ""))
+  jpeg(paste(dir, name, comp,".jpg", sep = ""))
   par(mar = c(2,5,5,1.5), cex.lab=1.5, cex.axis=1.5)
   boxplot(values, ylab=ylabel, main=title, col="lightblue")
   dev.off()
 }
 
-generateMethodsPerProjectBoxplot <- function(evalMethodsPerProject)
+generateMethodsPerProjectBoxplot <- function(evalMethodsPerProject, base="", comp="")
 {
-  dir <- paste(plots, "/summary/boxplots/", sep="")
+  dir <- paste(plots, base, "/summary/boxplots/", sep="")
   mkdirs(dir)
-  jpeg(paste(dir, "Methods_Per_Project",".jpg", sep = ""))
+  jpeg(paste(dir, "Methods_Per_Project", comp, ".jpg", sep = ""))
   par(mar = c(5,5,5,1.5), cex.lab=1.5, cex.axis=1.5)
   boxplot(evalMethodsPerProject$median, evalMethodsPerProject$sum, ylab="Methods",
           xlab="Project level statistic",
-          main="Methods per project", col="lightblue", names=c("Median", "Sum"))
+          main="Methods per project", col="lightblue", names=c("Median (* revs)", "Sum"))
   dev.off()
 }
 
@@ -534,9 +535,10 @@ getSdgCreatedByProj <- function(df, exceptions=exceptions, precisions=precisions
 getFilteredConfigsWithoutNa <- function(df, uniqueCrit, toEvaluateList, numberOfConfigs = 16)
 {
   filteredDfsList <- c()
-  for(toEvaluate in toEvaluateList)
+  for(toEvaluateIndex in getPositiveRange(length(toEvaluateList)))
   {
-    filteredDfsList[[toEvaluate]] <- filterConfigsWithoutNa(toEvaluate, uniqueCrit, df, numberOfConfigs)
+    toEvaluate <- toEvaluateList[[toEvaluateIndex]]
+    filteredDfsList[[paste(toEvaluate, collapse="&")]] <- filterConfigsWithoutNa(toEvaluate, uniqueCrit, df, numberOfConfigs)
   }
   return(filteredDfsList)
 }
@@ -583,17 +585,60 @@ doStatisticTestException <- function(toEvaluate, filteredDf)
   return(res)
 }
 
+generateSummaryPlots <- function(revDf, methodDf, base="", comp="")
+{
+  evalRevDf <- unique(revDf[c("Project","Rev")])
+  evalProjects <- unique(evalRevDf$Project) 
+  evalRevsSplittedByProject <- split(evalRevDf, evalRevDf$Project)
+  evalRevsPerProject <- data.frame(project=character(), revs=numeric(), stringsAsFactors=FALSE)
+  
+  if(!is.null(methodDf))
+  {
+    evalMethodDf <- unique(methodDf[c("Project", "Rev","Method")])
+    evalMethodsSplittedByProject <- split(evalMethodDf, evalMethodDf$Project)
+    evalMethodsPerRev <- data.frame(project=character(), rev=character(), methods=numeric(), stringsAsFactors=FALSE)
+    evalMethodsPerProject <- data.frame(project=character(),median=numeric(), sum=numeric(), stringsAsFactors=FALSE)
+  }
+  
+  for(i in getPositiveRange(length(evalProjects)))
+  {
+    proj <- evalProjects[i]
+    evalRevsPerProject[i,1] <- proj
+    revs <- evalRevsSplittedByProject[[proj]]
+    evalRevsPerProject[i,2] <- nrow(revs)
+    if(!is.null(methodDf))
+    {
+      projectMethods <- evalMethodsSplittedByProject[[proj]]
+      splittedRevs <- split(projectMethods, projectMethods$Rev)
+      methods <- c()
+      for(rev in revs[,2])
+      {
+        revMethods <- nrow(splittedRevs[[rev]])
+        methods <- appendToList(methods, revMethods)
+        evalMethodsRow <- nrow(evalMethodsPerRev) + 1
+        evalMethodsPerRev[evalMethodsRow, 1] <- proj
+        evalMethodsPerRev[evalMethodsRow, 2] <- rev
+        evalMethodsPerRev[evalMethodsRow, 3] <- revMethods
+      }
+      numRevs <- length(revs[,2])
+      evalMethodsPerProject[i,1] <- proj
+      evalMethodsPerProject[i,2] <- numRevs * median(methods)
+      evalMethodsPerProject[i,3] <- sum(methods)
+    }
+  }
+  generateSummaryBoxplot(evalRevsPerProject$revs, "Revs_Per_Project", "Revisions", "Evaluated revisions per project", base, comp)
+  if(!is.null(methodDf))
+  {
+    generateSummaryBoxplot(evalMethodsPerRev$methods, "Methods_Per_Rev", "Methods", "Evaluated methods per revision", base, comp)
+    generateMethodsPerProjectBoxplot(evalMethodsPerProject, base, comp)
+  }
+}
+
 generateDataSummaryPlots <- function(evalRevDf, evalMethodDf, builtRevDf, totalRevDf)
 {
   projsWithMerge <- totalRevDf[!is.na(totalRevDf$Revs) & totalRevDf$Revs > 0,]
   projESMCRate <- data.frame(project=character(), rate=numeric(), stringsAsFactors=FALSE)
-  evalRevsPerProject <- data.frame(project=character(), revs=numeric(), stringsAsFactors=FALSE)
-  evalMethodsPerRev <- data.frame(project=character(), rev=character(), methods=numeric(), stringsAsFactors=FALSE)
-  evalMethodsPerProject <- data.frame(project=character(),median=numeric(), sum=numeric(), stringsAsFactors=FALSE)
-  builtProjectsRates <- data.frame(project=character(), rate=numeric(), stringsAsFactors=FALSE)
-  evalProjects <- unique(evalRevDf$Project) 
-  evalRevsSplittedByProject <- split(evalRevDf, evalRevDf$Project)
-  evalMethodsSplittedByProject <- split(evalMethodDf, evalMethodDf$Project)
+  
   for(i in getPositiveRange(nrow(projsWithMerge)))
   {
     proj <- projsWithMerge[i,1]
@@ -601,29 +646,8 @@ generateDataSummaryPlots <- function(evalRevDf, evalMethodDf, builtRevDf, totalR
     projESMCRate[i,1] <- proj
     projESMCRate[i,2] <- 100 * (editsamemc_revs / projsWithMerge[i,2])
   }
-  for(i in getPositiveRange(length(evalProjects)))
-  {
-    proj <- evalProjects[i]
-    evalRevsPerProject[i,1] <- proj
-    revs <- evalRevsSplittedByProject[[proj]]
-    evalRevsPerProject[i,2] <- nrow(revs)
-    projectMethods <- evalMethodsSplittedByProject[[proj]]
-    splittedRevs <- split(projectMethods, projectMethods$Rev)
-    methods <- c()
-    for(rev in revs[,2])
-    {
-      revMethods <- nrow(splittedRevs[[rev]])
-      methods <- appendToList(methods, revMethods)
-      evalMethodsRow <- nrow(evalMethodsPerRev) + 1
-      evalMethodsPerRev[evalMethodsRow, 1] <- proj
-      evalMethodsPerRev[evalMethodsRow, 2] <- rev
-      evalMethodsPerRev[evalMethodsRow, 3] <- revMethods
-    }
-    numRevs <- length(revs[,2])
-    evalMethodsPerProject[i,1] <- proj
-    evalMethodsPerProject[i,2] <- numRevs * median(methods)
-    evalMethodsPerProject[i,3] <- sum(methods)
-  }
+  
+  builtProjectsRates <- data.frame(project=character(), rate=numeric(), stringsAsFactors=FALSE)
   builtProjects <- unique(builtRevDf$Project)
   splittedBuiltProjects <- split(builtRevDf, builtRevDf$Project)
   
@@ -636,11 +660,10 @@ generateDataSummaryPlots <- function(evalRevDf, evalMethodDf, builtRevDf, totalR
     successCases <- getNRow(splittedBuiltRevDf[['TRUE']])
     builtProjectsRates[i, 2] <-  100 * (successCases / (successCases + getNRow(splittedBuiltRevDf[['FALSE']])))
   }
-  generateSummaryBoxplot(evalRevsPerProject$revs, "Revs_Per_Project", "Revisions", "Evaluated revisions per project")
-  generateSummaryBoxplot(evalMethodsPerRev$methods, "Methods_Per_Rev", "Methods", "Evaluated methods per revision")
+  generateSummaryPlots(evalRevDf, evalMethodDf)
   generateSummaryBoxplot(builtProjectsRates$rate, "Projects_Build_Rates","Build success (%)", "Build success per project")
   #generateSummaryBoxplot(projESMCRate$rate, "Projects_ESMC_Rates","Edit Same Mc (%)", "Edit Same MC per project")
-  generateMethodsPerProjectBoxplot(evalMethodsPerProject)
+  
 }
 
 printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevDf, totalRevsDf, editSameMcRevsDf, revFiltDf, methodFiltDf){
@@ -1153,6 +1176,9 @@ for(p in getPositiveRange(length(projects))){
     }
   }
 }
+toEvaluateList2 <- toEvaluateList
+sdgNodesAndEdges <- list("SDGNodes", "SDGEdges")
+toEvaluateList2[[length(toEvaluateList) + 1]] <- sdgNodesAndEdges
 if(skipPhase1)
 {
   print("Skipping phase 1!")
@@ -1160,10 +1186,12 @@ if(skipPhase1)
   print("Phase 1...")
   if(nrow(revDf) > 0){
     generateExecutionPlots(methodDf, revDf)    
-    filteredRevDfsList <- getFilteredConfigsWithoutNa(revDf, c("Project", "Rev"), toEvaluateList)
+    filteredRevDfsList0 <- getFilteredConfigsWithoutNa(revDf, c("Project", "Rev"), toEvaluateList2)
+    filteredRevDfsList <- filteredRevDfsList0[toEvaluateList]
     filteredMethodDfsList <- getFilteredConfigsWithoutNa(methodDf, c("Project", "Rev", "Method"), c("LineVios"))
     statisticTests <- doStatisticTests(filteredRevDfsList, filteredMethodDfsList)
     stats <- calculateAllStatistics(filteredRevDfsList, filteredMethodDfsList)
+    generateSummaryPlots(filteredRevDfsList$LineVios, filteredMethodDfsList$LineVios, base="/phase1", "_LineVios")
   }else{
     print("No Revs evaluated!")
   }
@@ -1178,7 +1206,11 @@ if(skipPhase2)
   {
     filtRevDf <- filterDesiredConfigs(phase2Exceptions, phase2Precisions, revDf)
     filtMethDf <- filterDesiredConfigs(phase2Exceptions, phase2Precisions, methodDf)
-    generatePrecisionPlots(filtMethDf, filtRevDf, toEvaluateList,labelsList, phase2Exceptions, phase2Precisions, "2") 
+    generatePrecisionPlots(filtMethDf, filtRevDf, toEvaluateList,labelsList, phase2Exceptions, phase2Precisions, "2")     
+    filteredRevDfsList <- getFilteredConfigsWithoutNa(filtRevDf, c("Project", "Rev"), toEvaluateList2, phase2Configs)
+    filteredMethodDfsList <- getFilteredConfigsWithoutNa(filtMethDf, c("Project", "Rev", "Method"), c("LineVios"), phase2Configs)
+    generateSummaryPlots(filteredRevDfsList$LineVios, filteredMethodDfsList$LineVios, base="/phase2", "_LineVios")
+    generateSummaryPlots(filteredRevDfsList[['SDGNodes&SDGEdges']], NULL, base="/phase2", "_SdgCreation")
   }
 }
 if(nrow(evalRevDf) > 0)
