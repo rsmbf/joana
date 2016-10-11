@@ -8,7 +8,7 @@ projects <- scan(file = paste(server_reports, "/projectsList", sep=""), what = "
 precisions <- c("TYPE_BASED", "INSTANCE_BASED","N1_OBJECT_SENSITIVE", "OBJECT_SENSITIVE", 
                 "UNLIMITED_OBJECT_SENSITIVE", "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
 phase2Precisions <- c("TYPE_BASED", "INSTANCE_BASED","N1_OBJECT_SENSITIVE", "OBJECT_SENSITIVE", 
-"N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
+                      "N1_CALL_STACK", "N2_CALL_STACK", "N3_CALL_STACK")
 exceptions <- c("Yes", "No")
 phase2Exceptions <- c("No")
 labelsList <- list(CGNodes=c("CG Nodes"), CGEdges=c("CG Edges"), 
@@ -128,19 +128,19 @@ filterConfigsWithoutNa <- function(toEvaluate, critList, frame, numElems)
   filtFrame <- frame[0,]
   rowNum <- 1
   for(i in getPositiveRange(elems)){
-      start <- ((i - 1) * numElems) + 1
-      sum <- numElems - 1
-      end <- start + sum
-      rows <- frame[start:end,]
-      reducedList <- rows[[toEvaluate]]
-      if(all(!is.na(reducedList)))
-      {
-        filtEnd <- rowNum + sum
-        filtFrame[rowNum:filtEnd,] <- rows
-        rowNum <- filtEnd + 1
-      }
+    start <- ((i - 1) * numElems) + 1
+    sum <- numElems - 1
+    end <- start + sum
+    rows <- frame[start:end,]
+    reducedList <- rows[[toEvaluate]]
+    if(all(!is.na(reducedList)))
+    {
+      filtEnd <- rowNum + sum
+      filtFrame[rowNum:filtEnd,] <- rows
+      rowNum <- filtEnd + 1
+    }
   }
- 
+  
   return(filtFrame)
 }
 
@@ -253,7 +253,7 @@ generateExceptionsBoxplot <- function(labelsList, plotType, precision, toEvaluat
   jpeg(paste(dir, plotType, "_ExceptionsPlot_", toEvaluate, "_", precision, yLimComp, ".jpg", sep = ""))
   baseTitle <- c("for", "SDGs")
   title0 <- paste(labelsList[[toEvaluate]][length(labelsList[[toEvaluate]])], baseTitle[1], getPrettyPrecision(precision),
-                 baseTitle[2], sep=" ")
+                  baseTitle[2], sep=" ")
   title <- paste(title0, " (", plotType,")",sep="")
   boxplot(form, xlab="Exception",ylab=labelsList[[toEvaluate]][1], main=title, 
           par(mar=c(5,5,5,1.5),cex.lab=1.5, cex.axis=1.5),col="lightblue",log=logscales[[toEvaluate]], ylim=yLim)
@@ -652,7 +652,7 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
   }
   projsWithMerge <- totalRevsDf[!is.na(totalRevsDf$Revs) & totalRevsDf$Revs > 0,]
   projsWithConfESMC <- totalRevsDf[!is.na(totalRevsDf$Revs) & totalRevsDf$Revs > 0 & !is.na(totalRevsDf$EditSameMcConflicts) & 
-                                    totalRevsDf$EditSameMcConflicts > 0,]
+                                     totalRevsDf$EditSameMcConflicts > 0,]
   projsWithESMC <- length(unique(editSameMcRevsDf$Project))
   esMcConfRevs <- sum(projsWithConfESMC$EditSameMcConflicts)
   esMcRevs <- getNRow(editSameMcRevsDf)
@@ -685,8 +685,8 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
   projsWithMvn <- length(unique(hasMvnRevs$Project))
   
   moreThanOneBuild <- builtRevDf[(builtRevDf$HasGradle == TRUE & builtRevDf$HasAnt == TRUE) | 
-               (builtRevDf$HasGradle == TRUE & builtRevDf$HasMvn == TRUE) | 
-               (builtRevDf$HasAnt == TRUE & builtRevDf$HasMvn == TRUE),]
+                                   (builtRevDf$HasGradle == TRUE & builtRevDf$HasMvn == TRUE) | 
+                                   (builtRevDf$HasAnt == TRUE & builtRevDf$HasMvn == TRUE),]
   projsWithMoreThanOneBuild <- length(unique(moreThanOneBuild$Project))
   
   evalRevs <- nrow(evalRevDf)
@@ -748,28 +748,28 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
   numFiltNonNaLineVios <- 0
   for(i in getPositiveRange(numMethods))
   {
-      offset <- (numConfigs * (i - 1))
-      start <- 1 + offset
-      end <- start + numConfigs - 1
-      if(!(all(is.na(methodDf$LineVios[start:end])))){
-        numNonNaLineVios <- numNonNaLineVios + 1
-        someNotNaDf[numNonNaLineVios,] <- methodDf[start, 1:3]
-      }
-      if(all(!is.na(methodDf$LineVios[start:end])))
-      {
-        numAllNonNaLineVios <- numAllNonNaLineVios + 1
-        allNotNaDf[numAllNonNaLineVios,] <- methodDf[start,1:3]
-      }  
-      offset2 <- (numFiltConfigs * (i - 1))
-      start2 <- 1 + offset2
-      end2 <- start2 + numFiltConfigs - 1
-      if(all(!is.na(methodFiltDf$LineVios[start2:end2])))
-      {
-        numFiltNonNaLineVios <- numFiltNonNaLineVios + 1
-        filtNotNaDf[numFiltNonNaLineVios,] <- methodFiltDf[start2,1:3]
-      } 
+    offset <- (numConfigs * (i - 1))
+    start <- 1 + offset
+    end <- start + numConfigs - 1
+    if(!(all(is.na(methodDf$LineVios[start:end])))){
+      numNonNaLineVios <- numNonNaLineVios + 1
+      someNotNaDf[numNonNaLineVios,] <- methodDf[start, 1:3]
+    }
+    if(all(!is.na(methodDf$LineVios[start:end])))
+    {
+      numAllNonNaLineVios <- numAllNonNaLineVios + 1
+      allNotNaDf[numAllNonNaLineVios,] <- methodDf[start,1:3]
+    }  
+    offset2 <- (numFiltConfigs * (i - 1))
+    start2 <- 1 + offset2
+    end2 <- start2 + numFiltConfigs - 1
+    if(all(!is.na(methodFiltDf$LineVios[start2:end2])))
+    {
+      numFiltNonNaLineVios <- numFiltNonNaLineVios + 1
+      filtNotNaDf[numFiltNonNaLineVios,] <- methodFiltDf[start2,1:3]
+    } 
   }
-
+  
   #print(someNotNaDf)
   #print(allNotNaDf)
   mergeRunRevs <- sum(projsWithMerge$Revs)
@@ -854,6 +854,7 @@ simDetViosTablePerMethodExcep <- c()
 diffDetViosTablePerMethodExcep <- c()
 sumDetViosTable <- c()
 numDetViosTable <- c()
+numDetViosTableFilt <- c()
 csvs <- c()
 methodsInfoDf <- data.frame(Project=character(), Index=numeric(), Rev=character(), Method=character(), NumOfLines=numeric(), stringsAsFactors=FALSE)
 editSameMcRevsDf <- data.frame(Project=character(), Rev=character(), stringsAsFactors=FALSE)
@@ -875,6 +876,8 @@ numDetViosTable$Yes$both <- createPrecByPrecTable(precisions)
 numDetViosTable$Yes$diff <- createPrecByPrecTable(precisions)
 numDetViosTable$No$both <- createPrecByPrecTable(precisions)
 numDetViosTable$No$diff <- createPrecByPrecTable(precisions)
+numDetViosTableFilt$No$both <- createPrecByPrecTable(phase2Precisions)
+numDetViosTableFilt$No$diff <- createPrecByPrecTable(phase2Precisions)
 buildStrToBool <- function(str){return(str=="True")}
 for(p in getPositiveRange(length(projects))){
   project <- projects[p]
@@ -1029,50 +1032,89 @@ for(p in getPositiveRange(length(projects))){
                 }
                 methodDf[methodDfNewLen, 12] <- getElems(left) > 0 && getElems(right) > 0
               }
-              if(col < length(precisions) && length(splittedPrecs) == length(precisions)){
+              phase1Cond <- length(splittedPrecs) == length(precisions) 
+              splittedPrecsNames <- names(splittedPrecs)
+              phase2CondPart1 <- all(phase2Precisions %in% splittedPrecsNames) && 
+                (exception %in% phase2Exceptions) && (precision %in% phase2Precisions)
+              if(col < length(precisions) && (phase1Cond || phase2CondPart1)){ #&& length(splittedPrecs) == length(precisions)){
                 #colDetVios <- splittedDetVios[[precisions[col]]]
                 colDetVios <- detailedPrec$DetailedLineVios
                 for(row in ((col + 1):length(precisions))){
-                  #print(paste("Row:",row))
-                  rowDetVios <- splittedPrecs[[precisions[row]]]$DetailedLineVios              
-                  if(!is.na(rowDetVios) && !is.na(colDetVios))
-                  {          
-                    viosDiffsList <- calculateViosDiffList(rowDetVios, colDetVios)
-                    #print(viosDiffsList)              
-                    simM[row, col] <- viosDiffsList["both"]
-                    simM[col, row] <- viosDiffsList["both"]
-                    diffM[row, col] <- viosDiffsList["onlyCol"]
-                    diffM[col, row] <- viosDiffsList["onlyRow"]
-                    bothLen <- length(strsplit(viosDiffsList["both"],";")[[1]])             
-                    
-                    newLen <- ifelse(is.na(sumDetViosTable[[exception]]$both[row, col]), bothLen,
-                                     sumDetViosTable[[exception]]$both[row, col] + bothLen)
-                    sumDetViosTable[[exception]]$both[row, col] <- newLen
-                    sumDetViosTable[[exception]]$both[col, row] <- newLen
-                    onlyColLen <- length(strsplit(viosDiffsList["onlyCol"],";")[[1]])
-                    newLen <- ifelse(is.na(sumDetViosTable[[exception]]$diff[row, col]), onlyColLen,
-                                     sumDetViosTable[[exception]]$diff[row, col] + onlyColLen)
-                    sumDetViosTable[[exception]]$diff[row, col] <- newLen
-                    onlyRowLen <- length(strsplit(viosDiffsList["onlyRow"],";")[[1]])
-                    newLen <- ifelse(is.na(sumDetViosTable[[exception]]$diff[col, row]), onlyRowLen,
-                                     sumDetViosTable[[exception]]$diff[col, row] + onlyRowLen)
-                    sumDetViosTable[[exception]]$diff[col, row] <- newLen
-                    if(onlyColLen == 0 && onlyRowLen == 0)
-                    {
-                      numDetViosTable[[exception]]$both[row, col] <- ifelse(is.na(numDetViosTable[[exception]]$both[row, col]), 1, 
-                                                                            numDetViosTable[[exception]]$both[row, col] + 1)
-                      numDetViosTable[[exception]]$both[col, row] <- ifelse(is.na(numDetViosTable[[exception]]$both[col, row]), 1, 
-                                                                            numDetViosTable[[exception]]$both[col, row] + 1)
-                    }
-                    if(onlyColLen > 0)
-                    {
-                      numDetViosTable[[exception]]$diff[row, col] <- ifelse(is.na(numDetViosTable[[exception]]$diff[row,col]), 1, 
-                                                                            numDetViosTable[[exception]]$diff[row, col] + 1)
-                    }
-                    if(onlyRowLen > 0)
-                    {
-                      numDetViosTable[[exception]]$diff[col, row] <- ifelse(is.na(numDetViosTable[[exception]]$diff[col, row]), 1, 
-                                                                            numDetViosTable[[exception]]$diff[col, row] + 1)
+                  #print(paste("Row:",row))splittesss
+                  rowPrecision <- precisions[row]
+                  if(rowPrecision %in% splittedPrecsNames){
+                    rowDetVios <- splittedPrecs[[precisions[row]]]$DetailedLineVios              
+                    if(!is.na(rowDetVios) && !is.na(colDetVios))
+                    {          
+                      viosDiffsList <- calculateViosDiffList(rowDetVios, colDetVios)
+                      #print(viosDiffsList) 
+                      phase2Cond <- phase2CondPart1 && (rowPrecision %in% phase2Precisions)
+                      if(phase1Cond || phase2Cond)
+                      {
+                        onlyColLen <- length(strsplit(viosDiffsList["onlyCol"],";")[[1]])
+                        onlyRowLen <- length(strsplit(viosDiffsList["onlyRow"],";")[[1]])
+                        
+                        if(phase1Cond)
+                        {
+                          simM[row, col] <- viosDiffsList["both"]
+                          simM[col, row] <- viosDiffsList["both"]
+                          diffM[row, col] <- viosDiffsList["onlyCol"]
+                          diffM[col, row] <- viosDiffsList["onlyRow"]
+                          bothLen <- length(strsplit(viosDiffsList["both"],";")[[1]])             
+                          
+                          newLen <- ifelse(is.na(sumDetViosTable[[exception]]$both[row, col]), bothLen,
+                                           sumDetViosTable[[exception]]$both[row, col] + bothLen)
+                          sumDetViosTable[[exception]]$both[row, col] <- newLen
+                          sumDetViosTable[[exception]]$both[col, row] <- newLen
+                          
+                          newLen <- ifelse(is.na(sumDetViosTable[[exception]]$diff[row, col]), onlyColLen,
+                                           sumDetViosTable[[exception]]$diff[row, col] + onlyColLen)
+                          sumDetViosTable[[exception]]$diff[row, col] <- newLen
+                          
+                          newLen <- ifelse(is.na(sumDetViosTable[[exception]]$diff[col, row]), onlyRowLen,
+                                           sumDetViosTable[[exception]]$diff[col, row] + onlyRowLen)
+                          sumDetViosTable[[exception]]$diff[col, row] <- newLen
+                          if(onlyColLen == 0 && onlyRowLen == 0)
+                          {
+                            numDetViosTable[[exception]]$both[row, col] <- ifelse(is.na(numDetViosTable[[exception]]$both[row, col]), 1, 
+                                                                                  numDetViosTable[[exception]]$both[row, col] + 1)
+                            numDetViosTable[[exception]]$both[col, row] <- ifelse(is.na(numDetViosTable[[exception]]$both[col, row]), 1, 
+                                                                                  numDetViosTable[[exception]]$both[col, row] + 1)
+                          }
+                          if(onlyColLen > 0)
+                          {
+                            numDetViosTable[[exception]]$diff[row, col] <- ifelse(is.na(numDetViosTable[[exception]]$diff[row,col]), 1, 
+                                                                                  numDetViosTable[[exception]]$diff[row, col] + 1)
+                          }
+                          if(onlyRowLen > 0)
+                          {
+                            numDetViosTable[[exception]]$diff[col, row] <- ifelse(is.na(numDetViosTable[[exception]]$diff[col, row]), 1, 
+                                                                                  numDetViosTable[[exception]]$diff[col, row] + 1)
+                          }
+                        }
+                        if(phase2Cond)
+                        {
+                          phase2Row <- which(rowPrecision == phase2Precisions)[[1]]
+                          phase2Col <- which(precision == phase2Precisions)[[1]]
+                          if(onlyColLen == 0 && onlyRowLen == 0)
+                          {
+                            numDetViosTableFilt[[exception]]$both[phase2Row, phase2Col] <- ifelse(is.na(numDetViosTableFilt[[exception]]$both[phase2Row, phase2Col]), 1, 
+                                                                                                  numDetViosTableFilt[[exception]]$both[phase2Row, phase2Col] + 1)
+                            numDetViosTableFilt[[exception]]$both[phase2Col, phase2Row] <- ifelse(is.na(numDetViosTableFilt[[exception]]$both[phase2Col, phase2Row]), 1, 
+                                                                                                  numDetViosTableFilt[[exception]]$both[phase2Col, phase2Row] + 1)
+                          }
+                          if(onlyColLen > 0)
+                          {
+                            numDetViosTableFilt[[exception]]$diff[phase2Row, phase2Col] <- ifelse(is.na(numDetViosTableFilt[[exception]]$diff[phase2Row, phase2Col]), 1, 
+                                                                                                  numDetViosTableFilt[[exception]]$diff[phase2Row, phase2Col] + 1)
+                          }
+                          if(onlyRowLen > 0)
+                          {
+                            numDetViosTableFilt[[exception]]$diff[phase2Col, phase2Row] <- ifelse(is.na(numDetViosTableFilt[[exception]]$diff[phase2Col, phase2Row]), 1, 
+                                                                                                  numDetViosTableFilt[[exception]]$diff[phase2Col, phase2Row] + 1)
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -1083,31 +1125,31 @@ for(p in getPositiveRange(length(projects))){
           diffDetViosTablePerMethodExcep[[project_name]][[rev_name]][[method]][[exception]] <- diffM
         }
       }
-#       print("BEGIN")
-#       print(project_name)
-#       print(rev_name)
-#       aux <- which(methodDf$Project == project_name & methodDf$Rev == rev_name)
-#       print(aux)
-#       aux2 <- which(revDf$Project == project_name & revDf$Rev == rev_name)
-#       print(aux2)
-#       for(exception in exceptions)
-#       {
-#         for(precision in precisions)
-#         {
-#           revLine <- which(revDf$Project == project_name & revDf$Rev == rev_name & 
-#                              revDf$Precision == precision & revDf$Exception == exception)
-#           methodLines <- which(methodDf$Project == project_name & methodDf$Rev == rev_name & 
-#                                  methodDf$Precision == precision & methodDf$Exception == exception & !is.na(methodDf$LineVios))
-#           print(revDf[revLine,])
-#           print("MethodLines")
-#           print(methodLines)
-#           methodLines <- methodDf[methodLines,]
-#           print(methodLines$LineVios)
-#         }
-#       }
-#       
-#       
-#       print("END")
+      #       print("BEGIN")
+      #       print(project_name)
+      #       print(rev_name)
+      #       aux <- which(methodDf$Project == project_name & methodDf$Rev == rev_name)
+      #       print(aux)
+      #       aux2 <- which(revDf$Project == project_name & revDf$Rev == rev_name)
+      #       print(aux2)
+      #       for(exception in exceptions)
+      #       {
+      #         for(precision in precisions)
+      #         {
+      #           revLine <- which(revDf$Project == project_name & revDf$Rev == rev_name & 
+      #                              revDf$Precision == precision & revDf$Exception == exception)
+      #           methodLines <- which(methodDf$Project == project_name & methodDf$Rev == rev_name & 
+      #                                  methodDf$Precision == precision & methodDf$Exception == exception & !is.na(methodDf$LineVios))
+      #           print(revDf[revLine,])
+      #           print("MethodLines")
+      #           print(methodLines)
+      #           methodLines <- methodDf[methodLines,]
+      #           print(methodLines$LineVios)
+      #         }
+      #       }
+      #       
+      #       
+      #       print("END")
     }
   }
 }
