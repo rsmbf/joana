@@ -1187,11 +1187,12 @@ if(skipPhase1)
   if(nrow(revDf) > 0){
     generateExecutionPlots(methodDf, revDf)    
     filteredRevDfsList0 <- getFilteredConfigsWithoutNa(revDf, c("Project", "Rev"), toEvaluateList2)
-    filteredRevDfsList <- filteredRevDfsList0[toEvaluateList]
+    filteredRevDfsList <- filteredRevDfsList0[unlist(toEvaluateList)]
     filteredMethodDfsList <- getFilteredConfigsWithoutNa(methodDf, c("Project", "Rev", "Method"), c("LineVios"))
     statisticTests <- doStatisticTests(filteredRevDfsList, filteredMethodDfsList)
     stats <- calculateAllStatistics(filteredRevDfsList, filteredMethodDfsList)
     generateSummaryPlots(filteredRevDfsList$LineVios, filteredMethodDfsList$LineVios, base="/phase1", "_LineVios")
+    generateSummaryPlots(filteredRevDfsList0[['SDGNodes&SDGEdges']], NULL, base="/phase1", "_SdgCreation")
   }else{
     print("No Revs evaluated!")
   }
