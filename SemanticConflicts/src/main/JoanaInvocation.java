@@ -762,7 +762,9 @@ public class JoanaInvocation {
 				entryMethods.add(methodSignature.toBCString());
 			}
 			/** For multi-threaded programs, it is currently neccessary to use the jdk 1.4 stubs */
-			SDGConfig config = new SDGConfig(classPath, null, Stubs.JRE_14);
+			Stubs stubs = Stubs.JRE_15;
+			System.out.println("Stubs version: "+stubs.toString());
+			SDGConfig config = new SDGConfig(classPath, null, stubs);
 			config.setEntryMethods(entryMethods);
 			/** compute interference edges to model dependencies between threads (set to false if your program does not use threads) */
 			config.setComputeInterferences(false);
