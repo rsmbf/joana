@@ -194,7 +194,6 @@ public class JoanaInvocation {
 		Iterator<SDGClass> classesIt = classes.iterator();
 		boolean methodFound = false;
 		JavaMethodSignature methodSignature = methodsWithSrcOrSink.get(methodEvaluated).getMethodSignature();
-		SDGMethod sdgMethodFound = null;
 		JavaType declaringClassType = methodSignature.getDeclaringType();
 		//System.out.println("Searched method: "+methodEvaluated);
 		Map<Integer, Integer> bytecodeIndexToLine = new TreeMap<Integer, Integer>();
@@ -216,7 +215,6 @@ public class JoanaInvocation {
 					//System.out.println("Mod sign: "+mod_sign + " , "+methodFound);
 					if(methodFound)
 					{					
-						sdgMethodFound = method;
 						ModifiedMethod modMethod = methodsWithSrcOrSink.get(methodEvaluated);
 						List<Integer> left_cont = modMethod.getLeftContribs();
 						//System.out.println(left_cont);
@@ -230,7 +228,7 @@ public class JoanaInvocation {
 						if(sdgLoaded)
 						{
 							List<String> lines = FileUtils.getFileLines(confValues.getSdgInfoFilePath());
-							int index = getMethodLineIndex(method.toString().replaceAll(";",","), lines);
+							int index = getMethodLineIndex(methodEvaluated, lines);
 							String line = lines.get(index);
 							String[] lineInfo = line.split(";");
 							leftIndexes = toIntegerList(lineInfo[5].trim());
@@ -260,14 +258,14 @@ public class JoanaInvocation {
 							{
 								//System.out.println("Adding source...");
 								ana.addSourceAnnotation(instruction, BuiltinLattices.STD_SECLEVEL_HIGH);
-								confValues.addPartToLeft(instruction);
+								confValues.addPartToLeft(methodEvaluated, instruction);
 							}else if(rightInst)
 							{
 								//System.out.println("Adding sink...");
 								ana.addSinkAnnotation(instruction, BuiltinLattices.STD_SECLEVEL_LOW);
-								confValues.addPartToRight(instruction);
+								confValues.addPartToRight(methodEvaluated, instruction);
 							}else{
-								confValues.addPartToOther(instruction);
+								confValues.addPartToOther(methodEvaluated, instruction);
 							}
 							confValues.addToPartsMap(instruction, line_number);
 						}
@@ -276,14 +274,14 @@ public class JoanaInvocation {
 			}
 
 		}
-		if(!sdgLoaded && sdgMethodFound != null)
+		if(!sdgLoaded && methodFound)
 		{
-			writeSdgInfo(sdgMethodFound.toString(), confValues, bytecodeIndexToLine);
+			writeSdgInfo(methodEvaluated, confValues, bytecodeIndexToLine);
 		}
 	}
 
 	private void writeSdgInfo(String method, SdgConfigValues confValues, Map<Integer, Integer> bytecodeToLine) throws IOException {
-		String line = method.replaceAll(";", ",");
+		String line = method;
 		line += "; " + confValues.getCGNodes();
 		line += "; " + confValues.getCGEdges();
 		line += "; " + confValues.getTime();
@@ -678,7 +676,7 @@ public class JoanaInvocation {
 		}
 		Collection<IFCAnnotation> sinks = ana.getSinks();
 		Collection<IFCAnnotation> sources = ana.getSources();	
-		return runAnalysis(sinks, sources, confValues);
+		return runAnalysis(sinks, sources, confValues, confValues.getAllLeftParts(), confValues.getAllRightParts(), confValues.getAllOtherParts());
 	}
 
 	private Map<String, Map<String, ViolationResult>> runAnalysisPerMethod(Map<String, ModifiedMethod> methodsWithSrcOrSink, SdgConfigValues configValues)
@@ -714,7 +712,8 @@ public class JoanaInvocation {
 				Collection<IFCAnnotation> sources = ana.getSources();
 				ExecutionResult methExecResult = execResults.get(method).get(configValues);
 				methExecResult.setHasSourceAndSink(sources.size() > 0 && sinks.size() > 0);
-				Map<String, ViolationResult> methodResults = runAnalysis(sinks, sources, configValues);
+				Map<String, ViolationResult> methodResults = runAnalysis(sinks, sources, configValues, configValues.getLeftParts().get(method),
+						configValues.getRightParts().get(method), configValues.getOtherParts().get(method));
 				if(methodResults.size() > 0)
 				{
 					methExecResult.setHasLeftToRightVio(methodResults.get("LEFT->RIGHT") != null);
@@ -743,7 +742,7 @@ public class JoanaInvocation {
 	}
 
 	private Map<String, ViolationResult> runAnalysis(
-			Collection<IFCAnnotation> sinks,Collection<IFCAnnotation> sources, SdgConfigValues confValues) throws IOException {		
+			Collection<IFCAnnotation> sinks, Collection<IFCAnnotation> sources, SdgConfigValues confValues, Collection<SDGProgramPart> leftParts, Collection<SDGProgramPart> rightParts, Collection<SDGProgramPart> otherParts) throws IOException {		
 		Map<String, ViolationResult> resultsByAnnotation = new HashMap<String, ViolationResult>();
 		IFCAnalysis ana = confValues.getIFCAnalysis();
 		String reportFilePath = confValues.getReportFilePath();
@@ -770,13 +769,13 @@ public class JoanaInvocation {
 			if(result_1_1_a.isEmpty() && result_1_1_b.isEmpty())
 			{
 				FileUtils.writeNewLine(reportFilePath, "1.2.a analysis");
-				addSourcesAndSinks_1_2(confValues.getLeftParts(), confValues);
+				addSourcesAndSinks_1_2(leftParts, otherParts, confValues);
 				printSourcesAndSinks(ana.getSources(), ana.getSinks(), reportFilePath);
 				Collection<? extends IViolation<SecurityNode>> result_1_2_a = ana.doIFC();
 				TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart_1_2_a = ana.groupByPPPart(result_1_2_a);
 
 				FileUtils.writeNewLine(reportFilePath, "1.2.b analysis");
-				addSourcesAndSinks_1_2(confValues.getRightParts(), confValues);
+				addSourcesAndSinks_1_2(rightParts, otherParts, confValues);
 				printSourcesAndSinks(ana.getSources(), ana.getSinks(), reportFilePath);
 				Collection<? extends IViolation<SecurityNode>> result_1_2_b = ana.doIFC();
 				TObjectIntMap<IViolation<SDGProgramPart>> resultByProgramPart_1_2_b = ana.groupByPPPart(result_1_2_b);
@@ -807,14 +806,14 @@ public class JoanaInvocation {
 		return resultsByAnnotation;
 	}
 
-	private void addSourcesAndSinks_1_2(Collection<SDGProgramPart> toMarkAsSource, SdgConfigValues confValues) {
+	private void addSourcesAndSinks_1_2(Collection<SDGProgramPart> toMarkAsSource, Collection<SDGProgramPart> toMarkAsSink, SdgConfigValues confValues) {
 		IFCAnalysis ana = confValues.getIFCAnalysis();
 		ana.clearAllAnnotations();
 		for(SDGProgramPart inst : toMarkAsSource)
 		{
 			ana.addSourceAnnotation(inst, BuiltinLattices.STD_SECLEVEL_HIGH);
 		}
-		for(SDGProgramPart inst : confValues.getOtherParts())
+		for(SDGProgramPart inst : toMarkAsSink)
 		{
 			ana.addSinkAnnotation(inst, BuiltinLattices.STD_SECLEVEL_LOW);
 		}

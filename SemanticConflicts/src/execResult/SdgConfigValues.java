@@ -26,7 +26,7 @@ public class SdgConfigValues {
 	private SDGProgram program;
 	private IFCAnalysis ana;
 	private Map<SDGProgramPart, Integer> parts_map;
-	private List<SDGProgramPart> leftParts, rightParts, otherParts;
+	private Map<String, List<SDGProgramPart>> leftParts, rightParts, otherParts;
 	private String reportFilePath; 
 	private String sdgReportFilePath; 
 	private String sdgInfoFilePath;
@@ -38,9 +38,9 @@ public class SdgConfigValues {
 		this.ignoreExceptions = exceptions;
 		//this.sdgCreated = false;
 		parts_map = new HashMap<SDGProgramPart, Integer>();	
-		leftParts = new ArrayList<SDGProgramPart>();
-		rightParts = new ArrayList<SDGProgramPart>();
-		otherParts = new ArrayList<SDGProgramPart>();
+		leftParts = new HashMap<String, List<SDGProgramPart>>();
+		rightParts = new HashMap<String, List<SDGProgramPart>>();
+		otherParts = new HashMap<String, List<SDGProgramPart>>();
 		String excep;
 		if(ignoreExceptions)
 		{
@@ -150,54 +150,91 @@ public class SdgConfigValues {
 		return ana;
 	}
 	
-	public List<SDGProgramPart> getLeftParts()
+	public Map<String, List<SDGProgramPart>> getLeftParts()
 	{
 		return leftParts;
 	}
 	
-	public List<SDGProgramPart> getRightParts()
+	public Map<String, List<SDGProgramPart>> getRightParts()
 	{
 		return rightParts;
 	}
 	
-	public List<SDGProgramPart> getOtherParts()
+	public Map<String, List<SDGProgramPart>> getOtherParts()
 	{
 		return otherParts;
 	}
+	
+	public List<SDGProgramPart> getAllLeftParts()
+	{
+		return getAllParts(leftParts);
+	}
+	
+	public List<SDGProgramPart> getAllRightParts()
+	{
+		return getAllParts(rightParts);
+	}
+	
+	public List<SDGProgramPart> getAllOtherParts()
+	{
+		return getAllParts(otherParts);
+	}
+	
+	private List<SDGProgramPart> getAllParts(Map<String, List<SDGProgramPart>> partsMap)
+	{
+		List<SDGProgramPart> parts = new ArrayList<SDGProgramPart>();
+		for(String method : partsMap.keySet())
+		{
+			parts.addAll(partsMap.get(method));
+		}
+		return parts;
+	}
 
-	public List<Integer> getPartsIndexes(String method, List<SDGProgramPart> parts)
+	public List<Integer> getPartsIndexes(String method, Map<String, List<SDGProgramPart>> allMethodsParts)
 	{
 		List<Integer> indexes = new ArrayList<Integer>();
-		for(SDGProgramPart part : parts)
-		{			
-			if(part instanceof SDGInstruction)
-			{
-				SDGInstruction partInst = (SDGInstruction) part;
-				String instMethod = partInst.getOwningMethod().toString();
-				if(instMethod.equals(method))
+		List<SDGProgramPart> parts = allMethodsParts.get(method);
+		if(parts != null)
+		{
+			for(SDGProgramPart part : parts)
+			{			
+				if(part instanceof SDGInstruction)
 				{
+					SDGInstruction partInst = (SDGInstruction) part;
 					int index = partInst.getBytecodeIndex();
 					indexes.add(index);
 				}
-
 			}
 		}
 		return indexes;
 	}
 
-	public void addPartToLeft(SDGProgramPart part)
+	private void addPartToMethodList(String method, SDGProgramPart part, Map<String, List<SDGProgramPart>> allMethodsParts)
 	{
-		leftParts.add(part);
+		List<SDGProgramPart> methodParts;
+		if(allMethodsParts.containsKey(method))
+		{
+			methodParts = allMethodsParts.get(method);
+		}else{
+			methodParts = new ArrayList<SDGProgramPart>();
+			allMethodsParts.put(method, methodParts);
+		}
+		methodParts.add(part);
 	}
 	
-	public void addPartToRight(SDGProgramPart part)
+	public void addPartToLeft(String method, SDGProgramPart part)
 	{
-		rightParts.add(part);
+		addPartToMethodList(method, part, leftParts);
 	}
 	
-	public void addPartToOther(SDGProgramPart part)
+	public void addPartToRight(String method, SDGProgramPart part)
 	{
-		otherParts.add(part);
+		addPartToMethodList(method, part, rightParts);
+	}
+	
+	public void addPartToOther(String method, SDGProgramPart part)
+	{
+		addPartToMethodList(method, part, otherParts);
 	}
 
 	public void addToPartsMap(SDGProgramPart instruction, int line) {
