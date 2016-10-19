@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.kit.joana.api.IFCAnalysis;
+import edu.kit.joana.api.sdg.SDGInstruction;
 import edu.kit.joana.api.sdg.SDGProgram;
 import edu.kit.joana.api.sdg.SDGProgramPart;
 import edu.kit.joana.ifc.sdg.graph.SDG;
@@ -27,8 +28,11 @@ public class SdgConfigValues {
 	private Map<SDGProgramPart, Integer> parts_map;
 	private List<SDGProgramPart> leftParts, rightParts, otherParts;
 	private String reportFilePath; 
+	private String sdgReportFilePath; 
+	private String sdgInfoFilePath;
+	private boolean sdgLoaded;
 
-	public SdgConfigValues(PointsToPrecision prec, boolean exceptions, String reportFolderPath)
+	public SdgConfigValues(PointsToPrecision prec, boolean exceptions, String reportFolderPath, String sdgsFolderPath)
 	{
 		this.precision = prec;
 		this.ignoreExceptions = exceptions;
@@ -45,13 +49,25 @@ public class SdgConfigValues {
 			excep = "excep";
 		}
 		reportFilePath = reportFolderPath + File.separator + prec.toString() + "_" +excep +".txt";
+		sdgReportFilePath = reportFolderPath + File.separator + prec.toString() + "_" +excep + "_sdgDetails.txt";
+		sdgInfoFilePath = sdgsFolderPath + File.separator + prec.toString() + "_" +excep + "_sdgInfo.txt";
 	}
 
 	public String getReportFilePath()
 	{
 		return reportFilePath;
 	}
-	
+
+	public String getSdgReportFilePath()
+	{
+		return sdgReportFilePath;
+	}
+
+	public String getSdgInfoFilePath()
+	{
+		return sdgInfoFilePath;
+	}
+
 	public String toString(String sep)
 	{
 		String spacedSep = sep + " ";
@@ -148,7 +164,27 @@ public class SdgConfigValues {
 	{
 		return otherParts;
 	}
-	
+
+	public List<Integer> getPartsIndexes(String method, List<SDGProgramPart> parts)
+	{
+		List<Integer> indexes = new ArrayList<Integer>();
+		for(SDGProgramPart part : parts)
+		{			
+			if(part instanceof SDGInstruction)
+			{
+				SDGInstruction partInst = (SDGInstruction) part;
+				String instMethod = partInst.getOwningMethod().toString();
+				if(instMethod.equals(method))
+				{
+					int index = partInst.getBytecodeIndex();
+					indexes.add(index);
+				}
+
+			}
+		}
+		return indexes;
+	}
+
 	public void addPartToLeft(SDGProgramPart part)
 	{
 		leftParts.add(part);
@@ -175,5 +211,35 @@ public class SdgConfigValues {
 
 	public boolean getSdgCreated() {
 		return program != null && program.getSDG() != null;
+	}
+
+	public void setSdgLoaded(boolean loaded)
+	{
+		this.sdgLoaded = loaded;
+	}
+
+	public boolean getSdgLoaded()
+	{
+		return this.sdgLoaded;
+	}
+
+	public int getCGNodes()
+	{
+		return this.cgNodes;
+	}
+
+	public int getCGEdges()
+	{
+		return this.cgEdges;
+	}
+
+	public long getTime()
+	{
+		return this.time;
+	}
+
+	public long getMemory()
+	{
+		return this.memory;
 	}
 }

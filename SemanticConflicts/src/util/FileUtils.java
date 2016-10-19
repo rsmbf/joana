@@ -123,8 +123,9 @@ public class FileUtils {
 		{
 			file.delete();
 		}
-		mkdirs(file);
+		
 		if (!file.exists()) {
+			mkdirs(file);
 			file.createNewFile();
 		}
 	}
@@ -138,10 +139,22 @@ public class FileUtils {
 	
 	public static String readFirstLine(String path) throws IOException
 	{
+		List<String> lines = readNLines(path, 1);
+		return lines.size() > 0 ? lines.get(0) : null;
+	}
+	
+	public static List<String> readNLines(String path, int number) throws IOException
+	{
+		List<String> lines = new ArrayList<String>();
 		BufferedReader br = new BufferedReader(new FileReader(path));
-		String line = br.readLine();
+		String line;
+		while((line = br.readLine()) != null && number > 0)
+		{
+			lines.add(line);
+			number--;
+		}
 		br.close();
-		return line;
+		return lines;
 	}
 
 	public static void printFileContent(String path) throws IOException
@@ -153,6 +166,19 @@ public class FileUtils {
 			System.out.println(line);
 		}
 		br.close();
+	}
+	
+	public static List<String> getFileLines(String path) throws IOException
+	{
+		BufferedReader br = new BufferedReader(new FileReader(path));
+		String line;
+		List<String> lines = new ArrayList<String>();
+		while((line = br.readLine()) != null)
+		{
+			lines.add(line);
+		}
+		br.close();
+		return lines;
 	}
 	
 	public static void main(String[] args) throws IOException {

@@ -77,8 +77,8 @@ public class ViolationsPrinter {
 				to = to_part;
 			}
 
-			from_line = from.getOwningMethod().getMethod().getLineNumber(((SDGInstruction) from).getBytecodeIndex());
-			to_line = to.getOwningMethod().getMethod().getLineNumber(((SDGInstruction) to).getBytecodeIndex());
+			//from_line = from.getOwningMethod().getMethod().getLineNumber(((SDGInstruction) from).getBytecodeIndex());
+			//to_line = to.getOwningMethod().getMethod().getLineNumber(((SDGInstruction) to).getBytecodeIndex());
 
 		}else if(program != null && parts_map != null){
 			String[] msg = violation.toString().split(" to ");
@@ -96,10 +96,11 @@ public class ViolationsPrinter {
 			lastColonIndex = str_to.lastIndexOf(':');
 			to = program.getPart(JavaMethodSignature.fromString(str_to.substring(0, lastColonIndex)).toBCString().replace("(L;)", "()") + str_to.substring(lastColonIndex));
 
-			from_line = parts_map.get(from);
-			to_line = parts_map.get(to);
+			//from_line = parts_map.get(from);
+			//to_line = parts_map.get(to);
 		}
-
+		from_line = parts_map.get(from);
+		to_line = parts_map.get(to);
 		//String error_msg = base_msg + from.getOwningMethod().getSignature() + "' (line " + from_line + ") to '" +to.getOwningMethod().getSignature() +"' (line "+to_line+")";
 		if(from != null && to != null)
 		{
