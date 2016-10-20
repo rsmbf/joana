@@ -274,7 +274,7 @@ public class JoanaInvocation {
 			}
 
 		}
-		if(!sdgLoaded && methodFound)
+		if(!sdgLoaded && saveSdgs && methodFound)
 		{
 			writeSdgInfo(methodEvaluated, confValues, bytecodeIndexToLine);
 		}

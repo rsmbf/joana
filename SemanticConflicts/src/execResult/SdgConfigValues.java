@@ -50,7 +50,8 @@ public class SdgConfigValues {
 		}
 		reportFilePath = reportFolderPath + File.separator + prec.toString() + "_" +excep +".txt";
 		sdgReportFilePath = reportFolderPath + File.separator + prec.toString() + "_" +excep + "_sdgDetails.txt";
-		sdgInfoFilePath = sdgsFolderPath + File.separator + prec.toString() + "_" +excep + "_sdgInfo.txt";
+		if(sdgsFolderPath != null && !sdgsFolderPath.equals(""))
+			sdgInfoFilePath = sdgsFolderPath + File.separator + prec.toString() + "_" +excep + "_sdgInfo.txt";
 	}
 
 	public String getReportFilePath()
