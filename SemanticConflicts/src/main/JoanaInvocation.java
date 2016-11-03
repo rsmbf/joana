@@ -143,10 +143,15 @@ public class JoanaInvocation {
 				{
 					evaluatedType = evaluatedArgTypes.get(i);
 					currentType = currentArgTypes.get(i);
+
 					if(evaluatedType.toHRString().equals(evaluatedType.toHRStringShort()))
 					{
 						argsMatch = evaluatedType.toHRStringShort().equals(currentType.toHRStringShort());
-					}else if(currentType.toHRStringShort().contains("$") && !evaluatedType.toHRStringShort().contains("$"))
+					}else{
+						argsMatch = evaluatedType.equals(currentType);
+					}
+					
+					if(!argsMatch && currentType.toHRStringShort().contains("$") && !evaluatedType.toHRStringShort().contains("$"))
 					{
 						String currTypeStr = currentType.toHRString();
 						String currTypeShortStr = currentType.toHRStringShort();
@@ -156,11 +161,10 @@ public class JoanaInvocation {
 						String innerClass = currTypeShortStr.substring(lastIndexShort + 1);						
 						argsMatch = evalTypeShortStr.equals(innerClass) && 
 								(evalTypeStr.equals(currTypeStr.replace("$",".")) 
-										|| evalTypeStr.equals(currTypeShortStr.replace("$",".")));
+										|| evalTypeStr.equals(currTypeShortStr.replace("$","."))
+										|| evalTypeStr.equals(innerClass));
 					}
-					else{
-						argsMatch = evaluatedType.equals(currentType);
-					}
+					
 
 					i++;
 				}
