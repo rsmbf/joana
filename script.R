@@ -17,7 +17,7 @@ labelsList <- list(CGNodes=c("CG Nodes"), CGEdges=c("CG Edges"),
                    LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"))
 total_projects <- length(projects)
 skipPhase1 <- TRUE
-skipPhase2 <- FALSE
+skipPhase2 <- TRUE
 
 getPrettyPrecision <- function(prec){
   prettyNames=c("TYPE_BASED"="Type_Based", "INSTANCE_BASED" = "Instance_Based","OBJECT_SENSITIVE" = "Object_Sensitive", 
@@ -886,6 +886,7 @@ revDf <- data.frame(Project=character(), Rev=character(), Precision=character(),
 methodDf <- data.frame(Project=character(), Rev=character(), Method=character(), Precision=character(), Exception=character(),
                        HasSourceAndSink=character(),LineVios=numeric(), HasIfc=logical(), 
                        IFCs=numeric(),Left=character(), Right=character(), HasLeftAndRight=logical(), stringsAsFactors=FALSE)
+evalRevDf0 <- data.frame(Project=character(),Rev=character(), stringsAsFactors=FALSE)
 evalRevDf <- data.frame(Project=character(),Rev=character(), stringsAsFactors=FALSE)
 evalMethDf <- data.frame(Project=character(),Rev=character(), Method=character(), stringsAsFactors=FALSE)
 builtRevDf <- data.frame(Project=character(), Rev=character(), Built=logical(), 
@@ -960,6 +961,7 @@ for(p in getPositiveRange(length(projects))){
     print(paste("       ",rev))
     rev_name <- basename(rev)
     execSummary <- paste(rev, "executionSummary.csv", sep="/")
+
     if(file.exists(execSummary) && file.info(execSummary)$size > 0)
     {
       evalRevDf <- insertLineToDf(evalRevDf, c(project_name,rev_name))
@@ -1173,6 +1175,30 @@ for(p in getPositiveRange(length(projects))){
       #       
       #       
       #       print("END")
+    }else
+    {
+      if(file.exists(execSummary))
+      {
+        evalRevDf0 <- insertLineToDf(evalRevDf0, c(project_name,rev_name))  
+      }else{
+        excepsFileName <- c("noExcep","excep")
+        excepIndex <- 1
+        found <- FALSE
+        while(!found && excepIndex < length(excepsFileName)){
+          precIndex <- 1
+          while(!found && precIndex < length(precisions)){
+            fileName <- paste(precisions[precIndex],"_",excepsFileName[excepIndex],".txt",sep="")
+            found <- file.exists(paste(rev, fileName, sep="/"))
+            precIndex <- precIndex + 1
+          }
+          excepIndex <- excepIndex + 1
+        }
+        if(found)
+        {
+          evalRevDf0 <- insertLineToDf(evalRevDf0, c(project_name,rev_name)) 
+        }
+      }
+      
     }
   }
 }
