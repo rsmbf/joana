@@ -145,26 +145,33 @@ filterConfigsWithoutNa <- function(toEvaluateList, critList, frame, numElems)
   return(filtFrame)
 }
 
-calculateAllStatistics <- function(filteredRevDfsList, filteredMethodDfsList)
+calculateAllStatistics <- function(filteredRevDfsList, filteredMethodDfsList, precs = precisions, exceps = exceptions)
 {
   revsStats <- c()
   for(toEvaluate in toEvaluateList)
   {
     filteredRevDfs <- filteredRevDfsList[[toEvaluate]]
-    revsStats[[toEvaluate]] <- calculateExceptionsStatistics(toEvaluate, filteredRevDfs)
+    revsStats[[toEvaluate]] <- calculateElementStatistics(toEvaluate, filteredRevDfs, precs, exceps)
   }
   filteredMethodsDfs <- filteredMethodDfsList[['LineVios']]
-  methStats <- calculateExceptionsStatistics('LineVios', filteredMethodsDfs)
+  methStats <- calculateElementStatistics('LineVios', filteredMethodsDfs, precs, exceps)
   return(list("Rev"=revsStats, "Method"=c("LineVios"=methStats)))
 }
 
-calculateExceptionsStatistics <- function(toEvaluate,filteredDf){
-  splittedFiltDf <- split(filteredDf, filteredDf$Exception)
-  splittedYesFiltDf <- splittedFiltDf$Yes
-  splittedNoFiltDf <- splittedFiltDf$No
-  yesStatistics <- calculateStatistics(splittedYesFiltDf[[toEvaluate]])
-  noStatistics <- calculateStatistics(splittedNoFiltDf[[toEvaluate]])
-  return(list('Yes'=yesStatistics, 'No'=noStatistics))
+calculateElementStatistics <- function(toEvaluate, filteredRevDfs, precs, exceps){
+  revsStats <- c()
+  splittedFiltDfByPrec <- split(filteredRevDfs, filteredRevDfs$Precision)
+  for(precision in precs)
+  {
+    filteredPrecDf <- splittedFiltDfByPrec[[precision]]
+    splittedPrecDfByExcep <- split(filteredPrecDf, filteredPrecDf$Exception)
+    for(excep in exceps)
+    {
+      filteredDf <- splittedPrecDfByExcep[[excep]]
+      revsStats[[precision]][[excep]] <- calculateStatistics(filteredDf[[toEvaluate]])
+    }
+  }
+  return(revsStats)
 }
 
 calculateStatistics <- function(group)
@@ -543,12 +550,12 @@ getFilteredConfigsWithoutNa <- function(df, uniqueCrit, toEvaluateList, numberOf
   return(filteredDfsList)
 }
 
-doStatisticTests <- function(filteredRevDfsList, filteredMethodDfsList)
+doStatisticTests <- function(filteredRevDfsList, filteredMethodDfsList, toEvalList = toEvaluateList)
 {
   library('coin')
   #library('exactRankTests')
   toEvaluateResList <- c() 
-  for(toEvaluate in toEvaluateList)
+  for(toEvaluate in toEvalList)
   {
     filteredRevDf <- filteredRevDfsList[[toEvaluate]]
     toEvaluateResList[[toEvaluate]] <- doStatisticTestException(toEvaluate,filteredRevDf)
@@ -572,7 +579,6 @@ doStatisticTestException <- function(toEvaluate, filteredDf)
     shapTestYes <- shapiro.test(toEvaluateYes)
     shapTestNo <- shapiro.test(toEvaluateNo)
     shapTestRes <- c('Yes'=shapTestYes, 'No'=shapTestNo)
-    
     wilcoxTest <- wilcox.test(toEvaluateYes, toEvaluateNo, paired = TRUE, exact=FALSE, alternative="greater",conf.level=0.95)  
     #wilcoxExact <- wilcox.exact(toEvaluateYes, toEvaluateNo, paired = TRUE, exact = TRUE, alternative="greater",conf.level=0.95)
     wilcoxSignTest <- wilcoxsign_test(toEvaluateYes ~ toEvaluateNo, zero.method="Wilcoxon", dist="exact", alternative="greater",conf.level=0.95)
@@ -1215,7 +1221,7 @@ if(skipPhase1)
     filteredRevDfsList0 <- getFilteredConfigsWithoutNa(revDf, c("Project", "Rev"), toEvaluateList2)
     filteredRevDfsList <- filteredRevDfsList0[unlist(toEvaluateList)]
     filteredMethodDfsList <- getFilteredConfigsWithoutNa(methodDf, c("Project", "Rev", "Method"), c("LineVios"))
-    statisticTests <- doStatisticTests(filteredRevDfsList, filteredMethodDfsList)
+    statisticTests <- doStatisticTests(filteredRevDfsList, filteredMethodDfsList, c("LineVios"))
     stats <- calculateAllStatistics(filteredRevDfsList, filteredMethodDfsList)
     generateSummaryPlots(filteredRevDfsList$LineVios, filteredMethodDfsList$LineVios, base="/phase1", "_LineVios")
     generateSummaryPlots(filteredRevDfsList0[['SDGNodes&SDGEdges']], NULL, base="/phase1", "_SdgCreation")
