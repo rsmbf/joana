@@ -1,5 +1,5 @@
 root <- "~/Documents/UFPE/Msc/Projeto/projects/rsmbf/conflicts_analyzer"
-server_reports <- paste(root, "/server_reports/19-09", sep="") #""#"/server_reports/1"
+server_reports <- paste(root, "/server_reports/10-11", sep="") #""#"/server_reports/1"
 rDir <- paste(server_reports, "/R", sep="")
 plots <- paste(rDir, "/plots",sep="")
 result_data <- paste(server_reports, "/ResultData", sep="")
@@ -14,10 +14,10 @@ phase2Exceptions <- c("No")
 phase2Configs <- length(phase2Precisions) * length(phase2Exceptions)
 labelsList <- list(CGNodes=c("CG Nodes"), CGEdges=c("CG Edges"), 
                    SDGNodes=c("SDG Nodes"), SDGEdges=c("SDG Edges"),
-                   LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"))
+                   LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"), HasIfc=c("IF occurrence (%) by project", "Proj IF occurrence"))
 total_projects <- length(projects)
-skipPhase1 <- TRUE
-skipPhase2 <- TRUE
+skipPhase1 <- FALSE
+skipPhase2 <- FALSE
 
 getPrettyPrecision <- function(prec){
   prettyNames=c("TYPE_BASED"="Type_Based", "INSTANCE_BASED" = "Instance_Based","OBJECT_SENSITIVE" = "Object_Sensitive", 
@@ -200,6 +200,7 @@ generateGroupedPrecisionsBarplot <- function(frame, colType, elemList, plotType,
 {
   excepsTitlePart <- c(Yes="with", No="without")
   m <- createMatrix(frame, colType, elemList)
+  print(m)
   dir <- paste(plots, "/phase", phase, "/barplots/precisions/",toEvaluate, "/", sep="")
   mkdirs(dir)
   jpeg(paste(dir, plotType, "_PrecisionsPlot_", toEvaluate, "_", excepFileName,".jpg", sep = ""))
@@ -229,7 +230,7 @@ generatePrecisionsBoxplot <- function(namesList, labelsList, plotType, exception
 {
   excepsTitlePart <- c(Yes="with", No="without")
   baseExcepsTitle <- c("for SDGs", "exceptions", paste("(",plotType,")",sep=""))
-  logscales <- c("CGNodes"="y", "CGEdges"="y", "SDGNodes"="y", "SDGEdges"="y", "LineVios"="", "SdgCreated"="")
+  logscales <- c("CGNodes"="y", "CGEdges"="y", "SDGNodes"="y", "SDGEdges"="y", "LineVios"="", "SdgCreated"="", "HasIfc"="")
   dir <- paste(plots, "/phase", phase,"/boxplots/precisions/", toEvaluate, "/", sep="")
   mkdirs(dir)
   comp <- ""
@@ -295,6 +296,27 @@ createMatrix <- function(frame, colType, elemList)
   return(m)
 }
 
+createIFByProjFrame <- function(frame, colType, elemList)
+{
+  finalFrame <- data.frame(Project = character(), Elem=character(), IfRate=numeric(), stringsAsFactors=FALSE)
+  colnames(finalFrame)[2] <- c(colType)
+  splittedFrameByProj <- split(frame, frame$Project)
+  projs <- unique(frame$Project)
+  for(proj in projs)
+  {
+    projFrame <- splittedFrameByProj[[proj]]
+    hasIfc <- createMatrix(projFrame, colType, elemList)[1,]
+    for(elemIndex in getPositiveRange(length(elemList)))
+    {
+      row <- nrow(finalFrame) + 1
+      finalFrame[row,1] <- proj
+      finalFrame[row,2] <- elemList[elemIndex]
+      finalFrame[row,3] <- hasIfc[elemIndex]
+    }
+  }
+  return(finalFrame)
+}
+
 generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList, desiredExceptions=exceptions, desiredPrecisions=precisions, phase="1")
 {
   revDfSplittedByExceptions <- split(revDf, revDf$Exception)
@@ -345,6 +367,8 @@ generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList, 
       revDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, revsHeader, revDfException, length(desiredPrecisions))
       generateGroupedPrecisionsBarplot(revDfExceptionFilt, "Precision", desiredPrecisions,"Revs", toEvaluate, excepFileName, namesList, exception, phase=phase)
       revPrecisionsFactor <- factor(revDfExceptionFilt$Precision, desiredPrecisions)  
+      ifRevFrame <- createIFByProjFrame(revDfExceptionFilt,'Precision', desiredPrecisions)
+      generatePrecisionsBoxplot(namesList,labelsList, "Revs", exception, toEvaluate, ifRevFrame$IfRate ~ factor(ifRevFrame$Precision, desiredPrecisions), excepFileName, phase=phase)
       for(toEvaluate in toEvaluateList)
       {
         revDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, revsHeader, revDfException, length(desiredPrecisions))
@@ -366,6 +390,8 @@ generatePrecisionPlots <- function(methodDf, revDf, toEvaluateList, labelsList, 
       toEvaluate <- "HasIfc"
       methodDfExceptionFilt <- filterConfigsWithoutNa(toEvaluate, c("Project", "Rev", "Method"), methodDfException, length(desiredPrecisions))
       generateGroupedPrecisionsBarplot(methodDfExceptionFilt, "Precision", desiredPrecisions, "Methods", toEvaluate, excepFileName, namesList, exception, phase=phase)
+      ifMethFrame <- createIFByProjFrame(methodDfExceptionFilt,'Precision', desiredPrecisions)
+      generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, toEvaluate, ifMethFrame$IfRate ~ factor(ifMethFrame$Precision, desiredPrecisions), excepFileName, phase=phase)  
       methPrecisionsFactor <- factor(methodDfExceptionFilt$Precision, desiredPrecisions)
       generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, phase=phase)  
       generatePrecisionsBoxplot(namesList,labelsList, "Methods", exception, "LineVios", methodDfExceptionFilt$LineVios ~ methPrecisionsFactor, excepFileName, c(0,30), phase)  
@@ -1036,12 +1062,17 @@ for(p in getPositiveRange(length(projects))){
               }
               currHasSrcAndSink <- revDf[revDfNewLen, 9]
               if(!is.na(strHasSrcAndSink) && 
-                   (is.na(currHasSrcAndSink) || 
-                      (toString(currHasSrcAndSink) != "Yes" && strHasSrcAndSink == "Yes"))){
+                   (is.na(currHasSrcAndSink) || (strHasSrcAndSink == "Yes"))){
                 revDf[revDfNewLen, 9] <- strHasSrcAndSink
-                revDf[revDfNewLen, 10] <- detailedPrec$LineVios
-                revDf[revDfNewLen, 11] <- strsToBoolean(detailedPrec$HasLeftToRightVio, detailedPrec$HasRightToLeftVio)
-                revDf[revDfNewLen, 12] <- strsToNumeric(detailedPrec$HasLeftToRightVio, detailedPrec$HasRightToLeftVio)
+                if(strHasSrcAndSink == "Yes")
+                {
+                  revDf[revDfNewLen, 10] <- ifelse(!is.na(revDf[revDfNewLen, 10]), revDf[revDfNewLen, 10] + detailedPrec$LineVios, detailedPrec$LineVios)
+                  hasIf <- strsToBoolean(detailedPrec$HasLeftToRightVio, detailedPrec$HasRightToLeftVio)
+                  revDf[revDfNewLen, 11] <- ifelse(!is.na(revDf[revDfNewLen, 11]), revDf[revDfNewLen, 11] || hasIf, hasIf)
+                  vios <- strsToNumeric(detailedPrec$HasLeftToRightVio, detailedPrec$HasRightToLeftVio)
+                  revDf[revDfNewLen, 12] <- ifelse(is.na(revDf[revDfNewLen, 12]) || (!is.na(revDf[revDfNewLen, 12]) && vios > revDf[revDfNewLen, 12])
+                                                   , vios, revDf[revDfNewLen, 12])
+                }
               }
               methodDf[methodDfNewLen, 6] <- strHasSrcAndSink
               methodDf[methodDfNewLen, 7] <- detailedPrec$LineVios
