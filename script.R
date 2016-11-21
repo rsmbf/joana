@@ -1,5 +1,5 @@
 root <- "~/Documents/UFPE/Msc/Projeto/projects/rsmbf/conflicts_analyzer"
-server_reports <- paste(root, "/server_reports/10-11", sep="") #""#"/server_reports/1"
+server_reports <- paste(root, "/server_reports/19-09", sep="") #""#"/server_reports/1"
 rDir <- paste(server_reports, "/R", sep="")
 plots <- paste(rDir, "/plots",sep="")
 result_data <- paste(server_reports, "/ResultData", sep="")
@@ -14,7 +14,7 @@ phase2Exceptions <- c("No")
 phase2Configs <- length(phase2Precisions) * length(phase2Exceptions)
 labelsList <- list(CGNodes=c("CG Nodes"), CGEdges=c("CG Edges"), 
                    SDGNodes=c("SDG Nodes"), SDGEdges=c("SDG Edges"),
-                   LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"), HasIfc=c("IF occurrence (%) by project", "Proj IF occurrence"))
+                   LineVios=c("Line Violations", "Line Vios"), SdgCreated=c("Sdg Created (%)"), HasIfc=c("IF occurrence (%) by project", "IF occurrence"))
 total_projects <- length(projects)
 skipPhase1 <- FALSE
 skipPhase2 <- FALSE
@@ -835,11 +835,12 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
     {
       sdgSuccessCreations <- setNames(aggregate(sdgSuccessCreatedDf$Created, by = list(sdgSuccessCreatedDf$Project, sdgSuccessCreatedDf$Rev), FUN=length), c("Project", "Rev", "Creations"))
     }
-    return(getNRow(sdgSuccessCreations[sdgSuccessCreations$Creations == numOfConfigs,]))
+    return(sdgSuccessCreations[sdgSuccessCreations$Creations == numOfConfigs,])
   }
-  
-  revsWithSdgCreatedForAll <- sdgSucCreationsForAll(sdgSuccessCreatedDf, numConfigs)
-  revsWithSdgCreatedForAllFilt <- sdgSucCreationsForAll(filtSdgSuccessCreatedDf, numFiltConfigs)
+  sucCreationsForAllDf <- sdgSucCreationsForAll(sdgSuccessCreatedDf, numConfigs)
+  revsWithSdgCreatedForAll <- getNRow(sucCreationsForAllDf)
+  sucCreationsForAllFiltDf <- sdgSucCreationsForAll(filtSdgSuccessCreatedDf, numFiltConfigs)
+  revsWithSdgCreatedForAllFilt <- getNRow(sucCreationsForAllFiltDf)
   print(unique(allNotNaDf[c("Project", "Rev")]))
   lines <- c(
     paste("Total Projects:",total_projects),
@@ -857,6 +858,8 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
     paste("Projects with different build systems:", projsWithMoreThanOneBuild),
     paste("Projects built with different build systems:",projsWithMoreThanOneBuildUsed),
     paste("Projects with Sdg Created for at least one config:", sdgCreatedProjs),
+    paste("Projects with Sdg Created for all phase 2 configs:", length(unique(sucCreationsForAllFiltDf$Project))),
+    paste("Projects with Sdg Created for all configs:", length(unique(sucCreationsForAllDf$Project))),
     paste("Project with LineVios calculated for at least one config:",length(unique(someNotNaDf$Project))),
     paste("Project with LineVios calculated for all phase 2 configs:",length(unique(filtNotNaDf$Project))),
     paste("Project with LineVios calculated for all configs:",length(unique(allNotNaDf$Project))),
