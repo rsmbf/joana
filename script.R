@@ -795,12 +795,34 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
   numConfigs <- length(precisions) * length(exceptions)
   numFiltConfigs <- length(phase2Precisions) * length(phase2Exceptions)
   numMethods <- nrow(methodDf) / numConfigs
+  
+  sdgSucCreationsForAll <- function(sdgSuccessCreatedDf, numOfConfigs)
+  {
+    sdgSuccessCreations <- data.frame(Project=character(), Rev=character(),Creations=numeric(), stringsAsFactors=FALSE)
+    if(!is.null(sdgSuccessCreatedDf))
+    {
+      sdgSuccessCreations <- setNames(aggregate(sdgSuccessCreatedDf$Created, by = list(sdgSuccessCreatedDf$Project, sdgSuccessCreatedDf$Rev), FUN=length), c("Project", "Rev", "Creations"))
+    }
+    return(sdgSuccessCreations[sdgSuccessCreations$Creations == numOfConfigs,])
+  }
+  sucCreationsForAllDf <- sdgSucCreationsForAll(sdgSuccessCreatedDf, numConfigs)
+  revsWithSdgCreatedForAll <- getNRow(sucCreationsForAllDf)
+  sucCreationsForAllFiltDf <- sdgSucCreationsForAll(filtSdgSuccessCreatedDf, numFiltConfigs)
+  revsWithSdgCreatedForAllFilt <- getNRow(sucCreationsForAllFiltDf)
+  
   allNotNaDf <- data.frame(Project=character(),Rev=character(),Method=character(),stringsAsFactors=FALSE)
   filtNotNaDf <- data.frame(Project=character(),Rev=character(),Method=character(),stringsAsFactors=FALSE)
   someNotNaDf <-data.frame(Project=character(),Rev=character(),Method=character(),stringsAsFactors=FALSE)
   numNonNaLineVios <- 0
   numAllNonNaLineVios <- 0
   numFiltNonNaLineVios <- 0
+  numMethodsSomeSdgCreated <- 0
+  numMethodsAllSdgCreatedFilt <- 0
+  numMethodsAllSdgCreated <- 0
+  containsRev <- function(df, proj, rev)
+  {
+    return(getNRow(df[df$Project == proj & df$Rev == rev,]) > 0)
+  }
   for(i in getPositiveRange(numMethods))
   {
     offset <- (numConfigs * (i - 1))
@@ -823,25 +845,28 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
       numFiltNonNaLineVios <- numFiltNonNaLineVios + 1
       filtNotNaDf[numFiltNonNaLineVios,] <- methodFiltDf[start2,1:3]
     } 
+    methodLine <- methodDf[start,]
+    methodProject <- methodLine$Project
+    methodRev <- methodLine$Rev
+    
+    if(containsRev(sdgCreatedRevs, methodProject, methodRev))
+    {
+      numMethodsSomeSdgCreated <- numMethodsSomeSdgCreated + 1
+    }
+    if(containsRev(sucCreationsForAllFiltDf, methodProject, methodRev))
+    {
+      numMethodsAllSdgCreatedFilt <- numMethodsAllSdgCreatedFilt + 1
+    }
+    if(containsRev(sucCreationsForAllDf, methodProject, methodRev))
+    {
+      numMethodsAllSdgCreated <- numMethodsAllSdgCreated + 1
+    }
   }
-  
+
   #print(someNotNaDf)
   #print(allNotNaDf)
   mergeRunRevs <- sum(projsWithMerge$Revs)
-  sdgSucCreationsForAll <- function(sdgSuccessCreatedDf, numOfConfigs)
-  {
-    sdgSuccessCreations <- data.frame(Project=character(), Rev=character(),Creations=numeric(), stringsAsFactors=FALSE)
-    if(!is.null(sdgSuccessCreatedDf))
-    {
-      sdgSuccessCreations <- setNames(aggregate(sdgSuccessCreatedDf$Created, by = list(sdgSuccessCreatedDf$Project, sdgSuccessCreatedDf$Rev), FUN=length), c("Project", "Rev", "Creations"))
-    }
-    return(sdgSuccessCreations[sdgSuccessCreations$Creations == numOfConfigs,])
-  }
-  sucCreationsForAllDf <- sdgSucCreationsForAll(sdgSuccessCreatedDf, numConfigs)
-  revsWithSdgCreatedForAll <- getNRow(sucCreationsForAllDf)
-  sucCreationsForAllFiltDf <- sdgSucCreationsForAll(filtSdgSuccessCreatedDf, numFiltConfigs)
-  revsWithSdgCreatedForAllFilt <- getNRow(sucCreationsForAllFiltDf)
-  print(unique(allNotNaDf[c("Project", "Rev")]))
+
   lines <- c(
     paste("Total Projects:",total_projects),
     paste("Projects with merge executed:",getNRow(projsWithMerge)),
@@ -888,6 +913,9 @@ printDataSummary <- function(revDf, methodDf, evalRevDf, evalMethodDf, builtRevD
     paste("Revs with Line Vios calculated for all phase 2 configs:",getNRow(unique(filtNotNaDf[c("Project", "Rev")]))),
     paste("Revs with Line Vios calculated for all configs:",getNRow(unique(allNotNaDf[c("Project", "Rev")]))),
     paste("Methods evaluated by Joana:", evalMethods),
+    paste("Methods with Sdg Created for at least one config: ", numMethodsSomeSdgCreated),
+    paste("Methods with Sdg Created for all phase 2 configs: ", numMethodsAllSdgCreatedFilt),
+    paste("Methods with Sdg Created for all configs: ", numMethodsAllSdgCreated),
     paste("Methods with source and sink:", numMethodSrcAndSink),
     paste("Methods without source or sink:",numMethodWithoutSrcAndSink),
     paste("Methods without source or sink with lines contribution from left and right:",methodsWithBoth),
